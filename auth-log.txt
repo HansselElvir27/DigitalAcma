@@ -1,0 +1,733 @@
+[2026-03-06T16:00:11.254Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:00:11.468Z] User found: true
+[2026-03-06T16:00:11.468Z] Success for: cim@acma.gov
+[2026-03-06T16:11:47.251Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:12:47.430Z] DATABASE AUTH ERROR: Server error (HTTP status 500): {"message":"Control plane request failed","code":"","detail":null,"hint":null,"position":null,"internalPosition":null,"internalQuery":null,"severity":"","where":null,"table":null,"column":null,"schema":null,"dataType":null,"constraint":null,"file":null,"line":null,"routine":null,"neon:retryable":true}
+Stack: NeonDbError: Server error (HTTP status 500): {"message":"Control plane request failed","code":"","detail":null,"hint":null,"position":null,"internalPosition":null,"internalQuery":null,"severity":"","where":null,"table":null,"column":null,"schema":null,"dataType":null,"constraint":null,"file":null,"line":null,"routine":null,"neon:retryable":true}
+    at dr.execute (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\ssr\[root-of-the-server]__21e7c23a._.js:7577:23)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async PrismaNeonHttpAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\ssr\[root-of-the-server]__21e7c23a._.js:9075:16)
+    at async PrismaNeonHttpAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\ssr\[root-of-the-server]__21e7c23a._.js:8895:34)
+    at async Er.o (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26398)
+    at async e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44517)
+    at async e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44961)
+    at async e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46181)
+    at async e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43231)
+    at async e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:815)
+    at async jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2327)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-06T16:28:06.609Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:28:07.467Z] User found: true
+[2026-03-06T16:28:07.467Z] Success for: cim@acma.gov
+[2026-03-06T16:28:35.276Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:28:35.469Z] User found: true
+[2026-03-06T16:28:35.470Z] Success for: cim@acma.gov
+[2026-03-06T16:36:05.582Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:36:06.346Z] User found: true
+[2026-03-06T16:36:06.346Z] Success for: cim@acma.gov
+[2026-03-06T16:42:24.184Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:42:24.351Z] User found: true
+[2026-03-06T16:42:24.352Z] Success for: cim@acma.gov
+[2026-03-06T16:58:07.246Z] Auth attempt for: cim@acma.gov
+[2026-03-06T16:58:07.453Z] User found: true
+[2026-03-06T16:58:07.453Z] Success for: cim@acma.gov
+[2026-03-06T17:03:18.808Z] Auth attempt for: cim@acma.gov
+[2026-03-06T17:03:19.043Z] User found: true
+[2026-03-06T17:03:19.043Z] Success for: cim@acma.gov
+[2026-03-06T17:17:49.608Z] Auth attempt for: cim@acma.gov
+[2026-03-06T17:17:49.798Z] User found: true
+[2026-03-06T17:17:49.798Z] Success for: cim@acma.gov
+[2026-03-06T17:29:33.077Z] Auth attempt for: cim@acma.gov
+[2026-03-06T17:29:33.283Z] User found: true
+[2026-03-06T17:29:33.284Z] Success for: cim@acma.gov
+[2026-03-06T17:41:17.162Z] Auth attempt for: capitan@acma.gov
+[2026-03-06T17:41:17.379Z] User found: true
+[2026-03-06T17:41:17.379Z] Success for: capitan@acma.gov
+[2026-03-06T17:47:47.300Z] Auth attempt for: capitan@acma.gov
+[2026-03-06T17:47:47.615Z] User found: true
+[2026-03-06T17:47:47.615Z] Success for: capitan@acma.gov
+[2026-03-06T17:53:17.289Z] Auth attempt for: cim@acma.gov
+[2026-03-06T17:53:17.458Z] User found: true
+[2026-03-06T17:53:17.458Z] Success for: cim@acma.gov
+[2026-03-06T17:54:12.197Z] Auth attempt for: capitan@acma.gov
+[2026-03-06T17:54:12.364Z] User found: true
+[2026-03-06T17:54:12.364Z] Success for: capitan@acma.gov
+[2026-03-06T19:25:20.859Z] Auth attempt for: cim@acma.gov
+[2026-03-06T19:25:21.031Z] User found: true
+[2026-03-06T19:25:21.031Z] Success for: cim@acma.gov
+[2026-03-06T19:33:26.128Z] Auth attempt for: cim@acma.gov
+[2026-03-06T19:33:26.561Z] User found: true
+[2026-03-06T19:33:26.561Z] Success for: cim@acma.gov
+[2026-03-09T14:55:11.888Z] Auth attempt for: cim@acma.gov
+[2026-03-09T14:55:13.942Z] User found: true
+[2026-03-09T14:55:13.943Z] Success for: cim@acma.gov
+[2026-03-10T15:50:46.704Z] Auth attempt for: cim@acma.gov
+[2026-03-10T15:50:47.328Z] User found: true
+[2026-03-10T15:50:47.328Z] Success for: cim@acma.gov
+[2026-03-10T15:53:01.386Z] Auth attempt for: cim@acma.gov
+[2026-03-10T15:53:01.547Z] User found: true
+[2026-03-10T15:53:01.547Z] Success for: cim@acma.gov
+[2026-03-10T16:25:09.260Z] Auth attempt for: cim@acma.gov
+[2026-03-10T16:25:10.168Z] User found: true
+[2026-03-10T16:25:10.168Z] Success for: cim@acma.gov
+[2026-03-10T16:39:21.947Z] Auth attempt for: cim@acma.gov
+[2026-03-10T16:39:22.117Z] User found: true
+[2026-03-10T16:39:22.117Z] Success for: cim@acma.gov
+[2026-03-10T17:37:26.861Z] Auth attempt for: cim@acma.gov
+[2026-03-10T17:37:27.032Z] User found: true
+[2026-03-10T17:37:27.032Z] Success for: cim@acma.gov
+[2026-03-10T17:49:10.103Z] Auth attempt for: capitan@acma.gov
+[2026-03-10T17:49:10.266Z] User found: true
+[2026-03-10T17:49:10.266Z] Success for: capitan@acma.gov
+[2026-03-10T17:50:00.000Z] Auth attempt for: cim@acma.gov
+[2026-03-10T17:50:00.163Z] User found: true
+[2026-03-10T17:50:00.164Z] Success for: cim@acma.gov
+[2026-03-10T17:51:46.890Z] Auth attempt for: capitan@acma.gov
+[2026-03-10T17:51:47.056Z] User found: true
+[2026-03-10T17:51:47.056Z] Success for: capitan@acma.gov
+[2026-03-10T20:15:33.388Z] Auth attempt for: cim@acma.gov
+[2026-03-10T20:15:33.572Z] User found: true
+[2026-03-10T20:15:33.572Z] Success for: cim@acma.gov
+[2026-03-10T20:33:23.130Z] Auth attempt for: cim@acma.gov
+[2026-03-10T20:33:23.295Z] User found: true
+[2026-03-10T20:33:23.295Z] Success for: cim@acma.gov
+[2026-03-10T22:07:25.124Z] Auth attempt for: capitan@acma.gov
+[2026-03-10T22:07:25.296Z] User found: true
+[2026-03-10T22:07:25.297Z] Success for: capitan@acma.gov
+[2026-03-10T22:27:45.699Z] Auth attempt for: cim@acma.gov
+[2026-03-10T22:27:45.869Z] User found: true
+[2026-03-10T22:27:45.869Z] Success for: cim@acma.gov
+[2026-03-11T14:15:14.459Z] Auth attempt for: cim@acma.gov
+[2026-03-11T14:15:14.629Z] User found: true
+[2026-03-11T14:15:14.629Z] Success for: cim@acma.gov
+[2026-03-11T14:36:48.046Z] Auth attempt for: cim@acma.gov
+[2026-03-11T14:36:48.207Z] User found: true
+[2026-03-11T14:36:48.207Z] Success for: cim@acma.gov
+[2026-03-11T15:51:52.686Z] Auth attempt for: cim@acma.gov
+[2026-03-11T15:51:52.897Z] User found: true
+[2026-03-11T15:51:52.897Z] Success for: cim@acma.gov
+[2026-03-11T17:24:30.215Z] Auth attempt for: cim@acma.gov
+[2026-03-11T17:24:31.453Z] User found: true
+[2026-03-11T17:24:31.453Z] Success for: cim@acma.gov
+[2026-03-12T15:09:08.737Z] Auth attempt for: cim@acma.gov
+[2026-03-12T15:09:08.910Z] User found: true
+[2026-03-12T15:09:08.910Z] Success for: cim@acma.gov
+[2026-03-12T17:49:29.561Z] Auth attempt for: cim@acma.gov
+[2026-03-12T17:49:29.734Z] User found: true
+[2026-03-12T17:49:29.734Z] Success for: cim@acma.gov
+[2026-03-12T19:54:35.324Z] Auth attempt for: capitan@digitalacma.com
+[2026-03-12T19:54:35.344Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5234:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5196:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44561
+    at Er (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26632)
+    at #l (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47861)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44530)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44972)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46192)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43242)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-12T20:02:22.809Z] Auth attempt for: capitan@acma.gov
+[2026-03-12T20:31:32.660Z] Auth attempt for: cim@digitalacma.com
+[2026-03-12T20:31:32.798Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5234:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5196:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44561
+    at Er (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26632)
+    at #l (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47861)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44530)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44972)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46192)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43242)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-12T21:00:24.944Z] Auth attempt for: capitan@test.com
+[2026-03-12T21:00:25.079Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5234:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5196:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44561
+    at Er (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26632)
+    at #l (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47861)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44530)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44972)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46192)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43242)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-12T21:09:59.120Z] Auth attempt for: capitan@test.com
+[2026-03-12T21:09:59.258Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5234:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5196:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44561
+    at Er (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26632)
+    at #l (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47861)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44530)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44972)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46192)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43242)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-12T21:21:49.133Z] Auth attempt for: capitan@test.com
+[2026-03-12T21:21:49.714Z] User found: true
+[2026-03-12T21:21:49.714Z] Success for: capitan@test.com
+[2026-03-12T21:25:25.390Z] Auth attempt for: cim@acma.gov
+[2026-03-12T21:25:25.799Z] User found: true
+[2026-03-12T21:25:25.800Z] Success for: cim@acma.gov
+[2026-03-12T21:33:15.917Z] Auth attempt for: cim@acma.gov
+[2026-03-12T21:33:16.295Z] User found: true
+[2026-03-12T21:33:16.295Z] Success for: cim@acma.gov
+[2026-03-12T22:29:01.188Z] Auth attempt for: cim@acma.gov
+[2026-03-12T22:29:01.254Z] User found: true
+[2026-03-12T22:29:01.254Z] Success for: cim@acma.gov
+[2026-03-12T22:29:41.276Z] Auth attempt for: capitan@test.com
+[2026-03-12T22:29:41.649Z] User found: true
+[2026-03-12T22:29:41.650Z] Success for: capitan@test.com
+[2026-03-13T15:12:35.349Z] Auth attempt for: cim@acma.gov
+[2026-03-13T15:12:35.850Z] User found: true
+[2026-03-13T15:12:35.851Z] Success for: cim@acma.gov
+[2026-03-13T15:13:16.059Z] Auth attempt for: capitan@test.com
+[2026-03-13T15:13:16.426Z] User found: true
+[2026-03-13T15:13:16.426Z] Success for: capitan@test.com
+[2026-03-13T17:16:38.969Z] Auth attempt for: cim@acma.gov
+[2026-03-13T17:16:39.957Z] User found: true
+[2026-03-13T17:16:39.957Z] Success for: cim@acma.gov
+[2026-03-13T17:30:56.093Z] Auth attempt for: cim@acma.gov
+[2026-03-13T17:30:56.499Z] User found: true
+[2026-03-13T17:30:56.499Z] Success for: cim@acma.gov
+[2026-03-13T17:35:02.087Z] Auth attempt for: cim@acma.gov
+[2026-03-13T17:35:02.151Z] User found: true
+[2026-03-13T17:35:02.151Z] Success for: cim@acma.gov
+[2026-03-13T17:42:26.682Z] Auth attempt for: cim@acma.gov
+[2026-03-13T17:42:27.692Z] User found: true
+[2026-03-13T17:42:27.692Z] Success for: cim@acma.gov
+[2026-03-13T17:50:07.298Z] Auth attempt for: cim@acma.gov
+[2026-03-13T17:50:07.379Z] User found: true
+[2026-03-13T17:50:07.380Z] Success for: cim@acma.gov
+[2026-03-13T20:06:50.194Z] Auth attempt for: cim@acma.gov
+[2026-03-13T20:06:50.623Z] User found: true
+[2026-03-13T20:06:50.623Z] Success for: cim@acma.gov
+[2026-03-13T20:07:21.819Z] Auth attempt for: capitan@test.com
+[2026-03-13T20:07:22.213Z] User found: true
+[2026-03-13T20:07:22.214Z] Success for: capitan@test.com
+[2026-03-13T20:22:23.567Z] Auth attempt for: capitan@test.com
+[2026-03-13T20:22:24.081Z] User found: true
+[2026-03-13T20:22:24.081Z] Success for: capitan@test.com
+[2026-03-16T13:43:31.924Z] Auth attempt for: cim@acma.gov
+[2026-03-16T13:43:32.969Z] User found: true
+[2026-03-16T13:43:32.970Z] Success for: cim@acma.gov
+[2026-03-16T13:45:57.733Z] Auth attempt for: capitan@test.com
+[2026-03-16T13:45:58.101Z] User found: true
+[2026-03-16T13:45:58.101Z] Success for: capitan@test.com
+[2026-03-16T20:31:43.782Z] Auth attempt for: capitan@test.com
+[2026-03-16T20:31:44.791Z] User found: true
+[2026-03-16T20:31:44.791Z] Success for: capitan@test.com
+[2026-03-16T21:16:04.343Z] Auth attempt for: capitan@test.com
+[2026-03-16T21:16:05.511Z] User found: true
+[2026-03-16T21:16:05.511Z] Success for: capitan@test.com
+[2026-03-17T15:15:38.225Z] Auth attempt for: capitan@test.com
+[2026-03-17T15:15:38.623Z] User found: true
+[2026-03-17T15:15:38.623Z] Success for: capitan@test.com
+[2026-03-17T17:00:38.022Z] Auth attempt for: cim@acma.gov
+[2026-03-17T17:00:38.491Z] User found: true
+[2026-03-17T17:00:38.492Z] Success for: cim@acma.gov
+[2026-03-18T15:14:04.579Z] Auth attempt for: capitan@test.com
+[2026-03-18T15:14:26.124Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12525:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12588:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12641:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T15:16:09.757Z] Auth attempt for: cim@acma.gov
+[2026-03-18T15:16:31.306Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12525:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12588:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12641:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T15:47:14.279Z] Auth attempt for: capitan@test.com
+[2026-03-18T15:47:37.330Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12525:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12588:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12641:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T15:48:08.497Z] Auth attempt for: cim@acma.gov
+[2026-03-18T15:48:30.073Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12525:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12588:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12641:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T15:59:04.508Z] Auth attempt for: capitan@test.com
+[2026-03-18T15:59:26.404Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12525:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12588:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12641:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T15:59:31.262Z] Auth attempt for: cim@digitalacma.com
+[2026-03-18T15:59:52.833Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:170
+
+  199     return null;
+  200 }
+  201 try {
+→ 202     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__4f9f73fd._.js:202:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12525:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12588:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12641:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T16:07:31.612Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:07:53.976Z] DATABASE AUTH ERROR: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__7ee6f5a8._.js:211:170
+
+  208     return null;
+  209 }
+  210 try {
+→ 211     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+Stack: PrismaClientKnownRequestError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__7ee6f5a8._.js:211:170
+
+  208     return null;
+  209 }
+  210 try {
+→ 211     const user = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].user.findUnique(
+
+    at Gr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:8286)
+    at Gr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at Gr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:6730)
+    at async Object.authorize (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__7ee6f5a8._.js:211:34)
+    at async Object.callback (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:1600:20)
+    at async AuthHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3333:38)
+    at async NextAuthRouteHandler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3501:30)
+    at async NextAuth._args$ (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next-auth_1810886e._.js:3536:24)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12519:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12582:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_0073c1d9._.js:12635:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-18T16:09:56.777Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:09:56.923Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5244:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__ef288d00._.js:5206:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44617
+    at xr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26620)
+    at #u (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47917)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44586)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:45028)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46248)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43298)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-18T16:24:05.709Z] Auth attempt for: cim@acma.gov
+[2026-03-18T16:24:05.839Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5631:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5593:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44617
+    at xr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26620)
+    at #u (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47917)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44586)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:45028)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46248)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43298)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-18T16:24:33.210Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:24:33.335Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5631:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5593:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44617
+    at xr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26620)
+    at #u (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47917)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44586)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:45028)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46248)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43298)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-18T16:26:30.694Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:26:30.696Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5631:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5593:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44617
+    at xr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26620)
+    at #u (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47917)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44586)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:45028)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46248)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43298)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-18T16:30:57.855Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:30:58.000Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5631:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5593:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44617
+    at xr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26620)
+    at #u (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47917)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44586)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:45028)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46248)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43298)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-18T16:32:05.913Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:32:06.046Z] DATABASE AUTH ERROR: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+Stack: Error: No database host or connection string was set, and key parameters have default values (host: localhost, user: ACMACIM, db: ACMACIM, password: null). Is an environment variable missing? Alternatively, if you intended to connect with these parameters, please set the host to 'localhost' explicitly.
+    at kn.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5138:120)
+    at Un.newClient (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4400:93)
+    at Un.connect (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4390:25)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:4451:41)
+    at Un.query (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_@neondatabase_serverless_index_mjs_2c73916b._.js:5259:112)
+    at PrismaNeonAdapter.performIO (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5631:46)
+    at PrismaNeonAdapter.queryRaw (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__dc95cc54._.js:5593:45)
+    at C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44617
+    at xr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:26620)
+    at #u (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:47917)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:44586)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:45028)
+    at e.interpretNode (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:46248)
+    at e.run (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:11:43298)
+    at e.execute (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:57:829)
+    at jt.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:58:2335)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.singleLoader (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:6569)
+[2026-03-18T16:47:40.133Z] Auth attempt for: cim@acma.gov
+[2026-03-18T16:47:40.404Z] User found: true
+[2026-03-18T16:47:40.405Z] Success for: cim@acma.gov
+[2026-03-18T16:53:42.021Z] Auth attempt for: capitan@test.com
+[2026-03-18T16:53:43.144Z] User found: true
+[2026-03-18T16:53:43.144Z] Success for: capitan@test.com

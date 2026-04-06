@@ -1,0 +1,341 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                         String                          @id @default(cuid())
+  name                       String?
+  email                      String?                         @unique
+  password                   String?
+  role                       Role                            @default(PUBLIC)
+  portId                     String?
+  createdAt                  DateTime                        @default(now())
+  updatedAt                  DateTime                        @updatedAt
+  arrivalNotices             ArrivalNotice[]
+  arrivalNoticesRecreational ArrivalNoticeRecreational[]
+  balizaDesactivaciones      BalizaDesactivacion[]
+  inscripcionRequests        EmbarcacionInscripcionRequest[]
+  infoRequests               InformationRequest[]
+  maritimeReports            MaritimeReport[]
+  paseSalidas                PaseSalida[]
+  vesselRegistrations        VesselRegistration[]
+  port                       Port?                           @relation(fields: [portId], references: [id])
+  zarpeRequests              ZarpeRequest[]
+  notifications              Notification[]
+}
+
+model Port {
+  id                   String                          @id @default(cuid())
+  name                 String                          @unique
+  location             String?
+  inscripcionRequests  EmbarcacionInscripcionRequest[]
+  vesselRegistrations  VesselRegistration[]
+  users                User[]
+  zarpes               ZarpeRequest[]
+}
+
+model InformationRequest {
+  id                  String        @id @default(cuid())
+  subject             String
+  message             String
+  officialResponse    String?
+  responseAttachments String?
+  respondedAt         DateTime?
+  status              RequestStatus @default(PENDING)
+  position            String?
+  institution         String?
+  country             String?
+  priority            String?
+  signature           String?
+  attachments         String?
+  userId              String
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  user                User          @relation(fields: [userId], references: [id])
+}
+
+model ZarpeRequest {
+  id                       String        @id @default(cuid())
+  zarpeNumber              String?       @unique
+  vesselName               String
+  registrationNum          String
+  captainName              String
+  departureDate            DateTime
+  destination              String
+  status                   RequestStatus @default(PENDING)
+  cimComment               String?
+  userId                   String
+  portId                   String
+  signature                String?
+  qrCode                   String?
+  omiNumber                String?
+  flag                     String?
+  owner                    String?
+  dimension                String?
+  tbr                      String?
+  tnr                      String?
+  rubro                    String?
+  balizaNumber             String?
+  patent                   String?
+  navegabilityCert         String?
+  consignee                String?
+  digepescaLicense         String?
+  radioFrequency           String?
+  carriesOnBoard           String?
+  carriesOnBoardAttachment String?
+  firstOfficerName         String?
+  captainLicense           String?
+  firstOfficerLicense      String?
+  crewList                 String?
+  crewListFile             String?
+  passengerListFile        String?
+  paymentReceiptFile       String?
+  createdAt                DateTime      @default(now())
+  updatedAt                DateTime      @updatedAt
+  port                     Port          @relation(fields: [portId], references: [id])
+  user                     User          @relation(fields: [userId], references: [id])
+}
+
+model DeparturePass {
+  id         String   @id @default(cuid())
+  vesselName String
+  ownerName  String
+  validUntil DateTime
+  createdAt  DateTime @default(now())
+}
+
+model PaseSalida {
+  id              String        @id @default(cuid())
+  vesselName      String
+  registrationNum String
+  departureDate   DateTime
+  departureTime   String
+  departurePort   String
+  destination     String
+  operatorName    String
+  crewList        String?
+  passengerList   String?
+  guideName       String?
+  activityType    String
+  email           String
+  signature       String?
+  status          RequestStatus @default(PENDING)
+  cimComment      String?
+  userId          String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  user            User          @relation(fields: [userId], references: [id])
+}
+
+model ArrivalNotice {
+  id                String   @id @default(cuid())
+  distinctiveSignal String
+  arrivalPort       String
+  etaDate           DateTime
+  protectionLevel   String
+  status            String   @default("RECEIVED")
+  vesselPhoto       String?
+  userId            String
+  createdAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id])
+}
+
+model ArrivalNoticeRecreational {
+  id              String   @id @default(cuid())
+  vesselName      String
+  registrationNum String
+  flag            String
+  departurePort   String
+  vesselType      String
+  countryOrigin   String
+  arrivalPort     String
+  etaDate         DateTime
+  personsOnBoard  String
+  status          String   @default("RECEIVED")
+  vesselPhoto     String?
+  userId          String
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id])
+}
+
+model MaritimeReport {
+  id              String   @id @default(cuid())
+  reportDate      DateTime
+  reportType      String[]
+  reportTypeOther String?
+  description     String
+  photo           String?
+  wantsContact    Boolean
+  contactInfo     String?
+  userId          String?
+  status          String   @default("RECEIVED")
+  createdAt       DateTime @default(now())
+  user            User?    @relation(fields: [userId], references: [id])
+}
+
+model BalizaDesactivacion {
+  id                String        @id @default(cuid())
+  fechaHora         DateTime
+  nombreSolicitante String
+  condicion         String
+  correo            String
+  nombreEmbarcacion String
+  numeroRegistro    String
+  capitaniaPuerto   String
+  motivo            String
+  signature         String?
+  status            RequestStatus @default(PENDING)
+  cimComment        String?
+  userId            String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  user              User          @relation(fields: [userId], references: [id])
+}
+
+model EmbarcacionInscripcionRequest {
+  id                 String              @id @default(cuid())
+  fullName           String
+  phone              String
+  email              String
+  portId             String
+  citaNumber         String?
+  citaDate           DateTime?
+  observation        String?
+  status             RequestStatus       @default(PENDING)
+  type               RequestType         @default(NEW)
+  renewalVesselId    String?             // Link to the vessel being renewed
+  userId             String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  port               Port                @relation(fields: [portId], references: [id])
+  user               User?               @relation(fields: [userId], references: [id])
+  vesselRegistration VesselRegistration?
+}
+
+enum RequestType {
+  NEW
+  RENEWAL
+}
+
+model VesselRegistration {
+  id                 String    @id @default(cuid())
+  registrationNumber String    @unique
+  vesselName         String
+  eslora             String?
+  manga              String?
+  punta              String?
+  calado             String?
+  passengerCapacity  String?
+  crewCapacity       String?
+  engineBrand        String?
+  engineSerials      Json      @default("[]")
+  ownerId            String?
+  ownerName          String?
+  vesselType         String?
+  activityType       String?
+  activityCode       Int?
+  phone              String?
+  address            String?
+  email              String?
+  rtn                String?
+  paymentPhoto       String?
+  vesselPhotos       Json      @default("[]")
+  documents          Json      @default("[]")
+  citaNumber         String?
+  yearBuilt          String?
+  grossTonnage       String?
+  netTonnage         String?
+  color              String?
+  hullMaterial       String?
+  route              String?
+  observations       String?
+  issueDate          DateTime?
+  expirationDate     DateTime?
+  captainSignature   String?
+  qrCode             String?
+  status             String    @default("ACTIVE")
+  portId             String
+  requestId          String?   @unique
+  captainId          String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  port               Port      @relation(fields: [portId], references: [id])
+  request            EmbarcacionInscripcionRequest? @relation(fields: [requestId], references: [id])
+  captain            User?     @relation(fields: [captainId], references: [id])
+  history            VesselRegistrationHistory[]
+}
+
+model VesselRegistrationHistory {
+  id                 String             @id @default(cuid())
+  registrationId     String
+  registration       VesselRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+  
+  registrationNumber String
+  vesselName         String
+  eslora             String?
+  manga              String?
+  punta              String?
+  calado             String?
+  passengerCapacity  String?
+  crewCapacity       String?
+  engineBrand        String?
+  engineSerials      Json
+  ownerId            String?
+  ownerName          String?
+  vesselType         String?
+  activityType       String?
+  activityCode       Int?
+  phone              String?
+  address            String?
+  email              String?
+  rtn                String?
+  paymentPhoto       String?
+  vesselPhotos       Json
+  documents          Json
+  yearBuilt          String?
+  grossTonnage       String?
+  netTonnage         String?
+  color              String?
+  hullMaterial       String?
+  route              String?
+  observations       String?
+  issueDate          DateTime?
+  expirationDate     DateTime?
+  
+  changedAt          DateTime           @default(now())
+  changeReason       String?            // e.g. "RENEWAL", "UPDATE"
+}
+
+enum Role {
+  PUBLIC
+  CIM
+  CAPITAN
+  ADMIN
+}
+
+enum RequestStatus {
+  PENDING
+  REVIEWING
+  PRE_APPROVED
+  APPROVED
+  REJECTED
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  type      String   // INFO_REQUEST, INSPECTION, ZARPE, PASE_SALIDA, ARRIBO, REPORTE, BALIZA
+  link      String?  // Relative URL to view the request
+  read      Boolean  @default(false)
+  userId    String   // Recipient user ID
+  portId    String?  // Optional: associated port for filtering
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id])
+}

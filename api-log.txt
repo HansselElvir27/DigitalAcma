@@ -1,0 +1,132 @@
+[2026-03-06T17:08:14.573Z] PATCH /status: Update request for ID: cmmf4y91f00033siazdvzngu4, type: INFO, status: APPROVED
+[2026-03-06T17:08:14.583Z] PATCH /status: ERROR for ID: cmmf4y91f00033siazdvzngu4: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].informationRequest.update()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__29de8378._.js:282:163
+
+  279         }
+  280     });
+  281 } else if (type === "INFO") {
+→ 282     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].informationRequest.update({
+            where: {
+              id: "cmmf4y91f00033siazdvzngu4"
+            },
+            data: {
+              status: "APPROVED",
+              officialResponse: "muy bien",
+              ~~~~~~~~~~~~~~~~
+              respondedAt: new Date("2026-03-06T17:08:14.576Z"),
+          ?   id?: String | StringFieldUpdateOperationsInput,
+          ?   subject?: String | StringFieldUpdateOperationsInput,
+          ?   message?: String | StringFieldUpdateOperationsInput,
+          ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+          ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+          ?   user?: UserUpdateOneRequiredWithoutInfoRequestsNestedInput
+            }
+          })
+
+Unknown argument `officialResponse`. Available options are marked with ?.
+Stack: PrismaClientValidationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].informationRequest.update()` invocation in
+C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__29de8378._.js:282:163
+
+  279         }
+  280     });
+  281 } else if (type === "INFO") {
+→ 282     await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].informationRequest.update({
+            where: {
+              id: "cmmf4y91f00033siazdvzngu4"
+            },
+            data: {
+              status: "APPROVED",
+              officialResponse: "muy bien",
+              ~~~~~~~~~~~~~~~~
+              respondedAt: new Date("2026-03-06T17:08:14.576Z"),
+          ?   id?: String | StringFieldUpdateOperationsInput,
+          ?   subject?: String | StringFieldUpdateOperationsInput,
+          ?   message?: String | StringFieldUpdateOperationsInput,
+          ?   createdAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+          ?   updatedAt?: DateTime | DateTimeFieldUpdateOperationsInput,
+          ?   user?: UserUpdateOneRequiredWithoutInfoRequestsNestedInput
+            }
+          })
+
+Unknown argument `officialResponse`. Available options are marked with ?.
+    at lr (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:10:1379)
+    at zr.handleRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7929)
+    at zr.handleAndLogRequestError (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7581)
+    at zr.request (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:65:7288)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\@prisma\client\runtime\client.js:75:5816)
+    at async PATCH (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\[root-of-the-server]__29de8378._.js:282:13)
+    at async AppRouteRouteModule.do (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_9992eaea._.js:16529:38)
+    at async AppRouteRouteModule.handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\compiled\next-server\app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_9992eaea._.js:16592:32)
+    at async Module.handler (C:\Users\ACMACIM\Desktop\Digitalacma\.next\dev\server\chunks\node_modules_next_9992eaea._.js:16645:13)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1442:9)
+    at async DevServer.renderPageComponent (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1544:32)
+    at async DevServer.pipeImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\next-server.js:395:17)
+    at async DevServer.handleRequestImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\base-server.js:929:17)
+    at async C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:387:20
+    at async Span.traceAsyncFn (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\trace\trace.js:157:20)
+    at async DevServer.handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\dev\next-dev-server.js:383:24)
+    at async invokeRender (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:248:21)
+    at async handleRequest (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:447:24)
+    at async requestHandlerImpl (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\router-server.js:496:13)
+    at async Server.requestListener (C:\Users\ACMACIM\Desktop\Digitalacma\node_modules\next\dist\server\lib\start-server.js:226:13)
+[2026-03-06T17:17:34.183Z] PATCH /status: Update request for ID: cmmf4y91f00033siazdvzngu4, type: INFO, status: APPROVED
+[2026-03-06T17:17:34.397Z] PATCH /status: Success for ID: cmmf4y91f00033siazdvzngu4
+[2026-03-06T17:53:39.189Z] PATCH /status: Update request for ID: cmmf65t6n0002lsiafrnlwgp9, type: ZARPE, status: PRE_APPROVED
+[2026-03-06T17:53:39.429Z] PATCH /status: Success for ID: cmmf65t6n0002lsiafrnlwgp9
+[2026-03-06T17:54:44.881Z] PATCH /status: Update request for ID: cmmf65t6n0002lsiafrnlwgp9, type: ZARPE, status: APPROVED
+[2026-03-06T17:54:45.267Z] PATCH /status: Success for ID: cmmf65t6n0002lsiafrnlwgp9
+[2026-03-09T14:55:54.016Z] PATCH /status: Update request for ID: cmmfaa97l0000rkiar0ac1akw, type: INFO, status: APPROVED
+[2026-03-09T14:55:54.556Z] PATCH /status: Success for ID: cmmfaa97l0000rkiar0ac1akw
+[2026-03-10T15:52:03.599Z] PATCH /status: Update request for ID: cmmksbyy400013wiakrfadxbe, type: INFO, status: APPROVED
+[2026-03-10T15:52:04.071Z] PATCH /status: Success for ID: cmmksbyy400013wiakrfadxbe
+[2026-03-10T17:48:36.348Z] PATCH /status: Update request for ID: cmmkw6ynr0000osiazjro6f58, type: ZARPE, status: PRE_APPROVED
+[2026-03-10T17:48:36.917Z] PATCH /status: Success for ID: cmmkw6ynr0000osiazjro6f58
+[2026-03-10T17:52:16.352Z] PATCH /status: Update request for ID: cmmkw6ynr0000osiazjro6f58, type: ZARPE, status: APPROVED
+[2026-03-10T17:52:16.969Z] PATCH /status: Success for ID: cmmkw6ynr0000osiazjro6f58
+[2026-03-10T22:06:59.631Z] PATCH /status: Update request for ID: cmml2h7su0000vwia5b3933si, type: PASE_SALIDA, status: PRE_APPROVED
+[2026-03-10T22:06:59.897Z] PATCH /status: PaseSalida cmml2h7su0000vwia5b3933si updated to status: PRE_APPROVED
+[2026-03-10T22:06:59.898Z] PATCH /status: Success for ID: cmml2h7su0000vwia5b3933si
+[2026-03-10T22:07:34.847Z] PATCH /status: Update request for ID: cmml2h7su0000vwia5b3933si, type: PASE_SALIDA, status: APPROVED
+[2026-03-10T22:07:35.024Z] PATCH /status: Captain CAPITAN attempting to approve PaseSalida cmml2h7su0000vwia5b3933si
+[2026-03-10T22:07:35.202Z] PATCH /status: PaseSalida cmml2h7su0000vwia5b3933si updated to status: APPROVED
+[2026-03-10T22:07:35.203Z] PATCH /status: Success for ID: cmml2h7su0000vwia5b3933si
+[2026-03-12T15:09:35.569Z] PATCH /status: Update request for ID: cmmnls4zv0000c0iaqqaujepz, type: BALIZA_DESACTIVACION, status: APPROVED
+[2026-03-12T15:09:35.807Z] PATCH /status: BalizaDesactivacion cmmnls4zv0000c0iaqqaujepz updated to status: APPROVED
+[2026-03-12T15:09:35.807Z] PATCH /status: Success for ID: cmmnls4zv0000c0iaqqaujepz
+[2026-03-12T21:33:50.883Z] PATCH /status: Update request for ID: cmmnzhtt50001l4ialf02lha4, type: INFO, status: APPROVED
+[2026-03-12T21:33:52.201Z] PATCH /status: Success for ID: cmmnzhtt50001l4ialf02lha4
+[2026-03-12T22:29:19.321Z] PATCH /status: Update request for ID: cmmo1ft6m0003l4ia6vcqudmy, type: ZARPE, status: PRE_APPROVED
+[2026-03-12T22:29:20.226Z] PATCH /status: Success for ID: cmmo1ft6m0003l4ia6vcqudmy
+[2026-03-13T15:12:55.632Z] PATCH /status: Update request for ID: cmmp1c6h00005l4iapxg9605a, type: ZARPE, status: PRE_APPROVED
+[2026-03-13T15:12:56.537Z] PATCH /status: Success for ID: cmmp1c6h00005l4iapxg9605a
+[2026-03-13T15:13:38.541Z] PATCH /status: Update request for ID: cmmp1c6h00005l4iapxg9605a, type: ZARPE, status: APPROVED
+[2026-03-13T15:13:39.808Z] PATCH /status: Success for ID: cmmp1c6h00005l4iapxg9605a
+[2026-03-13T17:42:50.051Z] PATCH /status: Update request for ID: cmmp1c6h00005l4iapxg9605a, type: ZARPE, status: REJECTED
+[2026-03-13T17:42:50.634Z] PATCH /status: Success for ID: cmmp1c6h00005l4iapxg9605a
+[2026-03-13T17:55:41.780Z] PATCH /status: Update request for ID: cmmp6z0830004p4ia6ssclnm0, type: AVISO_ARRIBO_RECREATIVO, status: APPROVED
+[2026-03-13T17:55:42.441Z] PATCH /status: ArrivalNoticeRecreational cmmp6z0830004p4ia6ssclnm0 updated to status: APPROVED
+[2026-03-13T17:55:42.441Z] PATCH /status: Success for ID: cmmp6z0830004p4ia6ssclnm0
+[2026-03-20T16:07:40.194Z] PATCH /status: Update request for ID: cmmz3dbx700056wiasahptqa6, type: INFO, status: APPROVED
+[2026-03-20T16:07:41.067Z] PATCH /status: Success for ID: cmmz3dbx700056wiasahptqa6
+[2026-03-20T16:19:36.326Z] PATCH /status: Update request for ID: cmmp59t9i0001p4iamccq1k2h, type: PASE_SALIDA, status: PRE_APPROVED
+[2026-03-20T16:19:36.761Z] PATCH /status: PaseSalida cmmp59t9i0001p4iamccq1k2h updated to status: PRE_APPROVED
+[2026-03-20T16:19:36.761Z] PATCH /status: Success for ID: cmmp59t9i0001p4iamccq1k2h
+[2026-03-20T16:27:22.963Z] PATCH /status: Update request for ID: cmmz42o9600076wia7a9imq90, type: ZARPE, status: PRE_APPROVED
+[2026-03-20T16:27:23.384Z] PATCH /status: Success for ID: cmmz42o9600076wia7a9imq90
+[2026-03-20T16:27:55.376Z] PATCH /status: Update request for ID: cmmz42o9600076wia7a9imq90, type: ZARPE, status: APPROVED
+[2026-03-20T16:27:56.191Z] PATCH /status: Success for ID: cmmz42o9600076wia7a9imq90
+[2026-03-23T20:12:43.512Z] PATCH /status: Update request for ID: cmn3meqnt00046cias19ewqha, type: BALIZA_DESACTIVACION, status: APPROVED
+[2026-03-23T20:12:43.616Z] PATCH /status: BalizaDesactivacion cmn3meqnt00046cias19ewqha updated to status: APPROVED
+[2026-03-23T20:12:43.617Z] PATCH /status: Success for ID: cmn3meqnt00046cias19ewqha
+[2026-03-23T20:13:50.682Z] PATCH /status: Update request for ID: cmn3dgf4x0001d0ia1m0la3fe, type: INFO, status: APPROVED
+[2026-03-23T20:13:50.742Z] PATCH /status: Success for ID: cmn3dgf4x0001d0ia1m0la3fe
+[2026-03-23T20:13:59.316Z] PATCH /status: Update request for ID: cmn3e9z3x00006ciad70hg7rj, type: INFO, status: APPROVED
+[2026-03-23T20:13:59.372Z] PATCH /status: Success for ID: cmn3e9z3x00006ciad70hg7rj
