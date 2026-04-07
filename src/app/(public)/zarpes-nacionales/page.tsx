@@ -95,6 +95,9 @@ export default function ZarpesNacionales() {
         flag: "HONDURAS",
         owner: "",
         dimension: "",
+        eslora: "",
+        manga: "",
+        puntal: "",
         tbr: "",
         tnr: "",
         rubro: "",
@@ -219,7 +222,7 @@ export default function ZarpesNacionales() {
             setFormData({
                 name: "", email: "", vesselName: "", registrationNum: "",
                 portName: "CORTÉS", destination: "", departureDate: "", departureTime: "",
-                omiNumber: "", flag: "HONDURAS", owner: "", dimension: "", tbr: "", tnr: "",
+                omiNumber: "", flag: "HONDURAS", owner: "", dimension: "", eslora: "", manga: "", puntal: "", tbr: "", tnr: "",
                 rubro: "", balizaNumber: "", patent: "", navegabilityCert: "", consignee: "",
                 digepescaLicense: "", radioFrequency: "", carriesOnBoard: "", firstOfficerName: "",
                 captainLicense: "", firstOfficerLicense: "", crewList: ""
@@ -352,8 +355,16 @@ export default function ZarpesNacionales() {
                             <input type="text" className="input-field bg-white/5 text-white" placeholder="Nombre del propietario" value={formData.owner} onChange={e => setFormData({ ...formData, owner: e.target.value })} />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-xs font-bold uppercase tracking-widest opacity-60 text-white">Dimensión (Eslora x Manga x Puntal)</label>
-                            <input type="text" className="input-field bg-white/5 text-white" placeholder="12.5 x 4.0 x 2.5 m" value={formData.dimension} onChange={e => setFormData({ ...formData, dimension: e.target.value })} />
+                            <label className="text-xs font-bold uppercase tracking-widest opacity-60 text-white">Eslora</label>
+                            <input type="text" className="input-field bg-white/5 text-white" placeholder="Eslora en mts" value={formData.eslora} onChange={e => setFormData({ ...formData, eslora: e.target.value })} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold uppercase tracking-widest opacity-60 text-white">Manga</label>
+                            <input type="text" className="input-field bg-white/5 text-white" placeholder="Manga en mts" value={formData.manga} onChange={e => setFormData({ ...formData, manga: e.target.value })} />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold uppercase tracking-widest opacity-60 text-white">Puntal</label>
+                            <input type="text" className="input-field bg-white/5 text-white" placeholder="Puntal en mts" value={formData.puntal} onChange={e => setFormData({ ...formData, puntal: e.target.value })} />
                         </div>
                         <div className="space-y-2">
                             <label className="text-xs font-bold uppercase tracking-widest opacity-60 text-white">TBR</label>

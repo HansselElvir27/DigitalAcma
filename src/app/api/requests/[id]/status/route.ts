@@ -69,7 +69,8 @@ export async function PATCH(
                     status,
                     cimComment: cimComment || undefined,
                     zarpeNumber: generatedZarpeNumber,
-                    qrCode: isApproving ? Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) : undefined
+                    qrCode: isApproving ? Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) : undefined,
+                    captainSignature: isApproving ? `VERIFICADO Y APROBADO DIGITALMENTE POR ${(session?.user as any)?.name || 'CAPITAN DE PUERTO'}` : undefined
                 },
             });
         } else if (type === "INFO") {

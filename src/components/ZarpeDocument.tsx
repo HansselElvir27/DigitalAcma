@@ -19,7 +19,9 @@ interface ZarpeData {
     omiNumber?: string | null;
     flag?: string | null;
     owner?: string | null;
-    dimension?: string | null;
+    eslora?: string | null;
+    manga?: string | null;
+    puntal?: string | null;
     tbr?: string | null;
     tnr?: string | null;
     rubro?: string | null;
@@ -35,6 +37,7 @@ interface ZarpeData {
     firstOfficerLicense?: string | null;
     crewList?: string | null;
     zarpeNumber?: string | null;
+    captainSignature?: string | null;
     createdAt: Date | string;
 }
 
@@ -179,10 +182,18 @@ export function ZarpeDocument({ zarpe, showPrintButton = true, showDownloadButto
                 <h3 className="text-[11px] font-bold text-blue-900 border-b-2 border-blue-900 pb-0.5 mb-3 uppercase tracking-wide">
                     CARACTERISTICAS PRINCIPALES -|- MAIN PARTICULARS
                 </h3>
-                <div className="grid grid-cols-3 gap-x-12">
+                <div className="grid grid-cols-3 gap-x-12 gap-y-3">
                     <div className="flex justify-between border-b border-neutral-100 pb-1">
-                        <span className="text-[10px] font-bold text-neutral-700 uppercase">Dimensión</span>
-                        <span className="text-[10px] text-neutral-900 font-medium uppercase">{zarpe.dimension || '-'}</span>
+                        <span className="text-[10px] font-bold text-neutral-700 uppercase">Eslora</span>
+                        <span className="text-[10px] text-neutral-900 font-medium uppercase">{zarpe.eslora || '-'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-neutral-100 pb-1">
+                        <span className="text-[10px] font-bold text-neutral-700 uppercase">Manga</span>
+                        <span className="text-[10px] text-neutral-900 font-medium uppercase">{zarpe.manga || '-'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-neutral-100 pb-1">
+                        <span className="text-[10px] font-bold text-neutral-700 uppercase">Puntal</span>
+                        <span className="text-[10px] text-neutral-900 font-medium uppercase">{zarpe.puntal || '-'}</span>
                     </div>
                     <div className="flex justify-between border-b border-neutral-100 pb-1">
                         <span className="text-[10px] font-bold text-neutral-700 uppercase">TBR</span>
@@ -286,8 +297,27 @@ export function ZarpeDocument({ zarpe, showPrintButton = true, showDownloadButto
                         <p className="text-[10px] font-bold text-neutral-700 uppercase font-sans">Firma Responsable - Requesting Signature</p>
                     </div>
 
-                    <div className="text-right">
-                         <p className="text-[10px] text-neutral-400 font-sans mb-1">1</p>
+                    <div className="flex flex-col items-center w-64">
+                        <div className="w-full flex items-center justify-center mb-2 relative min-h-[64px]">
+                            {zarpe.captainSignature ? (
+                                <div className="flex flex-col items-center relative py-2 w-full">
+                                    <div className="absolute inset-0 bg-blue-50/50 rounded-lg border-2 border-dashed border-blue-900/20" />
+                                    <div className="relative z-10 flex flex-col items-center justify-center gap-1">
+                                        <div className="flex items-center gap-2">
+                                            <img src="/dgmm-seal-official.png" alt="Sello DGMM" className="h-8 w-8 opacity-80 mix-blend-multiply" />
+                                            <div className="flex flex-col">
+                                                <span className="text-blue-900 text-[6px] font-black uppercase tracking-widest text-left">Firma Electrónica Autorizada</span>
+                                                <span className="text-blue-700 text-[5px] font-mono text-left">VERIFICADA: {formatDate(zarpe.createdAt)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="text-[8px] text-neutral-300 absolute py-6">Pendiente Aprobación Capitán</div>
+                            )}
+                        </div>
+                        <div className="border-t border-neutral-300 w-full mb-1"></div>
+                        <p className="text-[10px] font-bold text-blue-900 uppercase font-sans">Capitán de Puerto - Port Captain</p>
                     </div>
                 </div>
 

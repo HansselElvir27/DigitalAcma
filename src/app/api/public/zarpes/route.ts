@@ -24,7 +24,7 @@ export async function POST(request: Request) {
             portName, destination, departureDate, departureTime,
             signature,
             // New fields
-            omiNumber, flag, owner, dimension, tbr, tnr, rubro,
+            omiNumber, flag, owner, dimension, eslora, manga, puntal, tbr, tnr, rubro,
             balizaNumber, patent, navegabilityCert, consignee,
             digepescaLicense, radioFrequency, carriesOnBoard, carriesOnBoardAttachment,
             firstOfficerName, captainLicense, firstOfficerLicense,
@@ -72,6 +72,9 @@ export async function POST(request: Request) {
                 flag: flag || null,
                 owner: owner || null,
                 dimension: dimension || null,
+                eslora: eslora || null,
+                manga: manga || null,
+                puntal: puntal || null,
                 tbr: tbr || null,
                 tnr: tnr || null,
                 rubro: rubro || null,

@@ -72,11 +72,15 @@ model ZarpeRequest {
   userId                   String
   portId                   String
   signature                String?
+  captainSignature         String?
   qrCode                   String?
   omiNumber                String?
   flag                     String?
   owner                    String?
   dimension                String?
+  eslora                   String?
+  manga                    String?
+  puntal                   String?
   tbr                      String?
   tnr                      String?
   rubro                    String?
