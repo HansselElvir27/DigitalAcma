@@ -4,6 +4,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16">
       <section className="text-center py-20 space-y-6">
+        <img src="/dgmm-seal-official.png" alt="DGMM ACMA Logo" className="w-32 h-32 md:w-40 md:h-40 mx-auto object-contain drop-shadow-2xl" />
         <h1 className="text-6xl font-extrabold tracking-tighter sm:text-7xl">
           Gestión Marítima <span className="text-brand-secondary">Inteligente</span>
         </h1>

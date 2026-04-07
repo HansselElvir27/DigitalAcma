@@ -54,9 +54,7 @@ export default function SignIn() {
                 className="max-w-md w-full glass-card p-10 rounded-3xl space-y-8 border-t-4 border-t-brand-secondary"
             >
                 <div className="text-center space-y-2">
-                    <div className="w-16 h-16 rounded-2xl premium-gradient flex items-center justify-center text-white mx-auto mb-6 shadow-xl">
-                        <Shield size={32} />
-                    </div>
+                    <img src="/dgmm-seal-official.png" alt="DGMM ACMA Logo" className="w-24 h-24 mx-auto mb-6 object-contain drop-shadow-xl" />
                     <h1 className="text-3xl font-bold">Bienvenido</h1>
                     <p className="opacity-60">Acceso exclusivo para personal institucional</p>
                 </div>

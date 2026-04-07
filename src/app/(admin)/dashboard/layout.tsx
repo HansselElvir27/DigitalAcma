@@ -22,9 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Sidebar */}
             <aside className="w-72 glass-card border-r border-white/5 flex flex-col p-6 gap-8 sticky top-0 h-screen">
                 <div className="flex items-center gap-3 px-2">
-                    <div className="w-10 h-10 rounded-xl premium-gradient shadow-lg flex items-center justify-center text-white font-bold">
-                        {isCIM ? "C" : "P"}
-                    </div>
+                    <img src="/dgmm-seal-official.png" alt="DGMM ACMA Logo" className="w-10 h-10 object-contain drop-shadow-lg" />
                     <div>
                         <h2 className="font-bold text-lg tracking-tight">{isCIM ? "CIM Panel" : "Capitanía"}</h2>
                         <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">{user?.role || "USUARIO"}</p>

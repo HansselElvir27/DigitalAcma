@@ -11,7 +11,7 @@ export function Navbar() {
     <>
       <nav className="glass-card sticky top-0 z-50 px-8 py-4 flex justify-between items-center border-b border-white/10">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full premium-gradient"></div>
+          <img src="/dgmm-seal-official.png" alt="DGMM ACMA Logo" className="w-10 h-10 object-contain" />
           <span className="font-bold tracking-tight text-xl">DIGITAL ACMA</span>
         </div>
         <div className="flex gap-6 items-center">
