@@ -9,7 +9,7 @@ import { authOptions } from "@/lib/auth";
 export async function GET() {
     const session = await getServerSession(authOptions);
 
-    if (!session || session.user.role !== "CIM") {
+    if (!session || (session.user.role !== "CIM" && session.user.role !== "ADMIN")) {
         return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 

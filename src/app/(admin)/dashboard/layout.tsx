@@ -11,11 +11,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const { data: session } = useSession();
     const user = session?.user;
     const isCIM = user?.role === "CIM";
+    const isAdmin = user?.role === "ADMIN";
+    const canManageUsers = isCIM || isAdmin;
     const pathname = usePathname();
 
     const initials = user?.name
         ? user.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)
         : "??";
+
+    const dashboardHref = isAdmin || isCIM ? "/dashboard/cim" : "/dashboard/capitan";
 
     return (
         <div className="flex min-h-screen bg-background -mt-12 -mx-4">
@@ -24,14 +28,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div className="flex items-center gap-3 px-2">
                     <img src="/dgmm-seal-official.png" alt="DGMM ACMA Logo" className="w-10 h-10 object-contain drop-shadow-lg" />
                     <div>
-                        <h2 className="font-bold text-lg tracking-tight">{isCIM ? "CIM Panel" : "Capitanía"}</h2>
+                        <h2 className="font-bold text-lg tracking-tight">{isAdmin ? "Admin Panel" : isCIM ? "CIM Panel" : "Capitanía"}</h2>
                         <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold">{user?.role || "USUARIO"}</p>
                     </div>
                 </div>
 
                 <nav className="flex-1 space-y-2">
                     {[
-                        { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: isCIM ? "/dashboard/cim" : "/dashboard/capitan", active: pathname === (isCIM ? "/dashboard/cim" : "/dashboard/capitan") },
+                        { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: dashboardHref, active: pathname === dashboardHref },
                         { icon: <FileText size={20} />, label: "Solicitudes de Info", href: "/dashboard/info" },
                         { icon: <ClipboardList size={20} />, label: "Inspección Embarcaciones", href: "/dashboard/inscripcion-embarcaciones", active: pathname === "/dashboard/inscripcion-embarcaciones" },
                         { icon: <Anchor size={20} />, label: "Buques Registrados", href: "/dashboard/vessels", active: pathname === "/dashboard/vessels" },
@@ -40,7 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         { icon: <Anchor size={20} />, label: "Avisos de Arribo", href: "/dashboard/arribos", active: pathname === "/dashboard/arribos" },
                         { icon: <AlertTriangle size={20} />, label: "Reportes Marítimos", href: "/dashboard/reporte-maritimo", active: pathname === "/dashboard/reporte-maritimo", danger: true },
                         { icon: <Satellite size={20} />, label: "Desactivación Baliza", href: "/dashboard/desactivacion-baliza", active: pathname === "/dashboard/desactivacion-baliza" },
-                        ...(isCIM ? [{ icon: <Users size={20} />, label: "Usuarios / Puertos", href: "/dashboard/usuarios", active: pathname === "/dashboard/usuarios" }] : []),
+                        ...(canManageUsers ? [{ icon: <Users size={20} />, label: "Usuarios / Puertos", href: "/dashboard/usuarios", active: pathname === "/dashboard/usuarios" }] : []),
                         { icon: <Settings size={20} />, label: "Configuración", href: "/dashboard/settings", active: pathname === "/dashboard/settings" },
                     ].map((item, i) => (
                         <Link key={i} href={item.href} className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${item.active ? (item.danger ? 'bg-red-600 text-white shadow-lg' : 'premium-gradient text-white shadow-lg') : 'hover:bg-white/5 opacity-60 hover:opacity-100'}`}>
