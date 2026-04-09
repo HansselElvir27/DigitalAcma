@@ -55,7 +55,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </nav>
 
                 <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() => signOut({ redirect: true, callbackUrl: "/auth/signin" })}
                     className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-500 transition-all opacity-70 hover:opacity-100"
                 >
                     <LogOut size={20} />
@@ -83,6 +83,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 {initials}
                             </div>
                         </div>
+
+                        {/* Top Logout Button */}
+                        <button 
+                            onClick={() => signOut({ redirect: true, callbackUrl: "/auth/signin" })}
+                            className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-red-500 hover:bg-red-500/10 transition-all flex items-center gap-2"
+                            title="Cerrar Sesión"
+                        >
+                            <LogOut size={18} />
+                            <span className="text-[10px] font-bold uppercase tracking-widest hidden sm:inline">Cerrar Sesión</span>
+                        </button>
                     </div>
                 </header>
 
