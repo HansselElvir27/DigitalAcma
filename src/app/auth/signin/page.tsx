@@ -30,12 +30,13 @@ export default function SignIn() {
             } else if (result?.ok) {
                 // Better session check
                 const session = await getSession();
-                if (session?.user?.role === "CIM") {
+                const role = (session?.user as any)?.role;
+                if (role === "CIM" || role === "ADMIN") {
                     router.push("/dashboard/cim");
-                } else if (session?.user?.role === "CAPITAN") {
+                } else if (role === "CAPITAN") {
                     router.push("/dashboard/capitan");
                 } else {
-                    router.push("/dashboard");
+                    router.push("/dashboard/info"); // Fallback to info requests for PUBLIC/other
                 }
             }
         } catch (err: any) {
