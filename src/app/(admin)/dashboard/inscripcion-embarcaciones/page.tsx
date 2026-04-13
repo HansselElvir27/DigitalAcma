@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Ship, Anchor, CalendarClock, ClipboardList, X, CheckCircle, Clock, Navigation } from "lucide-react";
 import Link from "next/link";
 import VesselRegistrationForm from "@/components/admin/VesselRegistrationForm";
+import { NotificationModal, ModalType } from "@/components/NotificationModal";
 
 export default function InscripcionEmbarcacionesAdminPage() {
     const [inscripciones, setInscripciones] = useState<any[]>([]);
@@ -14,6 +15,26 @@ export default function InscripcionEmbarcacionesAdminPage() {
     const [observation, setObservation] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [activeTab, setActiveTab] = useState<"PENDING" | "APPROVED">("PENDING");
+
+    // Modal state
+    const [modalConfig, setModalConfig] = useState<{
+        isOpen: boolean;
+        type: ModalType;
+        title: string;
+        message: string;
+        confirmText?: string;
+        onConfirm?: () => void;
+    }>({
+        isOpen: false,
+        type: "INFO",
+        title: "",
+        message: "",
+    });
+
+    const closeModal = () => setModalConfig(prev => ({ ...prev, isOpen: false }));
+    const showModal = (config: Omit<typeof modalConfig, "isOpen">) => {
+        setModalConfig({ ...config, isOpen: true });
+    };
 
     // Vessel Registration States
     const [registrationModalOpen, setRegistrationModalOpen] = useState(false);
@@ -60,15 +81,27 @@ export default function InscripcionEmbarcacionesAdminPage() {
             });
 
             if (res.ok) {
-                alert(`Cita aprobada. Número: ${citaNumber}`);
+                showModal({
+                    type: "SUCCESS",
+                    title: "Cita Aprobada",
+                    message: `La cita ha sido agendada exitosamente. Número de Cita: ${citaNumber}`,
+                });
                 setSelectedId(null);
                 fetchData();
             } else {
                 const err = await res.json();
-                alert(err.error || "Error al aprobar cita");
+                showModal({
+                    type: "ERROR",
+                    title: "Error al Aprobar",
+                    message: err.error || "Hubo un problema al procesar la aprobación de la cita."
+                });
             }
         } catch (error) {
-            alert("Error de conexión");
+            showModal({
+                type: "ERROR",
+                title: "Error de Conexión",
+                message: "No se pudo establecer comunicación con el servidor."
+            });
         } finally {
             setSubmitting(false);
         }
@@ -192,7 +225,11 @@ export default function InscripcionEmbarcacionesAdminPage() {
                                                                 const vesselData = await res.json();
                                                                 setSelectedInscripcionForReg({...ins, initialVesselData: vesselData});
                                                             } catch (e) {
-                                                                alert("Error al cargar datos históricos");
+                                                                showModal({
+                                                                    type: "ERROR",
+                                                                    title: "Error de Datos",
+                                                                    message: "No se pudieron cargar los datos históricos de la embarcación."
+                                                                });
                                                                 setSelectedInscripcionForReg(ins);
                                                             }
                                                         } else {
@@ -315,7 +352,7 @@ export default function InscripcionEmbarcacionesAdminPage() {
                                 <div className="p-3 bg-brand-secondary/20 text-brand-secondary rounded-xl">
                                     <CalendarClock size={24} />
                                 </div>
-                                <div>
+                                <div className="text-left">
                                     <h3 className="text-xl font-black">Agendar Inspección</h3>
                                     <p className="text-xs opacity-60">
                                         Solicitante: {inscripciones.find(i => i.id === selectedId)?.fullName}
@@ -324,7 +361,7 @@ export default function InscripcionEmbarcacionesAdminPage() {
                             </div>
 
                             <form onSubmit={handleApprove} className="space-y-5">
-                                <div>
+                                <div className="text-left">
                                     <label className="block text-xs font-bold uppercase tracking-wider mb-2 opacity-70">Fecha y Hora de Cita</label>
                                     <input
                                         type="datetime-local"
@@ -336,7 +373,7 @@ export default function InscripcionEmbarcacionesAdminPage() {
                                     />
                                 </div>
 
-                                <div>
+                                <div className="text-left">
                                     <label className="block text-xs font-bold uppercase tracking-wider mb-2 opacity-70">Observaciones</label>
                                     <textarea
                                         rows={3}
@@ -368,6 +405,17 @@ export default function InscripcionEmbarcacionesAdminPage() {
                     </div>
                 )}
             </AnimatePresence>
+
+            {/* Notification Modal */}
+            <NotificationModal 
+                isOpen={modalConfig.isOpen}
+                onClose={closeModal}
+                onConfirm={modalConfig.onConfirm}
+                type={modalConfig.type}
+                title={modalConfig.title}
+                message={modalConfig.message}
+                confirmText={modalConfig.confirmText}
+            />
         </div>
     );
 }
