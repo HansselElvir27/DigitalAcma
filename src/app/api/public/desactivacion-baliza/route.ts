@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { saveBase64ToFile } from "@/lib/storage";
+import crypto from "crypto";
 
 const prisma = getPrismaClient();
 
@@ -16,7 +18,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         
-        console.log("Desactivación de Baliza request received:", JSON.stringify(body, null, 2));
+        console.log("Desactivación de Baliza request received");
         
         const {
             fechaHora,
@@ -35,6 +37,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Faltan datos requeridos incluyendo la firma" }, { status: 400 });
         }
 
+        const requestId = crypto.randomUUID();
+
+        // Save signature to filesystem
+        const signaturePath = await saveBase64ToFile(signature, 'baliza-desactivacion', requestId, 'signature.png');
+
         // Normalize email
         const normalizedEmail = correo.trim().toLowerCase();
 
@@ -50,6 +57,7 @@ export async function POST(request: Request) {
         // Create the BalizaDesactivacion request
         const newBaliza = await prisma.balizaDesactivacion.create({
             data: {
+                id: requestId,
                 fechaHora: new Date(fechaHora),
                 nombreSolicitante,
                 condicion,
@@ -58,7 +66,7 @@ export async function POST(request: Request) {
                 numeroRegistro,
                 capitaniaPuerto,
                 motivo,
-                signature,
+                signature: signaturePath,
                 userId: user.id,
             }
         });
@@ -91,4 +99,3 @@ export async function GET() {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
-

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { saveBase64ToFile } from "@/lib/storage";
+import crypto from "crypto";
 
 const prisma = getPrismaClient();
 
@@ -17,7 +19,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         
-        console.log("Zarpe request received:", JSON.stringify(body, null, 2));
+        console.log("Zarpe request received");
         
         const {
             name, email, vesselName, registrationNum,
@@ -34,6 +36,20 @@ export async function POST(request: Request) {
         if (!name || !email || !vesselName || !registrationNum || !portName || !destination || !departureDate || !departureTime || !signature) {
             return NextResponse.json({ error: "Faltan datos requeridos incluyendo la firma" }, { status: 400 });
         }
+
+        const requestId = crypto.randomUUID();
+
+        // Save files to filesystem
+        const signaturePath = await saveBase64ToFile(signature, 'zarpes', requestId, 'signature.png');
+        const carriesOnBoardPath = await saveBase64ToFile(carriesOnBoardAttachment, 'zarpes', requestId, 'board_attachment');
+        const patentPath = await saveBase64ToFile(patent, 'zarpes', requestId, 'patent');
+        const navigabilityCertPath = await saveBase64ToFile(navegabilityCert, 'zarpes', requestId, 'navigability_cert');
+        const digepescaLicensePath = await saveBase64ToFile(digepescaLicense, 'zarpes', requestId, 'digepesca_license');
+        const captainLicensePath = await saveBase64ToFile(captainLicense, 'zarpes', requestId, 'captain_license');
+        const firstOfficerLicensePath = await saveBase64ToFile(firstOfficerLicense, 'zarpes', requestId, 'officer_license');
+        const crewListFilePath = await saveBase64ToFile(crewListFile, 'zarpes', requestId, 'crew_list');
+        const passengerListFilePath = await saveBase64ToFile(passengerListFile, 'zarpes', requestId, 'passenger_list');
+        const paymentReceiptPath = await saveBase64ToFile(paymentReceiptFile, 'zarpes', requestId, 'payment_receipt');
 
         // Normalize email
         const normalizedEmail = email.trim().toLowerCase();
@@ -59,12 +75,13 @@ export async function POST(request: Request) {
         // Create the Zarpe request with all new fields
         const newZarpe = await prisma.zarpeRequest.create({
             data: {
+                id: requestId,
                 vesselName,
                 registrationNum,
                 captainName: name,
                 departureDate: fullDateTime,
                 destination,
-                signature,
+                signature: signaturePath,
                 userId: user.id,
                 portId: port.id,
                 // New fields
@@ -79,20 +96,20 @@ export async function POST(request: Request) {
                 tnr: tnr || null,
                 rubro: rubro || null,
                 balizaNumber: balizaNumber || null,
-                patent: patent || null,
-                navegabilityCert: navegabilityCert || null,
+                patent: patentPath,
+                navegabilityCert: navigabilityCertPath,
                 consignee: consignee || null,
-                digepescaLicense: digepescaLicense || null,
+                digepescaLicense: digepescaLicensePath,
                 radioFrequency: radioFrequency || null,
                 carriesOnBoard: carriesOnBoard || null,
-                carriesOnBoardAttachment: carriesOnBoardAttachment || null,
+                carriesOnBoardAttachment: carriesOnBoardPath,
                 firstOfficerName: firstOfficerName || null,
-                captainLicense: captainLicense || null,
-                firstOfficerLicense: firstOfficerLicense || null,
+                captainLicense: captainLicensePath,
+                firstOfficerLicense: firstOfficerLicensePath,
                 crewList: crewList || null,
-                crewListFile: crewListFile || null,
-                passengerListFile: passengerListFile || null,
-                paymentReceiptFile: paymentReceiptFile || null,
+                crewListFile: crewListFilePath,
+                passengerListFile: passengerListFilePath,
+                paymentReceiptFile: paymentReceiptPath,
             }
         });
 

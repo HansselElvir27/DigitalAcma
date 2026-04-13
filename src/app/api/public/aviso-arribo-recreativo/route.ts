@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { saveBase64ToFile } from "@/lib/storage";
+import crypto from "crypto";
 
 const prisma = getPrismaClient();
 
@@ -16,7 +18,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         
-        console.log("Aviso de Arribo Recreativo request received:", JSON.stringify(body, null, 2));
+        console.log("Aviso de Arribo Recreativo request received");
         
         const {
             vesselName,
@@ -37,6 +39,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Faltan datos requeridos" }, { status: 400 });
         }
 
+        const requestId = crypto.randomUUID();
+
+        // Save photo to filesystem
+        const photoPath = await saveBase64ToFile(vesselPhoto, 'arribos-recreativos', requestId, 'vessel_photo.jpg');
+
         // Normalize email
         const normalizedEmail = email.trim().toLowerCase();
 
@@ -56,6 +63,7 @@ export async function POST(request: Request) {
         // Create the ArrivalNoticeRecreational
         const newArrivalNotice = await prisma.arrivalNoticeRecreational.create({
             data: {
+                id: requestId,
                 vesselName,
                 registrationNum,
                 flag,
@@ -66,7 +74,7 @@ export async function POST(request: Request) {
                 etaDate: new Date(etaDate),
                 personsOnBoard,
                 userId: user.id,
-                vesselPhoto: vesselPhoto || null,
+                vesselPhoto: photoPath,
             }
         });
 
@@ -85,7 +93,6 @@ export async function POST(request: Request) {
     }
 }
 
-// GET endpoint to list all recreational arrival notices for admin/CIM
 export async function GET(request: Request) {
     try {
         const notices = await prisma.arrivalNoticeRecreational.findMany({
@@ -99,4 +106,3 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: "Error al obtener los avisos" }, { status: 500 });
     }
 }
-

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { saveBase64ToFile } from "@/lib/storage";
+import crypto from "crypto";
 
 const prisma = getPrismaClient();
 
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
             contactInfo
         } = body;
         
-        console.log("[reporte-maritimo] Received request:", { reportDate, reportType, description: description?.substring(0, 50) });
+        console.log("[reporte-maritimo] Received request");
         
         // Validaciones
         if (!reportDate || !reportType || !reportType.length || !description) {
@@ -49,16 +51,22 @@ export async function POST(request: Request) {
                 { status: 400 }
             );
         }
+
+        const requestId = crypto.randomUUID();
+
+        // Save photo to filesystem
+        const photoPath = await saveBase64ToFile(photo, 'maritime-reports', requestId, 'report_photo.jpg');
         
         // Crear el reporte
         console.log("[reporte-maritimo] Creating maritime report in database...");
         const report = await prisma.maritimeReport.create({
             data: {
+                id: requestId,
                 reportDate: new Date(reportDate),
                 reportType: reportType,
                 reportTypeOther: reportTypeOther || null,
                 description: description,
-                photo: photo || null,
+                photo: photoPath,
                 wantsContact: wantsContact || false,
                 contactInfo: contactInfo || null,
                 status: "RECEIVED"
@@ -87,4 +95,3 @@ export async function POST(request: Request) {
         );
     }
 }
-

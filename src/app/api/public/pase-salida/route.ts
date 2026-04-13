@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { saveBase64ToFile } from "@/lib/storage";
+import crypto from "crypto";
 
 const prisma = getPrismaClient();
 
@@ -16,7 +18,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         
-        console.log("Pase de Salida request received:", JSON.stringify(body, null, 2));
+        console.log("Pase de Salida request received");
         
         const {
             vesselName,
@@ -39,6 +41,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Faltan datos requeridos incluyendo la firma" }, { status: 400 });
         }
 
+        const requestId = crypto.randomUUID();
+
+        // Save signature to filesystem
+        const signaturePath = await saveBase64ToFile(signature, 'pase-salida', requestId, 'signature.png');
+
         // Normalize email
         const normalizedEmail = email.trim().toLowerCase();
 
@@ -57,6 +64,7 @@ export async function POST(request: Request) {
         // Create the PaseSalida request
         const newPaseSalida = await prisma.paseSalida.create({
             data: {
+                id: requestId,
                 vesselName,
                 registrationNum,
                 departureDate: fullDateTime,
@@ -69,7 +77,7 @@ export async function POST(request: Request) {
                 guideName: guideName || null,
                 activityType,
                 email,
-                signature,
+                signature: signaturePath,
                 userId: user.id,
             }
         });
@@ -88,4 +96,3 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: `Error interno del servidor: ${error.message}` }, { status: 500 });
     }
 }
-

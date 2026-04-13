@@ -3,11 +3,12 @@ import { getPrismaClient } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { buildRegistrationNumber, ACTIVITY_CODES } from "@/lib/vessel-codes";
+import { saveBase64ToFile, saveMultipleBase64 } from "@/lib/storage";
 
 const prisma = getPrismaClient();
 export const dynamic = "force-dynamic";
 
-// POST /api/vessels - Create a new vessel registration
+// POST /api/vessels - Create a new vessel registration or renewal
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
 
@@ -32,6 +33,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
     }
 
+    // Determine an ID for the folder (either use current registration ID or a new one)
+    // For new registrations we generate a temp ID if requestId isn't enough
+    const storageId = requestId || `vsl-${Date.now()}`;
+
+    // Process files before DB operations
+    const savedPaymentPhoto = await saveBase64ToFile(paymentPhoto, 'vessels', storageId, 'payment_receipt');
+    const savedVesselPhotos = await saveMultipleBase64(vesselPhotos, 'vessels', storageId);
+    const savedDocuments = await saveMultipleBase64(documents, 'vessels', storageId);
+
     // Create or Update the registration
     let registration;
 
@@ -47,7 +57,7 @@ export async function POST(request: Request) {
             });
 
             if (existingVessel) {
-                // 0. Detect changes
+                // 0. Detect changes for history
                 const changedFields: any = {};
                 const fieldsToTrack = [
                     "vesselName", "eslora", "manga", "punta", "calado",
@@ -71,6 +81,11 @@ export async function POST(request: Request) {
                     changedFields.engineSerials = { old: existingVessel.engineSerials, new: engineSerials || [] };
                 }
 
+                // File fields tracking in history
+                if (existingVessel.paymentPhoto !== savedPaymentPhoto) {
+                    changedFields.paymentPhoto = { old: existingVessel.paymentPhoto, new: savedPaymentPhoto };
+                }
+
                 // Date fields
                 if (issueDate && new Date(existingVessel.issueDate || 0).getTime() !== new Date(issueDate).getTime()) {
                     changedFields.issueDate = { old: existingVessel.issueDate, new: issueDate };
@@ -79,21 +94,16 @@ export async function POST(request: Request) {
                     changedFields.expirationDate = { old: existingVessel.expirationDate, new: expirationDate };
                 }
 
-                // 2. Decide if registration number changes
+                // Decide if registration number changes
                 let finalRegNumber = existingVessel.registrationNumber;
                 if (existingVessel.activityType !== activityType) {
-                    // Get new count for this port (or reuse sequential logic)
-                    const port = await prisma.port.findUnique({
-                        where: { id: portId },
-                        include: { _count: { select: { vesselRegistrations: true } } }
-                    });
-                    const count = (port?._count.vesselRegistrations || 0) + 1;
-                    finalRegNumber = buildRegistrationNumber(port?.name || "", count, activityType);
-                    
+                    const portCount = await prisma.vesselRegistration.count({ where: { portId } });
+                    const port = await prisma.port.findUnique({ where: { id: portId } });
+                    finalRegNumber = buildRegistrationNumber(port?.name || "", portCount + 1, activityType);
                     changedFields.registrationNumber = { old: existingVessel.registrationNumber, new: finalRegNumber };
                 }
 
-                // 1. Save to history
+                // 1. Save snapshot to history
                 await prisma.vesselRegistrationHistory.create({
                     data: {
                         registrationId: existingVessel.id,
@@ -111,7 +121,6 @@ export async function POST(request: Request) {
                         ownerName: existingVessel.ownerName,
                         vesselType: existingVessel.vesselType,
                         activityType: existingVessel.activityType,
-                        activityCode: existingVessel.activityCode,
                         phone: existingVessel.phone,
                         address: existingVessel.address,
                         email: existingVessel.email,
@@ -133,7 +142,7 @@ export async function POST(request: Request) {
                     }
                 });
 
-                // 3. Update
+                // 2. Update current registration
                 registration = await prisma.vesselRegistration.update({
                     where: { id: existingVessel.id },
                     data: {
@@ -144,14 +153,15 @@ export async function POST(request: Request) {
                         ownerId, ownerName, vesselType, activityType,
                         activityCode: ACTIVITY_CODES[activityType] ?? 0,
                         phone, address, email, rtn,
-                        paymentPhoto, vesselPhotos: (vesselPhotos || []) as any,
-                        documents: (documents || []) as any,
+                        paymentPhoto: savedPaymentPhoto, 
+                        vesselPhotos: JSON.parse(savedVesselPhotos || "[]"),
+                        documents: JSON.parse(savedDocuments || "[]"),
                         citaNumber, yearBuilt, grossTonnage, netTonnage,
                         color, hullMaterial, route, observations,
                         issueDate: issueDate ? new Date(issueDate) : new Date(),
                         expirationDate: expirationDate ? new Date(expirationDate) : undefined,
                         status: "ACTIVE",
-                        requestId: requestId // Link current request
+                        requestId: requestId
                     }
                 });
             }
@@ -159,7 +169,7 @@ export async function POST(request: Request) {
     }
 
     if (!registration) {
-        // NEW REGISTRATION FLOW (Existing logic)
+        // NEW REGISTRATION FLOW
         const port = await prisma.port.findUnique({
             where: { id: portId },
             include: { _count: { select: { vesselRegistrations: true } } }
@@ -182,8 +192,9 @@ export async function POST(request: Request) {
                 ownerId, ownerName, vesselType, activityType,
                 activityCode,
                 phone, address, email, rtn,
-                paymentPhoto, vesselPhotos: (vesselPhotos || []) as any,
-                documents: (documents || []) as any,
+                paymentPhoto: savedPaymentPhoto,
+                vesselPhotos: JSON.parse(savedVesselPhotos || "[]"),
+                documents: JSON.parse(savedDocuments || "[]"),
                 citaNumber, yearBuilt, grossTonnage, netTonnage,
                 color, hullMaterial, route, observations,
                 issueDate: issueDate ? new Date(issueDate) : new Date(),
@@ -212,7 +223,7 @@ export async function POST(request: Request) {
   }
 }
 
-// GET /api/vessels - List registrations (filtered by port if captain)
+// GET /api/vessels - List registrations
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
 

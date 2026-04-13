@@ -1,17 +1,16 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { saveBase64ToFile, saveMultipleBase64 } from "@/lib/storage";
 import fs from "fs";
+import path from "path";
+import crypto from "crypto";
 
 const prisma = getPrismaClient();
 
 // Increase max body size to handle base64 file attachments
 export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: "20mb",
-        },
-    },
+// ... ( bodyParser config )
 };
 
 const logFile = "c:\\Users\\ACMACIM\\Desktop\\Digitalacma\\solicitudes-log.txt";
@@ -29,6 +28,12 @@ export async function POST(request: Request) {
         if (!name || !email || !subject || !message) {
             return NextResponse.json({ error: "Faltan datos requeridos" }, { status: 400 });
         }
+
+        const requestId = crypto.randomUUID();
+
+        // Save files to filesystem
+        const signaturePath = await saveBase64ToFile(signature, 'info-requests', requestId, 'signature.png');
+        const attachmentsPaths = await saveMultipleBase64(attachments, 'info-requests', requestId);
 
         // Normalize email
         const normalizedEmail = email.trim().toLowerCase();
@@ -48,6 +53,7 @@ export async function POST(request: Request) {
         // Create the request with all fields
         const newRequest = await prisma.informationRequest.create({
             data: {
+                id: requestId,
                 subject,
                 message,
                 userId: user.id,
@@ -55,8 +61,8 @@ export async function POST(request: Request) {
                 institution: institution || null,
                 country: country || null,
                 priority: priority || null,
-                signature: signature || null,
-                attachments: attachments && attachments.length > 0 ? JSON.stringify(attachments) : null,
+                signature: signaturePath,
+                attachments: attachmentsPaths,
             }
         });
 
