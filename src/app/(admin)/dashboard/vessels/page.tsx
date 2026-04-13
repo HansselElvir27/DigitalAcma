@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Ship, Anchor, Search, Eye, Filter, Download, MoreVertical, ExternalLink, MapPin, ClipboardList, RefreshCw } from "lucide-react";
 import Link from "next/link";
+import { NotificationModal, ModalType } from "@/components/NotificationModal";
 
 interface Vessel {
     id: string;
@@ -22,6 +23,26 @@ export default function RegisteredVesselsPage() {
     const [vessels, setVessels] = useState<Vessel[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+
+    // Modal state
+    const [modalConfig, setModalConfig] = useState<{
+        isOpen: boolean;
+        type: ModalType;
+        title: string;
+        message: string;
+        confirmText?: string;
+        onConfirm?: () => void;
+    }>({
+        isOpen: false,
+        type: "INFO",
+        title: "",
+        message: "",
+    });
+
+    const closeModal = () => setModalConfig(prev => ({ ...prev, isOpen: false }));
+    const showModal = (config: Omit<typeof modalConfig, "isOpen">) => {
+        setModalConfig({ ...config, isOpen: true });
+    };
 
     useEffect(() => {
         const fetchVessels = async () => {
@@ -43,6 +64,45 @@ export default function RegisteredVesselsPage() {
         v.registrationNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
         v.ownerName?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const handleRenew = async (vessel: Vessel) => {
+        showModal({
+            type: "CONFIRM",
+            title: "Confirmar Renovación",
+            message: `¿Desea iniciar el proceso de renovación para la embarcación "${vessel.vesselName}" (${vessel.registrationNumber})?`,
+            confirmText: "Iniciar Renovación",
+            onConfirm: async () => {
+                closeModal();
+                try {
+                    const res = await fetch(`/api/vessels/${vessel.id}/renew`, { method: 'POST' });
+                    if (res.ok) {
+                        showModal({
+                            type: "SUCCESS",
+                            title: "Proceso Iniciado",
+                            message: "La solicitud de renovación ha sido creada exitosamente. El capitán podrá asignar una nueva cita desde el Panel de Inscripciones.",
+                            confirmText: "Ir al Panel",
+                            onConfirm: () => {
+                                window.location.href = '/dashboard/inscripcion-embarcaciones';
+                            }
+                        });
+                    } else {
+                        const data = await res.json();
+                        showModal({
+                            type: "ERROR",
+                            title: "Error de Renovación",
+                            message: data.error || "No se pudo iniciar el proceso de renovación en este momento."
+                        });
+                    }
+                } catch (e) {
+                    showModal({
+                        type: "ERROR",
+                        title: "Error de Sistema",
+                        message: "Hubo un problema de conexión con el servidor."
+                    });
+                }
+            }
+        });
+    };
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -165,22 +225,7 @@ export default function RegisteredVesselsPage() {
 
                                             {(vessel.expirationDate && new Date(vessel.expirationDate).getTime() - new Date().getTime() < 30 * 24 * 60 * 60 * 1000) && (
                                                 <button 
-                                                    onClick={async () => {
-                                                        if (confirm("¿Iniciar proceso de renovación para esta embarcación?")) {
-                                                            try {
-                                                                const res = await fetch(`/api/vessels/${vessel.id}/renew`, { method: 'POST' });
-                                                                if (res.ok) {
-                                                                    alert("Solicitud de renovación creada. El capitán podrá asignar una nueva cita desde el Panel de Inscripciones.");
-                                                                    window.location.href = '/dashboard/inscripcion-embarcaciones';
-                                                                } else {
-                                                                    const data = await res.json();
-                                                                    alert(data.error || "Error al iniciar renovación");
-                                                                }
-                                                            } catch (e) {
-                                                                alert("Error de conexión");
-                                                            }
-                                                        }
-                                                    }}
+                                                    onClick={() => handleRenew(vessel)}
                                                     className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-secondary/20 border border-brand-secondary/30 hover:bg-brand-secondary text-brand-secondary hover:text-white transition-all text-[10px] font-black uppercase tracking-widest shadow-xl group/btn"
                                                 >
                                                     <RefreshCw size={14} className="group-hover/btn:rotate-180 transition-transform duration-500" />
@@ -195,6 +240,16 @@ export default function RegisteredVesselsPage() {
                     </table>
                 </div>
             )}
+
+            <NotificationModal 
+                isOpen={modalConfig.isOpen}
+                onClose={closeModal}
+                onConfirm={modalConfig.onConfirm}
+                type={modalConfig.type}
+                title={modalConfig.title}
+                message={modalConfig.message}
+                confirmText={modalConfig.confirmText}
+            />
         </div>
     );
 }
