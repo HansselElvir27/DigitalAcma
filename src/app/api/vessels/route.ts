@@ -47,6 +47,52 @@ export async function POST(request: Request) {
             });
 
             if (existingVessel) {
+                // 0. Detect changes
+                const changedFields: any = {};
+                const fieldsToTrack = [
+                    "vesselName", "eslora", "manga", "punta", "calado",
+                    "passengerCapacity", "crewCapacity", "engineBrand",
+                    "ownerId", "ownerName", "vesselType", "activityType",
+                    "phone", "address", "email", "rtn",
+                    "yearBuilt", "grossTonnage", "netTonnage",
+                    "color", "hullMaterial", "route", "observations"
+                ];
+
+                fieldsToTrack.forEach(field => {
+                    const oldValue = (existingVessel as any)[field] || "";
+                    const newValue = (body as any)[field] || "";
+                    if (String(oldValue) !== String(newValue)) {
+                        changedFields[field] = { old: oldValue, new: newValue };
+                    }
+                });
+
+                // JSON fields
+                if (JSON.stringify(existingVessel.engineSerials) !== JSON.stringify(engineSerials || [])) {
+                    changedFields.engineSerials = { old: existingVessel.engineSerials, new: engineSerials || [] };
+                }
+
+                // Date fields
+                if (issueDate && new Date(existingVessel.issueDate || 0).getTime() !== new Date(issueDate).getTime()) {
+                    changedFields.issueDate = { old: existingVessel.issueDate, new: issueDate };
+                }
+                if (expirationDate && new Date(existingVessel.expirationDate || 0).getTime() !== new Date(expirationDate).getTime()) {
+                    changedFields.expirationDate = { old: existingVessel.expirationDate, new: expirationDate };
+                }
+
+                // 2. Decide if registration number changes
+                let finalRegNumber = existingVessel.registrationNumber;
+                if (existingVessel.activityType !== activityType) {
+                    // Get new count for this port (or reuse sequential logic)
+                    const port = await prisma.port.findUnique({
+                        where: { id: portId },
+                        include: { _count: { select: { vesselRegistrations: true } } }
+                    });
+                    const count = (port?._count.vesselRegistrations || 0) + 1;
+                    finalRegNumber = buildRegistrationNumber(port?.name || "", count, activityType);
+                    
+                    changedFields.registrationNumber = { old: existingVessel.registrationNumber, new: finalRegNumber };
+                }
+
                 // 1. Save to history
                 await prisma.vesselRegistrationHistory.create({
                     data: {
@@ -82,21 +128,10 @@ export async function POST(request: Request) {
                         observations: existingVessel.observations,
                         issueDate: existingVessel.issueDate,
                         expirationDate: existingVessel.expirationDate,
-                        changeReason: "RENEWAL"
+                        changeReason: "RENEWAL",
+                        changedFields: changedFields
                     }
                 });
-
-                // 2. Decide if registration number changes
-                let finalRegNumber = existingVessel.registrationNumber;
-                if (existingVessel.activityType !== activityType) {
-                    // Get new count for this port (or reuse sequential logic)
-                    const port = await prisma.port.findUnique({
-                        where: { id: portId },
-                        include: { _count: { select: { vesselRegistrations: true } } }
-                    });
-                    const count = (port?._count.vesselRegistrations || 0) + 1;
-                    finalRegNumber = buildRegistrationNumber(port?.name || "", count, activityType);
-                }
 
                 // 3. Update
                 registration = await prisma.vesselRegistration.update({

@@ -10,6 +10,36 @@ interface VesselDossierProps {
     vessel: any;
 }
 
+const FIELD_LABELS: Record<string, string> = {
+    vesselName: "Nombre",
+    eslora: "Eslora",
+    manga: "Manga",
+    punta: "Punta",
+    calado: "Calado",
+    passengerCapacity: "Cap. Pasajeros",
+    crewCapacity: "Cap. Tripulantes",
+    engineBrand: "Marca Motor",
+    engineSerials: "Series Motor",
+    ownerId: "ID Propietario",
+    ownerName: "Nombre Propietario",
+    vesselType: "Tipo",
+    activityType: "Actividad",
+    phone: "Teléfono",
+    address: "Dirección",
+    email: "Email",
+    rtn: "RTN",
+    yearBuilt: "Año",
+    grossTonnage: "TRB",
+    netTonnage: "TRN",
+    color: "Color",
+    hullMaterial: "Material Casco",
+    route: "Ruta",
+    observations: "Observaciones",
+    registrationNumber: "Matrícula",
+    issueDate: "Emisión",
+    expirationDate: "Expiración"
+};
+
 export function VesselDossier({ vessel }: VesselDossierProps) {
     const technicalData = [
         { label: "Eslora", value: vessel.eslora, icon: <Ruler size={14} /> },
@@ -229,20 +259,41 @@ export function VesselDossier({ vessel }: VesselDossierProps) {
                                             <p className="text-xs font-mono font-bold">{h.registrationNumber}</p>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 opacity-60 text-[10px] font-bold">
-                                        <div>
-                                            <span className="opacity-40 uppercase">Actividad:</span> {h.activityType}
+                                    {h.changedFields && Object.keys(h.changedFields).length > 0 ? (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 pt-4 border-t border-white/5">
+                                            {Object.entries(h.changedFields).map(([key, delta]: [string, any], ki) => (
+                                                <div key={ki} className="flex flex-col gap-1">
+                                                    <span className="text-[9px] font-black uppercase tracking-widest text-brand-secondary opacity-60">
+                                                        {FIELD_LABELS[key] || key}:
+                                                    </span>
+                                                    <div className="flex items-center gap-2 text-xs font-bold">
+                                                        <span className="opacity-40 italic line-through decoration-brand-secondary/40 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px]">
+                                                            {Array.isArray(delta.old) ? delta.old.length + " items" : String(delta.old || "vío")}
+                                                        </span>
+                                                        <ArrowLeft size={10} className="rotate-180 opacity-40 shrink-0" />
+                                                        <span className="text-white whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]">
+                                                            {Array.isArray(delta.new) ? delta.new.length + " items" : String(delta.new || "vío")}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                        <div>
-                                            <span className="opacity-40 uppercase">Propietario:</span> {h.ownerName}
+                                    ) : (
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 opacity-60 text-[10px] font-bold">
+                                            <div>
+                                                <span className="opacity-40 uppercase">Actividad:</span> {h.activityType}
+                                            </div>
+                                            <div>
+                                                <span className="opacity-40 uppercase">Propietario:</span> {h.ownerName}
+                                            </div>
+                                            <div>
+                                                <span className="opacity-40 uppercase">Eslora:</span> {h.eslora}
+                                            </div>
+                                            <div>
+                                                <span className="opacity-40 uppercase">Año:</span> {h.yearBuilt}
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span className="opacity-40 uppercase">Eslora:</span> {h.eslora}
-                                        </div>
-                                        <div>
-                                            <span className="opacity-40 uppercase">Año:</span> {h.yearBuilt}
-                                        </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
                         ))

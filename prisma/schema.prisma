@@ -311,6 +311,7 @@ model VesselRegistrationHistory {
   issueDate          DateTime?
   expirationDate     DateTime?
   
+  changedFields      Json?
   changedAt          DateTime           @default(now())
   changeReason       String?            // e.g. "RENEWAL", "UPDATE"
 }
