@@ -55,9 +55,9 @@ export async function saveBase64ToFile(
 
         fs.writeFileSync(filePath, buffer);
 
-        // Return the path that will be served by Next.js static files
-        // Normalize for web (slashes)
-        const webPath = `/${relativeDir.replace(/\\/g, '/')}/${filename}`;
+        // Return the path that will be served by our custom API route
+        // We use /api/uploads/ instead of /uploads/ to bypass Next.js static serving issues on Windows Server
+        const webPath = `/api/uploads/${relativeDir.replace(/\\/g, '/')}/${filename}`;
         return webPath;
     } catch (error) {
         console.error("Error saving base64 to file:", error);

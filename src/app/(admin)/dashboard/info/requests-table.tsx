@@ -247,20 +247,27 @@ export function RequestsTable({ requests }: { requests: any[] }) {
                                         <div>
                                             <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-3 flex items-center gap-1"><Paperclip size={10} /> Archivos Adjuntos ({files.length})</p>
                                             <div className="space-y-2">
-                                                {files.map((f: any, i: number) => (
-                                                    <a
-                                                        key={i}
-                                                        href={f.data}
-                                                        download={f.name}
-                                                        className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
-                                                    >
-                                                        <div className="flex items-center gap-2 text-sm">
-                                                            <Paperclip size={14} className="opacity-40 flex-shrink-0" />
-                                                            <span className="font-medium truncate max-w-xs">{f.name}</span>
-                                                        </div>
-                                                        <Download size={16} className="text-brand-secondary opacity-60 flex-shrink-0 ml-2" />
-                                                    </a>
-                                                ))}
+                                                {files.map((f: any, i: number) => {
+                                                    const isString = typeof f === 'string';
+                                                    const rawUrl = isString ? f : f.data;
+                                                    const fileName = isString ? (f.split('/').pop() || `Archivo ${i+1}`) : f.name;
+                                                    const url = rawUrl?.startsWith('/uploads/') ? `/api${rawUrl}` : rawUrl;
+
+                                                    return (
+                                                        <a
+                                                            key={i}
+                                                            href={url}
+                                                            download={fileName}
+                                                            className="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10 hover:bg-white/10 transition-colors"
+                                                        >
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <Paperclip size={14} className="opacity-40 flex-shrink-0" />
+                                                                <span className="font-medium truncate max-w-xs">{fileName}</span>
+                                                            </div>
+                                                            <Download size={16} className="text-brand-secondary opacity-60 flex-shrink-0 ml-2" />
+                                                        </a>
+                                                    );
+                                                })}
                                             </div>
                                         </div>
                                     ) : null;
@@ -271,7 +278,7 @@ export function RequestsTable({ requests }: { requests: any[] }) {
                                     <div>
                                         <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-3 flex items-center gap-1"><PenTool size={10} /> Firma Digital del Solicitante</p>
                                         <div className="p-4 bg-white rounded-2xl border border-white/10 flex justify-center">
-                                            <img src={selectedReq.signature} alt="Firma digital" className="max-h-24 object-contain" />
+                                            <img src={selectedReq.signature?.startsWith('/uploads/') ? `/api${selectedReq.signature}` : selectedReq.signature} alt="Firma digital" className="max-h-24 object-contain" />
                                         </div>
                                     </div>
                                 )}

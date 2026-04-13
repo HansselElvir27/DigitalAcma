@@ -344,7 +344,7 @@ export default function ArribosPage() {
                                     </h4>
                                     <div className="p-4 bg-white/5 rounded-xl">
                                         <img 
-                                            src={selectedNotice.vesselPhoto} 
+                                            src={selectedNotice.vesselPhoto?.startsWith('/uploads/') ? `/api${selectedNotice.vesselPhoto}` : selectedNotice.vesselPhoto} 
                                             alt="Foto de la embarcación" 
                                             className="w-full max-h-48 object-contain rounded-xl"
                                         />

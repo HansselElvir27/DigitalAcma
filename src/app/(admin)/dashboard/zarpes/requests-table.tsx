@@ -345,7 +345,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                             </h4>
                                             {selectedReq.signature ? (
                                                 <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex justify-center">
-                                                    <img src={selectedReq.signature} alt="Firma Digital" className="max-h-32 opacity-90 object-contain" />
+                                                    <img src={selectedReq.signature?.startsWith('/uploads/') ? `/api${selectedReq.signature}` : selectedReq.signature} alt="Firma Digital" className="max-h-32 opacity-90 object-contain" />
                                                 </div>
                                             ) : (
                                                 <div className="h-32 bg-white/5 rounded-2xl border border-dashed border-white/10 flex items-center justify-center">
@@ -394,7 +394,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                             </div>
                                                         </div>
                                                         <a 
-                                                            href={selectedReq.carriesOnBoardAttachment} 
+                                                            href={selectedReq.carriesOnBoardAttachment?.startsWith('/uploads/') ? `/api${selectedReq.carriesOnBoardAttachment}` : selectedReq.carriesOnBoardAttachment} 
                                                             target="_blank" 
                                                             rel="noopener noreferrer"
                                                             className="p-2 rounded-lg bg-brand-secondary/20 text-brand-secondary hover:bg-brand-secondary/30 transition-colors"
@@ -404,7 +404,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                     </div>
                                                     <div className="mt-3 bg-white/5 rounded-lg p-2 max-h-48 overflow-hidden">
                                                         <img 
-                                                            src={selectedReq.carriesOnBoardAttachment} 
+                                                            src={selectedReq.carriesOnBoardAttachment?.startsWith('/uploads/') ? `/api${selectedReq.carriesOnBoardAttachment}` : selectedReq.carriesOnBoardAttachment} 
                                                             alt="Manifiesto de Carga" 
                                                             className="w-full h-auto object-contain rounded"
                                                         />
@@ -434,7 +434,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                             </div>
                                                         </div>
                                                         <a 
-                                                            href={selectedReq.crewListFile} 
+                                                            href={selectedReq.crewListFile?.startsWith('/uploads/') ? `/api${selectedReq.crewListFile}` : selectedReq.crewListFile} 
                                                             target="_blank" 
                                                             rel="noopener noreferrer"
                                                             className="p-2 rounded-lg bg-brand-secondary/20 text-brand-secondary hover:bg-brand-secondary/30 transition-colors"
@@ -444,7 +444,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                     </div>
                                                     <div className="mt-3 bg-white/5 rounded-lg p-2 max-h-48 overflow-hidden">
                                                         <img 
-                                                            src={selectedReq.crewListFile} 
+                                                            src={selectedReq.crewListFile?.startsWith('/uploads/') ? `/api${selectedReq.crewListFile}` : selectedReq.crewListFile} 
                                                             alt="Lista de Tripulantes" 
                                                             className="w-full h-auto object-contain rounded"
                                                         />
@@ -474,7 +474,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                             </div>
                                                         </div>
                                                         <a 
-                                                            href={selectedReq.passengerListFile} 
+                                                            href={selectedReq.passengerListFile?.startsWith('/uploads/') ? `/api${selectedReq.passengerListFile}` : selectedReq.passengerListFile} 
                                                             target="_blank" 
                                                             rel="noopener noreferrer"
                                                             className="p-2 rounded-lg bg-brand-secondary/20 text-brand-secondary hover:bg-brand-secondary/30 transition-colors"
@@ -484,7 +484,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                     </div>
                                                     <div className="mt-3 bg-white/5 rounded-lg p-2 max-h-48 overflow-hidden">
                                                         <img 
-                                                            src={selectedReq.passengerListFile} 
+                                                            src={selectedReq.passengerListFile?.startsWith('/uploads/') ? `/api${selectedReq.passengerListFile}` : selectedReq.passengerListFile} 
                                                             alt="Lista de Pasajeros" 
                                                             className="w-full h-auto object-contain rounded"
                                                         />
@@ -514,7 +514,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                             </div>
                                                         </div>
                                                         <a 
-                                                            href={selectedReq.paymentReceiptFile} 
+                                                            href={selectedReq.paymentReceiptFile?.startsWith('/uploads/') ? `/api${selectedReq.paymentReceiptFile}` : selectedReq.paymentReceiptFile} 
                                                             target="_blank" 
                                                             rel="noopener noreferrer"
                                                             className="p-2 rounded-lg bg-brand-secondary/20 text-brand-secondary hover:bg-brand-secondary/30 transition-colors"
@@ -524,7 +524,7 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                     </div>
                                                     <div className="mt-3 bg-white/5 rounded-lg p-2 max-h-48 overflow-hidden">
                                                         <img 
-                                                            src={selectedReq.paymentReceiptFile} 
+                                                            src={selectedReq.paymentReceiptFile?.startsWith('/uploads/') ? `/api${selectedReq.paymentReceiptFile}` : selectedReq.paymentReceiptFile} 
                                                             alt="Factura de Pago" 
                                                             className="w-full h-auto object-contain rounded"
                                                         />

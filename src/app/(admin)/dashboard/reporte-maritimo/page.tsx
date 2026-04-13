@@ -271,7 +271,7 @@ export default function ReporteMaritimoAdminPage() {
                                     </h4>
                                     <div className="p-4 bg-white/5 rounded-xl">
                                         <img 
-                                            src={selectedReport.photo} 
+                                            src={selectedReport.photo?.startsWith('/uploads/') ? `/api${selectedReport.photo}` : selectedReport.photo} 
                                             alt="Evidencia del incidente" 
                                             className="w-full max-h-64 object-contain rounded-xl"
                                         />

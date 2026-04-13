@@ -210,7 +210,7 @@ export function VesselPermitDocument({ vessel, showPrintButton = true }: VesselP
                     <div className="flex flex-col items-center w-80">
                         <div className="w-full h-20 flex items-center justify-center border-b border-neutral-300 mb-2 relative">
                             {vessel.captainSignature ? (
-                                <img src={vessel.captainSignature} alt="Firma Capitán" className="max-h-16" />
+                                <img src={vessel.captainSignature.startsWith('/uploads/') ? `/api${vessel.captainSignature}` : vessel.captainSignature} alt="Firma Capitán" className="max-h-16" />
                             ) : (
                                 <div className="text-[20px] font-serif italic text-neutral-800 opacity-60">
                                     {vessel.captain?.name || "Capitán de Puerto"}

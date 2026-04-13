@@ -200,9 +200,25 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
             
             if (vessel.captainSignature) {
                 try {
-                    const sigImage = await pdfDoc.embedPng(vessel.captainSignature);
+                    let sigBytes: ArrayBuffer;
+                    if (vessel.captainSignature.startsWith('data:')) {
+                        // Base64 direct embedding
+                        const base64Data = vessel.captainSignature.split(',')[1];
+                        sigBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0)).buffer;
+                    } else {
+                        // Path or Relative URL, need to fetch
+                        const sigUrl = vessel.captainSignature.startsWith('/uploads/') 
+                            ? `/api${vessel.captainSignature}` 
+                            : vessel.captainSignature;
+                        const sigResp = await fetch(sigUrl);
+                        sigBytes = await sigResp.arrayBuffer();
+                    }
+                    
+                    const sigImage = await pdfDoc.embedPng(sigBytes);
                     page.drawImage(sigImage, { x: sigX + 60, y: y + 5, width: 100, height: 40 });
-                } catch(e){}
+                } catch(e) {
+                    console.error("PDF signature error:", e);
+                }
             } else {
                 const captainName = vessel.captain?.name || "CAPITÁN DE PUERTO";
                 const cNameWidth = helvBold.widthOfTextAtSize(captainName, 10);

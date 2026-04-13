@@ -235,7 +235,7 @@ function BalizaTable({ requests, userRole, onRefresh }: { requests: BalizaReques
                                     </h4>
                                     {selectedReq.signature ? (
                                         <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex justify-center">
-                                            <img src={selectedReq.signature} alt="Firma Digital" className="max-h-32 opacity-90 object-contain" />
+                                            <img src={selectedReq.signature?.startsWith('/uploads/') ? `/api${selectedReq.signature}` : selectedReq.signature} alt="Firma Digital" className="max-h-32 opacity-90 object-contain" />
                                         </div>
                                     ) : (
                                         <div className="h-32 bg-white/5 rounded-2xl border border-dashed border-white/10 flex items-center justify-center">

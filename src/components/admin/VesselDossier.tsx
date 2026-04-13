@@ -200,7 +200,7 @@ export function VesselDossier({ vessel }: VesselDossierProps) {
                         <div className="space-y-3">
                             {vessel.paymentPhoto && (
                                 <a 
-                                    href={vessel.paymentPhoto} 
+                                    href={vessel.paymentPhoto?.startsWith('/uploads/') ? `/api${vessel.paymentPhoto}` : vessel.paymentPhoto} 
                                     target="_blank" 
                                     rel="noreferrer"
                                     className="flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl transition-all group"
@@ -215,7 +215,7 @@ export function VesselDossier({ vessel }: VesselDossierProps) {
                             {vessel.documents?.map((doc: string, i: number) => (
                                 <a 
                                     key={i} 
-                                    href={doc} 
+                                    href={doc?.startsWith('/uploads/') ? `/api${doc}` : doc} 
                                     target="_blank" 
                                     rel="noreferrer"
                                     className="flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl transition-all group"
@@ -324,7 +324,11 @@ export function VesselDossier({ vessel }: VesselDossierProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {vessel.vesselPhotos.map((photo: string, i: number) => (
                             <div key={i} className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 group cursor-pointer">
-                                <img src={photo} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <img 
+                                    src={photo?.startsWith('/uploads/') ? `/api${photo}` : photo} 
+                                    alt="" 
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                />
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <div className="p-3 rounded-full bg-white/20 backdrop-blur-md text-white">
                                         <ExternalLink size={20} />
