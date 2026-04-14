@@ -293,7 +293,7 @@ export default function CIMDashboard() {
                                     </h4>
                                     <div className="p-4 bg-white/5 rounded-xl">
                                         <img 
-                                            src={selectedReport.photo} 
+                                            src={selectedReport.photo?.startsWith('/uploads/') ? `/api${selectedReport.photo}` : selectedReport.photo} 
                                             alt="Foto del incidente" 
                                             className="w-full max-h-64 object-contain rounded-xl"
                                         />

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Ship, Anchor, User, MapPin, Calendar, ClipboardList, PenTool, CheckCircle, X, Plus, Trash2, Search, Loader2, Upload, Paperclip, Image as ImageIcon } from "lucide-react";
+import { Ship, Anchor, User, MapPin, Calendar, ClipboardList, PenTool, CheckCircle, X, Plus, Trash2, Search, Loader2, Upload, Paperclip, ExternalLink, Image as ImageIcon } from "lucide-react";
 import { VESSEL_TYPES, ACTIVITY_TYPES } from "@/lib/vessel-codes";
 
 interface Props {
@@ -389,7 +389,15 @@ export default function VesselRegistrationForm({ requestId, portId, citaNumber, 
                         <ImageIcon size={14} className="text-brand-secondary shrink-0" />
                         <span className="text-[10px] font-bold truncate">RECIBO_PAGO.jpg</span>
                       </div>
-                      <button type="button" onClick={() => setPaymentPhoto("")} className="text-red-400 hover:text-red-300">
+                      <a 
+                        href={paymentPhoto.startsWith('/uploads/') ? `/api${paymentPhoto}` : paymentPhoto} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="text-brand-secondary hover:text-white"
+                      >
+                         <ExternalLink size={14} />
+                      </a>
+                      <button type="button" onClick={() => setPaymentPhoto("")} className="text-red-400 hover:text-red-300 ml-2">
                         <X size={14} />
                       </button>
                     </div>
@@ -413,7 +421,7 @@ export default function VesselRegistrationForm({ requestId, portId, citaNumber, 
                     <div className="grid grid-cols-4 gap-2">
                       {vesselPhotos.map((photo, i) => (
                         <div key={i} className="relative group aspect-square rounded-lg overflow-hidden border border-white/10">
-                          <img src={photo} className="w-full h-full object-cover" alt="" />
+                          <img src={photo?.startsWith('/uploads/') ? `/api${photo}` : photo} className="w-full h-full object-cover" alt="" />
                           <button 
                             type="button" 
                             onClick={() => removeFile('vessel', i)}
@@ -443,10 +451,15 @@ export default function VesselRegistrationForm({ requestId, portId, citaNumber, 
                   <div className="space-y-2">
                     {documents.map((doc, i) => (
                       <div key={i} className="p-2 bg-white/5 border border-white/10 rounded-lg flex items-center justify-between">
-                        <div className="flex items-center gap-2 overflow-hidden">
+                        <a 
+                          href={doc?.startsWith('/uploads/') ? `/api${doc}` : doc} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="flex items-center gap-2 overflow-hidden hover:text-brand-secondary transition-colors"
+                        >
                           <Paperclip size={12} className="opacity-40 shrink-0" />
                           <span className="text-[10px] truncate max-w-[100px]">Doc_{i+1}</span>
-                        </div>
+                        </a>
                         <button type="button" onClick={() => removeFile('doc', i)} className="text-red-400 hover:text-red-300">
                           <X size={12} />
                         </button>

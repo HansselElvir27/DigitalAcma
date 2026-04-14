@@ -331,7 +331,7 @@ function ConsultarContent() {
                                                     {files.map((f: any, i: number) => (
                                                         <a
                                                             key={i}
-                                                            href={f.data}
+                                                            href={f.data?.startsWith('/uploads/') ? `/api${f.data}` : f.data}
                                                             download={f.name}
                                                             className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
                                                         >
@@ -378,7 +378,7 @@ function ConsultarContent() {
                                                         {responseFiles.map((f: any, i: number) => (
                                                             <a
                                                                 key={i}
-                                                                href={f.data}
+                                                                href={f.data?.startsWith('/uploads/') ? `/api${f.data}` : f.data}
                                                                 download={f.name}
                                                                 className="flex items-center justify-between p-4 bg-white/10 rounded-2xl border border-white/5 hover:bg-white/20 transition-all group"
                                                             >

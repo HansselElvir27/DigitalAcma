@@ -16,7 +16,9 @@ export async function GET(
             return new NextResponse("Not Found", { status: 404 });
         }
 
-        const relativePath = path.join(...filePathArray);
+        // Skip redundant 'uploads' segment if present to avoid duplicating it in the physical path
+        const effectivePathArray = (filePathArray[0] === 'uploads') ? filePathArray.slice(1) : filePathArray;
+        const relativePath = path.join(...effectivePathArray);
         
         // Construct absolute path. We assume the 'uploads' folder is inside 'public'
         // which is in the project root (process.cwd()).
@@ -45,6 +47,10 @@ export async function GET(
             ".pdf": "application/pdf",
             ".svg": "image/svg+xml",
             ".txt": "text/plain",
+            ".doc": "application/msword",
+            ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".xls": "application/vnd.ms-excel",
+            ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         };
 
         if (mimeTypes[extension]) {

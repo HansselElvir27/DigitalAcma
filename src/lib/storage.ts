@@ -57,7 +57,9 @@ export async function saveBase64ToFile(
 
         // Return the path that will be served by our custom API route
         // We use /api/uploads/ instead of /uploads/ to bypass Next.js static serving issues on Windows Server
-        const webPath = `/api/uploads/${relativeDir.replace(/\\/g, '/')}/${filename}`;
+        // We only include the part AFTER public/uploads/ in the web path
+        const webSubPath = path.join(feature, recordId, filename);
+        const webPath = `/api/uploads/${webSubPath.replace(/\\/g, '/')}`;
         return webPath;
     } catch (error) {
         console.error("Error saving base64 to file:", error);

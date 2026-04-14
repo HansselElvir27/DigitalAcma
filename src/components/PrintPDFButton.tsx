@@ -223,9 +223,25 @@ export function PrintPDFButton({ zarpe, downloadOnly = false, label }: PrintPDFB
             
             if (zarpe.signature) {
                 try {
-                    const sigImage = await pdfDoc.embedPng(zarpe.signature);
+                    let sigBytes: ArrayBuffer;
+                    if (zarpe.signature.startsWith('data:')) {
+                        // Base64 direct
+                        const base64Data = zarpe.signature.split(',')[1];
+                        sigBytes = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0)).buffer;
+                    } else {
+                        // Fetch from API
+                        const sigUrl = zarpe.signature.startsWith('/uploads/') 
+                            ? `/api${zarpe.signature}` 
+                            : zarpe.signature;
+                        const sigResp = await fetch(sigUrl);
+                        sigBytes = await sigResp.arrayBuffer();
+                    }
+                    
+                    const sigImage = await pdfDoc.embedPng(sigBytes);
                     page.drawImage(sigImage, { x: margin + 50, y: sigY + 5, width: 100, height: 40 });
-                } catch (e) {}
+                } catch (e) {
+                    console.error("Zarpe signature PDF error:", e);
+                }
             }
 
             // FOOTER
@@ -422,7 +438,7 @@ export function PrintPDFButton({ zarpe, downloadOnly = false, label }: PrintPDFB
                                             <div className="flex-1 border border-slate-200 rounded-lg p-2 flex flex-col justify-end">
                                                 <div className="h-8 border-b border-slate-300 flex items-center justify-center">
                                                     {zarpe.signature ? (
-                                                        <img src={zarpe.signature} alt="Firma" className="max-h-6 opacity-80" />
+                                                        <img src={zarpe.signature?.startsWith('/uploads/') ? `/api${zarpe.signature}` : zarpe.signature} alt="Firma" className="max-h-6 opacity-80" />
                                                     ) : (
                                                         <p className="text-[8px] text-slate-300">Sin firma</p>
                                                     )}
