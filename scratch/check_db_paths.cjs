@@ -1,25 +1,46 @@
+const { Pool } = require('pg');
+const { PrismaPg } = require('@prisma/adapter-pg');
 const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+require('dotenv').config();
 
-async function checkDb() {
-    try {
-        const lastZarpe = await prisma.zarpeRequest.findFirst({
-            orderBy: { createdAt: 'desc' },
-            select: { id: true, signature: true, captainSignature: true }
-        });
-        console.log('Last Zarpe:', JSON.stringify(lastZarpe, null, 2));
+const rawConnectionString = process.env.DATABASE_URL?.trim();
 
-        const lastVessel = await prisma.vesselRegistration.findFirst({
-            orderBy: { createdAt: 'desc' },
-            select: { id: true, vesselPhotos: true }
-        });
-        console.log('Last Vessel:', JSON.stringify(lastVessel, null, 2));
+async function main() {
+  if (!rawConnectionString) {
+    console.error('DATABASE_URL is not defined');
+    return;
+  }
 
-    } catch (e) {
-        console.error('Error reading DB:', e);
-    } finally {
-        await prisma.$disconnect();
-    }
+  const pool = new Pool({
+    connectionString: rawConnectionString,
+  });
+
+  const adapter = new PrismaPg(pool);
+  const prisma = new PrismaClient({ adapter });
+
+  try {
+    console.log('--- Checking ZarpeRequest attachments ---');
+    const zarpes = await prisma.zarpeRequest.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, crewListFile: true, passengerListFile: true, paymentReceiptFile: true }
+    });
+    console.log(JSON.stringify(zarpes, null, 2));
+
+    console.log('\n--- Checking VesselRegistration (Json fields) ---');
+    const vessels = await prisma.vesselRegistration.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, vesselPhotos: true, documents: true, paymentPhoto: true }
+    });
+    console.log(JSON.stringify(vessels, null, 2));
+
+  } catch (e) {
+    console.error('Error querying DB:', e);
+  } finally {
+    await prisma.$disconnect();
+    await pool.end();
+  }
 }
 
-checkDb();
+main();

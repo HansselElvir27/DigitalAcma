@@ -21,44 +21,51 @@ export async function GET(
         const relativePath = path.join(...effectivePathArray);
         
         // --- ROBUST PATH RESOLUTION ---
+        const envBase = process.env.UPLOADS_BASE_PATH?.trim().replace(/[\\/]+$/, "");
+        const cwdBase = process.cwd().trim().replace(/[\\/]+$/, "");
+        
         const basePaths = [
-            process.env.UPLOADS_BASE_PATH, // 1. Custom ENV (e.g. D:\Digitalacma)
-            process.cwd(),                 // 2. Current Working Directory
-            path.join(process.cwd(), ".."), // 3. Parent (if running from /src or /.next)
-            "D:\\Digitalacma",              // 4. Explicit Fallback for this specific server
-            "C:\\Digitalacma",              // 5. Possible C: move
+            envBase,                        // 1. Custom ENV (e.g. D:\Digitalacma)
+            cwdBase,                        // 2. Current Working Directory
+            path.join(cwdBase, ".."),       // 3. Parent (useful if running from .next/server)
+            "D:\\Digitalacma",               // 4. Hardcoded fallback for this specific server
+            "C:\\Digitalacma",               // 5. Possible C: move
         ].filter(Boolean) as string[];
 
         let absolutePath = "";
         let found = false;
 
         for (const base of basePaths) {
-            const candidate = path.join(base, "public", "uploads", relativePath);
-            if (fs.existsSync(candidate)) {
-                absolutePath = candidate;
+            // Priority 1: public/uploads structure
+            const candidate1 = path.join(base, "public", "uploads", relativePath);
+            if (fs.existsSync(candidate1)) {
+                absolutePath = candidate1;
                 found = true;
                 break;
             }
-            // Fallback for missing 'public' segment in some production setups
-            const candidateNoPublic = path.join(base, "uploads", relativePath);
-            if (fs.existsSync(candidateNoPublic)) {
-                absolutePath = candidateNoPublic;
+            // Priority 2: direct uploads structure (some production setups)
+            const candidate2 = path.join(base, "uploads", relativePath);
+            if (fs.existsSync(candidate2)) {
+                absolutePath = candidate2;
                 found = true;
                 break;
             }
         }
 
-        // Default if not found (for the error check later)
-        if (!found) {
-            absolutePath = path.join(process.env.UPLOADS_BASE_PATH || process.cwd(), "public", "uploads", relativePath);
-        }
-
-        // --- DIAGNOSTIC LOGGING (VISIBLE TO USER) ---
+        // --- DIAGNOSTIC LOGGING ---
         try {
-            const logEntry = `[${new Date().toISOString()}] REQ: ${relativePath} | FIND: ${found} | PATH: ${absolutePath}\n`;
-            // Write to public so user can check it via browser at /file_debug.txt
-            const debugLogPath = path.join(process.env.UPLOADS_BASE_PATH || process.cwd(), "public", "file_debug.txt");
-            fs.appendFileSync(debugLogPath, logEntry);
+            const timestamp = new Date().toISOString();
+            const logEntry = `[${timestamp}] REQ: ${relativePath} | FOUND: ${found} | FINAL_PATH: ${absolutePath}\n`;
+            
+            // Try to write log to both ENV base and CWD to ensure visibility
+            const logBases = [envBase, cwdBase].filter(Boolean) as string[];
+            for (const logBase of logBases) {
+                const debugLogPath = path.join(logBase, "public", "file_debug.txt");
+                // Ensure public exists before writing log
+                if (fs.existsSync(path.join(logBase, "public"))) {
+                    fs.appendFileSync(debugLogPath, logEntry);
+                }
+            }
         } catch (e) {}
 
         if (!found || !fs.existsSync(absolutePath)) {

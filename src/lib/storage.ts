@@ -46,26 +46,48 @@ export async function saveBase64ToFile(
         const relativeDir = path.join("uploads", feature, recordId);
         
         // Base path can be customized via ENV to handle different drive letters (e.g. D:\Digitalacma)
-        const basePath = process.env.UPLOADS_BASE_PATH || process.cwd();
+        let basePath = (process.env.UPLOADS_BASE_PATH || process.cwd()).trim();
+        // Remove trailing slash/backslash if present to avoid double separators
+        basePath = basePath.replace(/[\\/]+$/, "");
+        
         const absoluteDir = path.join(basePath, "public", relativeDir);
 
-        if (!fs.existsSync(absoluteDir)) {
-            fs.mkdirSync(absoluteDir, { recursive: true });
+        try {
+            if (!fs.existsSync(absoluteDir)) {
+                console.log(`Creating directory: ${absoluteDir}`);
+                fs.mkdirSync(absoluteDir, { recursive: true });
+            }
+        } catch (dirError: any) {
+            console.error(`FAILED to create directory ${absoluteDir}:`, dirError.message);
+            // If D: fails, fallback to project root as emergency
+            if (basePath !== process.cwd()) {
+                const fallbackDir = path.join(process.cwd(), "public", relativeDir);
+                console.warn(`Attempting fallback to project root: ${fallbackDir}`);
+                if (!fs.existsSync(fallbackDir)) {
+                    fs.mkdirSync(fallbackDir, { recursive: true });
+                }
+                // Update final path
+                const fallbackFilePath = path.join(fallbackDir, filename);
+                const buffer = Buffer.from(data, 'base64');
+                fs.writeFileSync(fallbackFilePath, buffer);
+                const webSubPath = path.join(feature, recordId, filename);
+                return `/api/uploads/${webSubPath.replace(/\\/g, '/')}`;
+            }
+            throw dirError;
         }
 
         const filePath = path.join(absoluteDir, filename);
         const buffer = Buffer.from(data, 'base64');
 
         fs.writeFileSync(filePath, buffer);
+        console.log(`File saved successfully to: ${filePath}`);
 
         // Return the path that will be served by our custom API route
-        // We use /api/uploads/ instead of /uploads/ to bypass Next.js static serving issues on Windows Server
-        // We only include the part AFTER public/uploads/ in the web path
         const webSubPath = path.join(feature, recordId, filename);
         const webPath = `/api/uploads/${webSubPath.replace(/\\/g, '/')}`;
         return webPath;
-    } catch (error) {
-        console.error("Error saving base64 to file:", error);
+    } catch (error: any) {
+        console.error("Critical error saving base64 to file:", error.message);
         return null;
     }
 }
