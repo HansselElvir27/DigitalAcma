@@ -42,9 +42,12 @@ export async function saveBase64ToFile(
 
         const filename = preferredFilename || `${uuidv4()}.${extension}`;
         
-        // Ensure directory structure: public/uploads/[feature]/[recordId]/
+        // Ensure directory structure
         const relativeDir = path.join("uploads", feature, recordId);
-        const absoluteDir = path.join(process.cwd(), "public", relativeDir);
+        
+        // Base path can be customized via ENV to handle different drive letters (e.g. D:\Digitalacma)
+        const basePath = process.env.UPLOADS_BASE_PATH || process.cwd();
+        const absoluteDir = path.join(basePath, "public", relativeDir);
 
         if (!fs.existsSync(absoluteDir)) {
             fs.mkdirSync(absoluteDir, { recursive: true });
