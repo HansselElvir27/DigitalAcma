@@ -45,6 +45,10 @@ export async function POST(request: Request) {
         const crewListFilePath = await saveBase64ToFile(crewListFile, 'zarpes', requestId, 'crew_list');
         const passengerListFilePath = await saveBase64ToFile(passengerListFile, 'zarpes', requestId, 'passenger_list');
         const paymentReceiptPath = await saveBase64ToFile(paymentReceiptFile, 'zarpes', requestId, 'payment_receipt');
+        
+        console.log("DEBUG PATHS GENERATED:");
+        console.log("carriesOnBoardPath:", carriesOnBoardPath);
+        console.log("crewListFilePath:", crewListFilePath);
 
         // Normalize email
         const normalizedEmail = email.trim().toLowerCase();
