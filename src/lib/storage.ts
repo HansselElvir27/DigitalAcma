@@ -38,9 +38,18 @@ export async function saveBase64ToFile(
         if (mimeType) {
             const ext = mimeType.split('/')[1];
             extension = ext === 'jpeg' ? 'jpg' : ext;
+            if (extension === 'vnd.openxmlformats-officedocument.wordprocessingml.document') extension = 'docx';
+            if (extension === 'msword') extension = 'doc';
+            if (extension === 'vnd.openxmlformats-officedocument.spreadsheetml.sheet') extension = 'xlsx';
+            if (extension === 'vnd.ms-excel') extension = 'xls';
         }
 
-        const filename = preferredFilename || `${uuidv4()}.${extension}`;
+        let filename: string;
+        if (preferredFilename) {
+            filename = preferredFilename.includes('.') ? preferredFilename : `${preferredFilename}.${extension}`;
+        } else {
+            filename = `${uuidv4()}.${extension}`;
+        }
         
         // Ensure directory structure
         const relativeDir = path.join("uploads", feature, recordId);
