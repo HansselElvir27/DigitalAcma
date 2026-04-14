@@ -42,11 +42,6 @@ export async function POST(request: Request) {
         // Save files to filesystem
         const signaturePath = await saveBase64ToFile(signature, 'zarpes', requestId, 'signature.png');
         const carriesOnBoardPath = await saveBase64ToFile(carriesOnBoardAttachment, 'zarpes', requestId, 'board_attachment');
-        const patentPath = await saveBase64ToFile(patent, 'zarpes', requestId, 'patent');
-        const navigabilityCertPath = await saveBase64ToFile(navegabilityCert, 'zarpes', requestId, 'navigability_cert');
-        const digepescaLicensePath = await saveBase64ToFile(digepescaLicense, 'zarpes', requestId, 'digepesca_license');
-        const captainLicensePath = await saveBase64ToFile(captainLicense, 'zarpes', requestId, 'captain_license');
-        const firstOfficerLicensePath = await saveBase64ToFile(firstOfficerLicense, 'zarpes', requestId, 'officer_license');
         const crewListFilePath = await saveBase64ToFile(crewListFile, 'zarpes', requestId, 'crew_list');
         const passengerListFilePath = await saveBase64ToFile(passengerListFile, 'zarpes', requestId, 'passenger_list');
         const paymentReceiptPath = await saveBase64ToFile(paymentReceiptFile, 'zarpes', requestId, 'payment_receipt');
@@ -96,16 +91,16 @@ export async function POST(request: Request) {
                 tnr: tnr || null,
                 rubro: rubro || null,
                 balizaNumber: balizaNumber || null,
-                patent: patentPath,
-                navegabilityCert: navigabilityCertPath,
+                patent: patent || null,
+                navegabilityCert: navegabilityCert || null,
                 consignee: consignee || null,
-                digepescaLicense: digepescaLicensePath,
+                digepescaLicense: digepescaLicense || null,
                 radioFrequency: radioFrequency || null,
                 carriesOnBoard: carriesOnBoard || null,
                 carriesOnBoardAttachment: carriesOnBoardPath,
                 firstOfficerName: firstOfficerName || null,
-                captainLicense: captainLicensePath,
-                firstOfficerLicense: firstOfficerLicensePath,
+                captainLicense: captainLicense || null,
+                firstOfficerLicense: firstOfficerLicense || null,
                 crewList: crewList || null,
                 crewListFile: crewListFilePath,
                 passengerListFile: passengerListFilePath,
