@@ -8,10 +8,10 @@ import path from "path";
  */
 export async function GET(
     request: NextRequest,
-    { params }: { params: { path: string[] } }
+    { params }: { params: Promise<{ path: string[] }> }
 ) {
     try {
-        const filePathArray = await params.path;
+        const { path: filePathArray } = await params;
         if (!filePathArray || filePathArray.length === 0) {
             return new NextResponse("Not Found", { status: 404 });
         }
