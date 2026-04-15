@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log("--- Latest Info Requests ---");
-  const requests = await prisma.infoRequest.findMany({
+  const requests = await prisma.informationRequest.findMany({
     take: 5,
     orderBy: { createdAt: 'desc' },
   });
