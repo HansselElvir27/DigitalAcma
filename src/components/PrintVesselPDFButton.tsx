@@ -70,70 +70,77 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
             let y = height - margin;
 
             // 1. QR CODE (Left)
+            const qrSize = 70;
             const qrDataUrl = await QRCode.toDataURL(verifyUrl, { margin: 1, width: 220 });
             const qrImage = await pdfDoc.embedPng(qrDataUrl);
-            page.drawImage(qrImage, { x: margin, y: y - 80, width: 80, height: 80 });
-            page.drawText("VERIFICACIÓN ELECTRÓNICA", { x: margin, y: y - 92, size: 7, font: helv, color: textSecondary });
+            page.drawImage(qrImage, { x: margin, y: y - qrSize, width: qrSize, height: qrSize });
+            page.drawText("VERIFICACIÓN ELECTRÓNICA", { x: margin, y: y - qrSize - 10, size: 6, font: helv, color: textSecondary });
 
             // 2. SEAL (Center)
+            const logoSize = 65;
             try {
                 const logoResp = await fetch('/dgmm-seal-official.png');
                 const logoBytes = await logoResp.arrayBuffer();
                 const logoImage = await pdfDoc.embedPng(logoBytes);
-                page.drawImage(logoImage, { x: (width/2) - 40, y: y - 80, width: 80, height: 80 });
+                page.drawImage(logoImage, { x: (width/2) - (logoSize/2), y: y - logoSize, width: logoSize, height: logoSize });
             } catch(e){}
 
             // 3. HEADER TEXT
-            y -= 100;
+            y -= (logoSize + 15);
             const title = "DIRECCIÓN GENERAL DE LA MARINA MERCANTE DE HONDURAS";
-            const titleWidth = helvBold.widthOfTextAtSize(title, 11);
-            page.drawText(title, { x: (width/2) - (titleWidth/2), y, size: 11, font: helvBold, color: textMain });
+            const titleSize = 10;
+            const titleWidth = helvBold.widthOfTextAtSize(title, titleSize);
+            page.drawText(title, { x: (width/2) - (titleWidth/2), y, size: titleSize, font: helvBold, color: textMain });
             
-            y -= 25;
+            y -= 20;
             const subtitle = "PERMISO DE NAVEGACIÓN";
-            const subtitleWidth = helvBold.widthOfTextAtSize(subtitle, 18);
-            page.drawText(subtitle, { x: (width/2) - (subtitleWidth/2), y, size: 18, font: helvBold, color: blueInstitutional });
+            const subtitleSize = 16;
+            const subtitleWidth = helvBold.widthOfTextAtSize(subtitle, subtitleSize);
+            page.drawText(subtitle, { x: (width/2) - (subtitleWidth/2), y, size: subtitleSize, font: helvBold, color: blueInstitutional });
             
-            y -= 25;
+            y -= 20;
             const regNum = vessel.registrationNumber;
-            const regWidth = helvBold.widthOfTextAtSize(regNum, 16);
-            page.drawText(regNum, { x: (width/2) - (regWidth/2), y, size: 16, font: helvBold, color: redOfficial });
+            const regSize = 14;
+            const regWidth = helvBold.widthOfTextAtSize(regNum, regSize);
+            page.drawText(regNum, { x: (width/2) - (regWidth/2), y, size: regSize, font: helvBold, color: redOfficial });
 
             // 4. DOC CODE (Right)
-            page.drawText("REG-NAV-V1", { x: width - margin - 60, y: height - margin - 15, size: 8, font: helvBold, color: textSecondary });
+            page.drawText("REG-NAV-V1", { x: width - margin - 50, y: height - margin - 15, size: 7, font: helvBold, color: textSecondary });
 
-            y -= 40;
+            y -= 30;
 
             // Helpers
             const drawSectionHeader = (label: string) => {
-                page.drawLine({ start: { x: margin, y: y - 3 }, end: { x: width - margin, y: y - 3 }, thickness: 1.5, color: blueInstitutional });
-                page.drawText(label.toUpperCase(), { x: margin, y, size: 9, font: helvBold, color: blueInstitutional });
-                y -= 25;
+                page.drawLine({ start: { x: margin, y: y - 2 }, end: { x: width - margin, y: y - 2 }, thickness: 1.2, color: blueInstitutional });
+                page.drawText(label.toUpperCase(), { x: margin, y, size: 8, font: helvBold, color: blueInstitutional });
+                y -= 18;
             };
 
             const drawField = (label: string, value: string, x: number, w: number, isBold: boolean = false) => {
-                page.drawText(label.toUpperCase(), { x, y, size: 7, font: helvBold, color: textSecondary });
-                page.drawText(String(value || "-").toUpperCase(), { x, y: y - 12, size: 9, font: isBold ? helvBold : helv, color: textMain });
-                page.drawLine({ start: { x, y: y-16 }, end: { x: x+w, y: y-16 }, thickness: 0.5, color: rgb(0.95, 0.95, 0.95) });
+                page.drawText(label.toUpperCase(), { x, y, size: 6, font: helvBold, color: textSecondary });
+                page.drawText(String(value || "-").toUpperCase(), { x, y: y - 10, size: 8, font: isBold ? helvBold : helv, color: textMain });
+                page.drawLine({ start: { x, y: y-13 }, end: { x: x+w, y: y-13 }, thickness: 0.3, color: rgb(0.97, 0.97, 0.97) });
             };
 
             const col1 = margin;
             const col2 = margin + (contentWidth / 2) + 10;
             const colWidth = (contentWidth / 2) - 10;
 
+            const rowGap = 28;
+
             // SECTION I: Datos de la Embarcación
             drawSectionHeader("I. Datos de la Embarcación");
             drawField("Nombre de Embarcación", vessel.vesselName, col1, colWidth, true);
             drawField("Tipo", vessel.vesselType || "-", col2, colWidth);
-            y -= 35;
+            y -= rowGap;
             drawField("Actividad", vessel.activityType || "-", col1, colWidth);
             drawField("Año de Construcción", vessel.yearBuilt || "-", col2, colWidth);
-            y -= 35;
+            y -= rowGap;
             drawField("Material del Casco", vessel.hullMaterial || "-", col1, colWidth);
             drawField("Color", vessel.color || "-", col2, colWidth);
-            y -= 35;
+            y -= rowGap;
             drawField("Ruta de Navegación", vessel.route || "-", col1, contentWidth);
-            y -= 45;
+            y -= 35;
 
             // SECTION II: Características Técnicas
             drawSectionHeader("II. Características Técnicas");
@@ -141,60 +148,60 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
             drawField("Manga", vessel.manga || "-", col1 + (colWidth / 2), colWidth / 2);
             drawField("Punta", vessel.punta || "-", col2, colWidth / 2);
             drawField("Calado", vessel.calado || "-", col2 + (colWidth / 2), colWidth / 2);
-            y -= 35;
+            y -= rowGap;
             drawField("Tonelaje Bruto (TBR)", vessel.grossTonnage || "-", col1, colWidth);
             drawField("Tonelaje Neto (TNR)", vessel.netTonnage || "-", col2, colWidth);
-            y -= 35;
+            y -= rowGap;
             drawField("Capacidad Pasajeros", vessel.passengerCapacity || "-", col1, colWidth);
             drawField("Capacidad Tripulación", vessel.crewCapacity || "-", col2, colWidth);
-            y -= 45;
+            y -= 35;
 
             // SECTION III: Planta Propulsora
             drawSectionHeader("III. Planta Propulsora");
             drawField("Marca de Motor", vessel.engineBrand || "-", col1, colWidth);
-            y -= 35;
+            y -= rowGap;
             const engineSerialsArr = Array.isArray(vessel.engineSerials) ? vessel.engineSerials : [];
-            page.drawText("SERIES DE MOTORES", { x: col1, y, size: 7, font: helvBold, color: textSecondary });
+            page.drawText("SERIES DE MOTORES", { x: col1, y, size: 6, font: helvBold, color: textSecondary });
             const serialsText = engineSerialsArr.length > 0 ? engineSerialsArr.join(" | ") : "NO REGISTRADAS";
-            page.drawText(serialsText, { x: col1, y: y - 12, size: 8, font: helvBold, color: textMain });
-            y -= 25;
-            
+            page.drawText(serialsText, { x: col1, y: y - 10, size: 8, font: helvBold, color: textMain });
             y -= 20;
+            
+            y -= 15;
 
             // SECTION IV: Datos del Propietario
             drawSectionHeader("IV. Datos del Propietario");
             drawField("Nombre del Propietario", vessel.ownerName || "-", col1, colWidth, true);
             drawField("Identidad", vessel.ownerId || "-", col2, colWidth);
-            y -= 35;
+            y -= rowGap;
             drawField("RTN", vessel.rtn || "-", col1, colWidth);
             drawField("Teléfono", vessel.phone || "-", col2, colWidth);
-            y -= 50;
+            y -= 40;
 
             // VIGENCIA & OBSERVACIONES (Boxes)
-            const boxHeight = 60;
+            const boxHeight = 55;
             const boxY = y - boxHeight;
             
             // Vigencia Box
             page.drawRectangle({ x: col1, y: boxY, width: colWidth, height: boxHeight, color: blueLightBg, borderColor: blueLightBorder, borderWidth: 1 });
-            page.drawText("VIGENCIA DEL PERMISO", { x: col1 + 10, y: y - 15, size: 8, font: helvBold, color: blueInstitutional });
+            page.drawText("VIGENCIA DEL PERMISO", { x: col1 + 10, y: y - 12, size: 7, font: helvBold, color: blueInstitutional });
             
             const formatDate = (date: any) => date ? new Date(date).toLocaleDateString('es-HN') : "-";
-            page.drawText("EMISIÓN:", { x: col1 + 10, y: y - 35, size: 7, font: helvBold, color: textSecondary });
-            page.drawText(formatDate(vessel.issueDate), { x: col1 + 60, y: y - 35, size: 9, font: helvBold, color: textMain });
+            page.drawText("EMISIÓN:", { x: col1 + 10, y: y - 28, size: 6, font: helvBold, color: textSecondary });
+            page.drawText(formatDate(vessel.issueDate), { x: col1 + 55, y: y - 28, size: 8, font: helvBold, color: textMain });
             
-            page.drawText("EXPIRACIÓN:", { x: col1 + 10, y: y - 50, size: 7, font: helvBold, color: textSecondary });
-            page.drawText(formatDate(vessel.expirationDate), { x: col1 + 60, y: y - 50, size: 9, font: helvBold, color: redOfficial });
+            page.drawText("EXPIRACIÓN:", { x: col1 + 10, y: y - 42, size: 6, font: helvBold, color: textSecondary });
+            page.drawText(formatDate(vessel.expirationDate), { x: col1 + 55, y: y - 42, size: 8, font: helvBold, color: redOfficial });
 
             // Observations Box
             page.drawRectangle({ x: col2, y: boxY, width: colWidth, height: boxHeight, color: amberBg, borderColor: amberBorder, borderWidth: 1 });
-            page.drawText("OBSERVACIONES", { x: col2 + 10, y: y - 15, size: 8, font: helvBold, color: rgb(146/255, 64/255, 14/255) });
+            page.drawText("OBSERVACIONES", { x: col2 + 10, y: y - 12, size: 7, font: helvBold, color: rgb(146/255, 64/255, 14/255) });
             const obs = vessel.observations || "Sin observaciones adicionales.";
-            page.drawText(obs, { x: col2 + 10, y: y - 30, size: 8, font: helvItalic, color: textSecondary, maxWidth: colWidth - 20, lineHeight: 10 });
+            page.drawText(obs, { x: col2 + 10, y: y - 25, size: 7, font: helvItalic, color: textSecondary, maxWidth: colWidth - 20, lineHeight: 8 });
 
-            y -= 100;
+            y -= 65;
 
             // SIGNATURE
-            const sigWidth = 220;
+            const sigWidth = 200;
             const sigX = (width / 2) - (sigWidth / 2);
             page.drawLine({ start: { x: sigX, y }, end: { x: sigX + sigWidth, y }, thickness: 1, color: textSecondary });
             
@@ -215,23 +222,23 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
                     }
                     
                     const sigImage = await pdfDoc.embedPng(sigBytes);
-                    page.drawImage(sigImage, { x: sigX + 60, y: y + 5, width: 100, height: 40 });
+                    page.drawImage(sigImage, { x: sigX + 50, y: y + 2, width: 100, height: 35 });
                 } catch(e) {
                     console.error("PDF signature error:", e);
                 }
             } else {
                 const captainName = vessel.captain?.name || "CAPITÁN DE PUERTO";
-                const cNameWidth = helvBold.widthOfTextAtSize(captainName, 10);
-                page.drawText(captainName.toUpperCase(), { x: (width/2) - (cNameWidth/2), y: y + 15, size: 10, font: helvItalic, color: textMain });
+                const cNameWidth = helvBold.widthOfTextAtSize(captainName, 9);
+                page.drawText(captainName.toUpperCase(), { x: (width/2) - (cNameWidth/2), y: y + 10, size: 9, font: helvItalic, color: textMain });
             }
 
             const sigLabel = `CAPITÁN DE PUERTO DIGITAL - ${vessel.port.name.toUpperCase()}`;
-            const sigLabelWidth = helvBold.widthOfTextAtSize(sigLabel, 9);
-            page.drawText(sigLabel, { x: (width/2) - (sigLabelWidth/2), y: y - 15, size: 9, font: helvBold, color: blueInstitutional });
+            const sigLabelWidth = helvBold.widthOfTextAtSize(sigLabel, 8);
+            page.drawText(sigLabel, { x: (width/2) - (sigLabelWidth/2), y: y - 12, size: 8, font: helvBold, color: blueInstitutional });
             
             const instText = "DIRECCIÓN GENERAL DE LA MARINA MERCANTE";
-            const instWidth = helv.widthOfTextAtSize(instText, 7);
-            page.drawText(instText, { x: (width/2) - (instWidth/2), y: y - 27, size: 7, font: helv, color: textSecondary });
+            const instWidth = helv.widthOfTextAtSize(instText, 6);
+            page.drawText(instText, { x: (width/2) - (instWidth/2), y: y - 22, size: 6, font: helv, color: textSecondary });
 
             // 6. DIGITAL SEAL (STAMP) near signature
             try {
@@ -239,16 +246,16 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
                 const sealBytes = await sealResp.arrayBuffer();
                 const sealImage = await pdfDoc.embedPng(sealBytes);
                 
-                const sealSize = 60;
-                const sealX = sigX - 40; // Positioned to the left of the signature line
-                const sealY = y - 10;
+                const sealSize = 55;
+                const sealX = sigX - 45; // Positioned to the left of the signature line
+                const sealY = y - 15;
                 
                 // Draw a faint circular border for the "stamp" look
                 page.drawCircle({
                     x: sealX + (sealSize / 2),
                     y: sealY + (sealSize / 2),
-                    size: (sealSize / 2) + 5,
-                    borderWidth: 1.5,
+                    size: (sealSize / 2) + 4,
+                    borderWidth: 1.2,
                     borderColor: rgb(0.1, 0.2, 0.5), // Navy blue stamp look
                     opacity: 0.2
                 });
@@ -262,11 +269,12 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
                 });
 
                 const sealText = "FIRMADO DIGITALMENTE";
-                const sTextWidth = helvBold.widthOfTextAtSize(sealText, 5);
+                const sTextSize = 4.5;
+                const sTextWidth = helvBold.widthOfTextAtSize(sealText, sTextSize);
                 page.drawText(sealText, { 
                     x: sealX + (sealSize / 2) - (sTextWidth / 2), 
-                    y: sealY - 8, 
-                    size: 5, 
+                    y: sealY - 6, 
+                    size: sTextSize, 
                     font: helvBold, 
                     color: blueInstitutional,
                     opacity: 0.4
@@ -277,8 +285,8 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
 
             // FOOTER
             const footerText = `Documento oficial generado electrónicamente por el Sistema Digitalacma • Honduras • ${new Date().toLocaleString('es-HN')}`;
-            const footerWidth = helv.widthOfTextAtSize(footerText, 7);
-            page.drawText(footerText, { x: (width / 2) - (footerWidth / 2), y: 30, size: 7, font: helvItalic, color: textSecondary });
+            const footerWidth = helv.widthOfTextAtSize(footerText, 6.5);
+            page.drawText(footerText, { x: (width / 2) - (footerWidth / 2), y: 20, size: 6.5, font: helvItalic, color: textSecondary });
 
             const pdfBytes = await pdfDoc.save();
             const blob = new Blob([pdfBytes as any], { type: "application/pdf" });
