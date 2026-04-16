@@ -22,21 +22,21 @@ model User {
   inscripcionRequests        EmbarcacionInscripcionRequest[]
   infoRequests               InformationRequest[]
   maritimeReports            MaritimeReport[]
-  paseSalidas                PaseSalida[]
-  vesselRegistrations        VesselRegistration[]
-  port                       Port?                           @relation(fields: [portId], references: [id])
-  zarpeRequests              ZarpeRequest[]
   notifications              Notification[]
+  paseSalidas                PaseSalida[]
+  port                       Port?                           @relation(fields: [portId], references: [id])
+  vesselRegistrations        VesselRegistration[]
+  zarpeRequests              ZarpeRequest[]
 }
 
 model Port {
-  id                   String                          @id @default(cuid())
-  name                 String                          @unique
-  location             String?
-  inscripcionRequests  EmbarcacionInscripcionRequest[]
-  vesselRegistrations  VesselRegistration[]
-  users                User[]
-  zarpes               ZarpeRequest[]
+  id                  String                          @id @default(cuid())
+  name                String                          @unique
+  location            String?
+  inscripcionRequests EmbarcacionInscripcionRequest[]
+  users               User[]
+  vesselRegistrations VesselRegistration[]
+  zarpes              ZarpeRequest[]
 }
 
 model InformationRequest {
@@ -61,7 +61,6 @@ model InformationRequest {
 
 model ZarpeRequest {
   id                       String        @id @default(cuid())
-  zarpeNumber              String?       @unique
   vesselName               String
   registrationNum          String
   captainName              String
@@ -69,19 +68,13 @@ model ZarpeRequest {
   destination              String
   status                   RequestStatus @default(PENDING)
   cimComment               String?
-  captainComment           String?
   userId                   String
   portId                   String
   signature                String?
-  captainSignature         String?
   qrCode                   String?
   omiNumber                String?
   flag                     String?
   owner                    String?
-  dimension                String?
-  eslora                   String?
-  manga                    String?
-  puntal                   String?
   tbr                      String?
   tnr                      String?
   rubro                    String?
@@ -102,6 +95,13 @@ model ZarpeRequest {
   paymentReceiptFile       String?
   createdAt                DateTime      @default(now())
   updatedAt                DateTime      @updatedAt
+  zarpeNumber              String?       @unique
+  dimension                String?
+  captainSignature         String?
+  eslora                   String?
+  manga                    String?
+  puntal                   String?
+  captainComment           String?
   port                     Port          @relation(fields: [portId], references: [id])
   user                     User          @relation(fields: [userId], references: [id])
 }
@@ -131,10 +131,10 @@ model PaseSalida {
   signature       String?
   status          RequestStatus @default(PENDING)
   cimComment      String?
-  captainComment  String?
   userId          String
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
+  captainComment  String?
   user            User          @relation(fields: [userId], references: [id])
 }
 
@@ -213,24 +213,19 @@ model EmbarcacionInscripcionRequest {
   citaDate           DateTime?
   observation        String?
   status             RequestStatus       @default(PENDING)
-  type               RequestType         @default(NEW)
-  renewalVesselId    String?             // Link to the vessel being renewed
   userId             String?
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
+  renewalVesselId    String?
+  type               RequestType         @default(NEW)
   port               Port                @relation(fields: [portId], references: [id])
   user               User?               @relation(fields: [userId], references: [id])
   vesselRegistration VesselRegistration?
 }
 
-enum RequestType {
-  NEW
-  RENEWAL
-}
-
 model VesselRegistration {
-  id                 String    @id @default(cuid())
-  registrationNumber String    @unique
+  id                 String                         @id @default(cuid())
+  registrationNumber String                         @unique
   vesselName         String
   eslora             String?
   manga              String?
@@ -239,7 +234,7 @@ model VesselRegistration {
   passengerCapacity  String?
   crewCapacity       String?
   engineBrand        String?
-  engineSerials      Json      @default("[]")
+  engineSerials      Json                           @default("[]")
   ownerId            String?
   ownerName          String?
   vesselType         String?
@@ -250,8 +245,8 @@ model VesselRegistration {
   email              String?
   rtn                String?
   paymentPhoto       String?
-  vesselPhotos       Json      @default("[]")
-  documents          Json      @default("[]")
+  vesselPhotos       Json                           @default("[]")
+  documents          Json                           @default("[]")
   citaNumber         String?
   yearBuilt          String?
   grossTonnage       String?
@@ -264,23 +259,21 @@ model VesselRegistration {
   expirationDate     DateTime?
   captainSignature   String?
   qrCode             String?
-  status             String    @default("ACTIVE")
+  status             String                         @default("ACTIVE")
   portId             String
-  requestId          String?   @unique
+  requestId          String?                        @unique
   captainId          String?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  port               Port      @relation(fields: [portId], references: [id])
+  createdAt          DateTime                       @default(now())
+  updatedAt          DateTime                       @updatedAt
+  captain            User?                          @relation(fields: [captainId], references: [id])
+  port               Port                           @relation(fields: [portId], references: [id])
   request            EmbarcacionInscripcionRequest? @relation(fields: [requestId], references: [id])
-  captain            User?     @relation(fields: [captainId], references: [id])
   history            VesselRegistrationHistory[]
 }
 
 model VesselRegistrationHistory {
   id                 String             @id @default(cuid())
   registrationId     String
-  registration       VesselRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
-  
   registrationNumber String
   vesselName         String
   eslora             String?
@@ -312,10 +305,28 @@ model VesselRegistrationHistory {
   observations       String?
   issueDate          DateTime?
   expirationDate     DateTime?
-  
-  changedFields      Json?
   changedAt          DateTime           @default(now())
-  changeReason       String?            // e.g. "RENEWAL", "UPDATE"
+  changeReason       String?
+  changedFields      Json?
+  registration       VesselRegistration @relation(fields: [registrationId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  message   String
+  type      String
+  link      String?
+  read      Boolean  @default(false)
+  userId    String
+  portId    String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum RequestType {
+  NEW
+  RENEWAL
 }
 
 enum Role {
@@ -331,18 +342,4 @@ enum RequestStatus {
   PRE_APPROVED
   APPROVED
   REJECTED
-}
-
-model Notification {
-  id        String   @id @default(cuid())
-  title     String
-  message   String
-  type      String   // INFO_REQUEST, INSPECTION, ZARPE, PASE_SALIDA, ARRIBO, REPORTE, BALIZA
-  link      String?  // Relative URL to view the request
-  read      Boolean  @default(false)
-  userId    String   // Recipient user ID
-  portId    String?  // Optional: associated port for filtering
-  createdAt DateTime @default(now())
-  
-  user      User     @relation(fields: [userId], references: [id])
 }

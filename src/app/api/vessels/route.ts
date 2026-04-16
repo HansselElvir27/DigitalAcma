@@ -179,8 +179,32 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Puerto no encontrado" }, { status: 404 });
         }
 
-        const count = port._count.vesselRegistrations + 1;
-        const registrationNumber = buildRegistrationNumber(port.name, count, activityType);
+        // Find the maximum sequential number already in use for this port
+        const lastRegistration = await prisma.vesselRegistration.findFirst({
+            where: { portId },
+            orderBy: { createdAt: "desc" }, // Simple heuristic, but we'll fall back to check numbers
+            select: { registrationNumber: true }
+        });
+
+        // Better: Fetch all recent to find the actual maximum numeric suffix
+        const recentRegistrations = await prisma.vesselRegistration.findMany({
+            where: { portId },
+            select: { registrationNumber: true },
+            take: 100, // Look at the last 100 to find the max
+            orderBy: { createdAt: 'desc' }
+        });
+
+        let maxCount = 0;
+        recentRegistrations.forEach(reg => {
+            const parts = reg.registrationNumber.split('-');
+            if (parts.length >= 3) {
+                const seq = parseInt(parts[2], 10);
+                if (!isNaN(seq) && seq > maxCount) maxCount = seq;
+            }
+        });
+
+        const nextCount = Math.max(port._count.vesselRegistrations, maxCount) + 1;
+        const registrationNumber = buildRegistrationNumber(port.name, nextCount, activityType);
         const activityCode = ACTIVITY_CODES[activityType] ?? 0;
 
         registration = await prisma.vesselRegistration.create({
@@ -219,6 +243,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, registration });
   } catch (error: any) {
     console.error("Error al registrar/renovar embarcación:", error);
+    
+    // Check for Prisma unique constraint error (P2002)
+    if (error.code === 'P2002') {
+        const field = error.meta?.target?.[0] || 'matrícula';
+        return NextResponse.json({ 
+            error: `Conflicto de unicidad: la ${field} ya existe y no puede duplicarse.` 
+        }, { status: 409 });
+    }
+
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
