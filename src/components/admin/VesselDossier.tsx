@@ -3,7 +3,8 @@ import {
     Ship, Anchor, User, MapPin, Calendar, ClipboardList, 
     Image as ImageIcon, FileText, Activity, Maximize2, 
     Ruler, Weight, Droplets, Info, ExternalLink, Paperclip,
-    History, Clock
+    History, Clock, 
+    ArrowLeft
 } from "lucide-react";
 
 interface VesselDossierProps {
@@ -268,11 +269,11 @@ export function VesselDossier({ vessel }: VesselDossierProps) {
                                                     </span>
                                                     <div className="flex items-center gap-2 text-xs font-bold">
                                                         <span className="opacity-40 italic line-through decoration-brand-secondary/40 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px]">
-                                                            {Array.isArray(delta.old) ? delta.old.length + " items" : String(delta.old || "vío")}
+                                                            {Array.isArray(delta.old) ? delta.old.length + " items" : String(delta.old || "vacío")}
                                                         </span>
                                                         <ArrowLeft size={10} className="rotate-180 opacity-40 shrink-0" />
                                                         <span className="text-white whitespace-nowrap overflow-hidden text-ellipsis max-w-[150px]">
-                                                            {Array.isArray(delta.new) ? delta.new.length + " items" : String(delta.new || "vío")}
+                                                            {Array.isArray(delta.new) ? delta.new.length + " items" : String(delta.new || "vacío")}
                                                         </span>
                                                     </div>
                                                 </div>
