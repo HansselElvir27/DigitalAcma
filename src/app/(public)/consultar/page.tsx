@@ -328,20 +328,27 @@ function ConsultarContent() {
                                             <div>
                                                 <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-3 flex items-center gap-1"><Paperclip size={10} /> Archivos Adjuntos ({files.length})</p>
                                                 <div className="space-y-2">
-                                                    {files.map((f: any, i: number) => (
-                                                        <a
-                                                            key={i}
-                                                            href={f.data?.startsWith('/uploads/') ? `/api${f.data}` : f.data}
-                                                            download={f.name}
-                                                            className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
-                                                        >
-                                                            <div className="flex items-center gap-3">
-                                                                <Paperclip size={16} className="opacity-40 flex-shrink-0" />
-                                                                <span className="font-medium">{f.name}</span>
-                                                            </div>
-                                                            <Download size={18} className="text-brand-secondary opacity-60 flex-shrink-0" />
-                                                        </a>
-                                                    ))}
+                                                    {files.map((f: any, i: number) => {
+                                                        const isString = typeof f === 'string';
+                                                        const data = isString ? f : f.data;
+                                                        const name = isString ? (f.split('/').pop() || `Archivo ${i + 1}`) : f.name;
+                                                        const href = data?.startsWith('/uploads/') ? `/api${data}` : data;
+                                                        
+                                                        return (
+                                                            <a
+                                                                key={i}
+                                                                href={href}
+                                                                download={name}
+                                                                className="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors"
+                                                            >
+                                                                <div className="flex items-center gap-3">
+                                                                    <Paperclip size={16} className="opacity-40 flex-shrink-0" />
+                                                                    <span className="font-medium">{name}</span>
+                                                                </div>
+                                                                <Download size={18} className="text-brand-secondary opacity-60 flex-shrink-0" />
+                                                            </a>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         ) : null;
@@ -374,24 +381,31 @@ function ConsultarContent() {
                                                     <p className="text-[10px] font-bold uppercase tracking-widest text-white/60 flex items-center gap-1">
                                                         <Paperclip size={10} /> Documentos Adjuntos a la Respuesta ({responseFiles.length})
                                                     </p>
-                                                    <div className="grid gap-2">
-                                                        {responseFiles.map((f: any, i: number) => (
-                                                            <a
-                                                                key={i}
-                                                                href={f.data?.startsWith('/uploads/') ? `/api${f.data}` : f.data}
-                                                                download={f.name}
-                                                                className="flex items-center justify-between p-4 bg-white/10 rounded-2xl border border-white/5 hover:bg-white/20 transition-all group"
-                                                            >
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/80 group-hover:bg-brand-secondary group-hover:text-white transition-colors">
-                                                                        <Download size={14} />
-                                                                    </div>
-                                                                    <span className="font-bold text-sm text-white">{f.name}</span>
-                                                                </div>
-                                                                <ArrowRight size={18} className="text-white opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
-                                                            </a>
-                                                        ))}
-                                                    </div>
+                                                        <div className="grid gap-2">
+                                                            {responseFiles.map((f: any, i: number) => {
+                                                                const isString = typeof f === 'string';
+                                                                const data = isString ? f : f.data;
+                                                                const name = isString ? (f.split('/').pop() || `Respuesta ${i + 1}`) : f.name;
+                                                                const href = data?.startsWith('/uploads/') ? `/api${data}` : data;
+
+                                                                return (
+                                                                    <a
+                                                                        key={i}
+                                                                        href={href}
+                                                                        download={name}
+                                                                        className="flex items-center justify-between p-4 bg-white/10 rounded-2xl border border-white/5 hover:bg-white/20 transition-all group"
+                                                                    >
+                                                                        <div className="flex items-center gap-3">
+                                                                            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/80 group-hover:bg-brand-secondary group-hover:text-white transition-colors">
+                                                                                <Download size={14} />
+                                                                            </div>
+                                                                            <span className="font-bold text-sm text-white">{name}</span>
+                                                                        </div>
+                                                                        <ArrowRight size={18} className="text-white opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
+                                                                    </a>
+                                                                );
+                                                            })}
+                                                        </div>
                                                 </div>
                                             ) : null;
                                         })()}
