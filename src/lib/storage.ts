@@ -20,7 +20,9 @@ export async function saveBase64ToFile(
     if (!base64 || typeof base64 !== 'string') return null;
 
     // If it's already a URL/Path, return it as is (backward compatibility)
-    if (base64.startsWith('/uploads/')) return base64;
+    if (typeof base64 === 'string' && (base64.startsWith('/uploads/') || base64.startsWith('/api/uploads/'))) {
+        return base64;
+    }
 
     try {
         // Extract base64 data and mime type
