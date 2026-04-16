@@ -97,10 +97,33 @@ export async function POST(request: Request) {
                 // Decide if registration number changes
                 let finalRegNumber = existingVessel.registrationNumber;
                 if (existingVessel.activityType !== activityType) {
-                    const portCount = await prisma.vesselRegistration.count({ where: { portId } });
-                    const port = await prisma.port.findUnique({ where: { id: portId } });
-                    finalRegNumber = buildRegistrationNumber(port?.name || "", portCount + 1, activityType);
-                    changedFields.registrationNumber = { old: existingVessel.registrationNumber, new: finalRegNumber };
+                    const port = await prisma.port.findUnique({ 
+                        where: { id: portId },
+                        include: { _count: { select: { vesselRegistrations: true } } }
+                    });
+                    
+                    if (port) {
+                        // Find the maximum sequential number already in use for this port
+                        const recentRegistrations = await prisma.vesselRegistration.findMany({
+                            where: { portId },
+                            select: { registrationNumber: true },
+                            take: 100,
+                            orderBy: { createdAt: 'desc' }
+                        });
+
+                        let maxCount = 0;
+                        recentRegistrations.forEach(reg => {
+                            const parts = reg.registrationNumber.split('-');
+                            if (parts.length >= 3) {
+                                const seq = parseInt(parts[2], 10);
+                                if (!isNaN(seq) && seq > maxCount) maxCount = seq;
+                            }
+                        });
+
+                        const nextCount = Math.max(port._count.vesselRegistrations, maxCount) + 1;
+                        finalRegNumber = buildRegistrationNumber(port.name, nextCount, activityType);
+                        changedFields.registrationNumber = { old: existingVessel.registrationNumber, new: finalRegNumber };
+                    }
                 }
 
                 // 1. Save snapshot to history
