@@ -27,7 +27,7 @@ export async function PATCH(
 
     try {
         const body = await request.json();
-        const { status, type, officialResponse, cimComment, responseAttachments } = body;
+        const { status, type, officialResponse, cimComment, captainComment, responseAttachments } = body;
 
         log(`Update request for ID: ${id}, type: ${type}, status: ${status}`);
 
@@ -68,6 +68,7 @@ export async function PATCH(
                 data: {
                     status,
                     cimComment: cimComment || undefined,
+                    captainComment: captainComment || undefined,
                     zarpeNumber: generatedZarpeNumber,
                     qrCode: isApproving ? Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) : undefined,
                     captainSignature: isApproving ? `VERIFICADO Y APROBADO DIGITALMENTE POR ${(session?.user as any)?.name || 'CAPITAN DE PUERTO'}` : undefined
@@ -115,6 +116,7 @@ export async function PATCH(
                 data: {
                     status,
                     cimComment: cimComment || undefined,
+                    captainComment: captainComment || undefined,
                 },
             });
             

@@ -9,6 +9,9 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
     const [selectedReq, setSelectedReq] = useState<any | null>(null);
     const [loading, setLoading] = useState(false);
     const [cimCommentInput, setCimCommentInput] = useState("");
+    const [rejectionMode, setRejectionMode] = useState(false);
+    const [rejectionComment, setRejectionComment] = useState("");
+    const [captainCommentInput, setCaptainCommentInput] = useState("");
     const router = useRouter();
 
     const updateStatus = async (id: string, status: string) => {
@@ -20,7 +23,10 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
                 body: JSON.stringify({
                     status,
                     type: "PASE_SALIDA",
-                    cimComment: status === "PRE_APPROVED" ? cimCommentInput : undefined
+                    cimComment: status === "PRE_APPROVED" ? cimCommentInput : undefined,
+                    captainComment: (userRole === "CAPITAN" || userRole === "ADMIN") 
+                        ? (status === "REJECTED" ? rejectionComment : captainCommentInput)
+                        : undefined
                 })
             });
 
@@ -32,6 +38,9 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
             router.refresh();
             setSelectedReq(null);
             setCimCommentInput("");
+            setCaptainCommentInput("");
+            setRejectionComment("");
+            setRejectionMode(false);
         } catch (error: any) {
             console.error("Failed to update status", error);
             alert(`Error: ${error.message}`);
@@ -264,6 +273,13 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
                                     </div>
                                 )}
 
+                                {selectedReq.captainComment && (
+                                    <div className="p-4 bg-brand-secondary/10 border border-brand-secondary/20 rounded-2xl">
+                                        <p className="text-[10px] font-bold uppercase tracking-widest text-brand-secondary mb-1">Observación de Capitanía</p>
+                                        <p className="text-sm italic">"{selectedReq.captainComment}"</p>
+                                    </div>
+                                )}
+
                                 {/* Formulario de Pre-aprobación CIM */}
                                 {userRole === "CIM" && selectedReq.status === "PENDING" && (
                                     <div className="space-y-4">
@@ -279,38 +295,84 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
                             </div>
 
                             {/* Actions / Footer */}
-                            <div className="p-6 border-t border-white/10 bg-black/20 flex items-center justify-end gap-3 mt-auto">
-                                <button
-                                    disabled={loading}
-                                    onClick={() => updateStatus(selectedReq.id, 'REJECTED')}
-                                    className="px-6 py-2.5 rounded-xl border border-red-500/30 text-red-500 font-bold text-xs uppercase tracking-widest hover:bg-red-500/10 transition-colors disabled:opacity-50"
-                                >
-                                    Rechazar
-                                </button>
+                            <div className="p-6 border-t border-white/10 bg-black/20 mt-auto">
+                                {/* Rejection confirmation area */}
+                                {rejectionMode ? (
+                                    <div className="space-y-3">
+                                        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
+                                            <p className="text-xs font-bold text-red-400 uppercase tracking-widest mb-2">Motivo del Rechazo</p>
+                                            <textarea
+                                                rows={3}
+                                                value={rejectionComment}
+                                                onChange={(e) => setRejectionComment(e.target.value)}
+                                                placeholder="Indique el motivo del rechazo (requerido)..."
+                                                className="w-full bg-black/40 border border-red-500/30 rounded-xl px-3 py-2 text-sm focus:ring-1 focus:ring-red-500 outline-none resize-none text-white placeholder-white/30"
+                                            />
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <button
+                                                onClick={() => { setRejectionMode(false); setRejectionComment(""); }}
+                                                className="flex-1 py-2.5 rounded-xl border border-white/10 text-sm font-bold hover:bg-white/5 transition-colors"
+                                            >
+                                                Cancelar
+                                            </button>
+                                            <button
+                                                disabled={loading || !rejectionComment.trim()}
+                                                onClick={() => updateStatus(selectedReq.id, 'REJECTED')}
+                                                className="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-bold tracking-wider uppercase transition-colors disabled:opacity-50"
+                                            >
+                                                Confirmar Rechazo
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-end gap-3">
+                                        {selectedReq.status !== 'REJECTED' && selectedReq.status !== 'APPROVED' && (
+                                            <button
+                                                disabled={loading}
+                                                onClick={() => setRejectionMode(true)}
+                                                className="px-6 py-2.5 rounded-xl border border-red-500/30 text-red-500 font-bold text-xs uppercase tracking-widest hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                                            >
+                                                Rechazar
+                                            </button>
+                                        )}
 
-                                {userRole === "CIM" && selectedReq.status === "PENDING" && (
-                                    <button
-                                        disabled={loading || !cimCommentInput.trim()}
-                                        onClick={() => updateStatus(selectedReq.id, 'PRE_APPROVED')}
-                                        className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
-                                    >
-                                        <Check size={16} /> Pre-Aprobar
-                                    </button>
-                                )}
+                                        {userRole === "CIM" && selectedReq.status === "PENDING" && (
+                                            <button
+                                                disabled={loading || !cimCommentInput.trim()}
+                                                onClick={() => updateStatus(selectedReq.id, 'PRE_APPROVED')}
+                                                className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
+                                            >
+                                                <Check size={16} /> Pre-Aprobar
+                                            </button>
+                                        )}
 
-                                {(userRole === "CAPITAN" || userRole === "ADMIN") && selectedReq.status === "PRE_APPROVED" && (
-                                    <button
-                                        disabled={loading}
-                                        onClick={() => updateStatus(selectedReq.id, 'APPROVED')}
-                                        className="px-6 py-2.5 rounded-xl bg-brand-secondary text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
-                                    >
-                                        <Check size={16} /> Autorizar Salida
-                                    </button>
-                                )}
+                                        {(userRole === "CAPITAN" || userRole === "ADMIN") && selectedReq.status === "PRE_APPROVED" && (
+                                            <div className="flex flex-col gap-3 w-full">
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-bold uppercase tracking-widest opacity-60">Observación de Autorización (Capitanía)</label>
+                                                    <textarea
+                                                        className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-sm focus:ring-1 focus:ring-brand-secondary outline-none h-20 resize-none text-white"
+                                                        placeholder="Agregue un comentario final para el pase de salida..."
+                                                        value={captainCommentInput}
+                                                        onChange={(e) => setCaptainCommentInput(e.target.value)}
+                                                    />
+                                                </div>
+                                                <button
+                                                    disabled={loading}
+                                                    onClick={() => updateStatus(selectedReq.id, 'APPROVED')}
+                                                    className="px-6 py-2.5 rounded-xl bg-brand-secondary text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                                                >
+                                                    <Check size={16} /> Autorizar Salida
+                                                </button>
+                                            </div>
+                                        )}
 
-                                {selectedReq.status === "APPROVED" && (
-                                    <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg text-[10px] font-black tracking-widest uppercase border border-green-500/30">
-                                        Pase de Salida Autorizado
+                                        {selectedReq.status === "APPROVED" && (
+                                            <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg text-[10px] font-black tracking-widest uppercase border border-green-500/30">
+                                                Pase de Salida Autorizado
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
