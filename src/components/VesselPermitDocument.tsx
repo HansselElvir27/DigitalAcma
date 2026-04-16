@@ -206,8 +206,26 @@ export function VesselPermitDocument({ vessel, showPrintButton = true }: VesselP
 
             {/* Footer and Signatures */}
             <div className="mt-auto pt-16">
-                <div className="flex justify-center items-end">
-                    <div className="flex flex-col items-center w-80">
+                <div className="flex justify-between items-end relative">
+                    {/* Digital Seal (Stamp-like) */}
+                    <div className="absolute right-0 bottom-full mb-2 opacity-80 pointer-events-none hidden print:flex flex-col items-center">
+                        <div className="w-24 h-24 rounded-full border-4 border-blue-900/30 flex items-center justify-center p-2 relative">
+                            <img src="/dgmm-seal-official.png" alt="Sello DGMM" className="w-16 h-16 object-contain grayscale-[0.3]" />
+                            <div className="absolute inset-0 rounded-full border-2 border-dashed border-blue-900/20" />
+                        </div>
+                        <p className="text-[7px] font-black text-blue-900/40 uppercase mt-1 tracking-tighter">Sello Electrónico ACMA</p>
+                    </div>
+
+                    <div className="flex flex-col items-center w-80 relative">
+                        {/* Digital Seal Overlay for Screen View */}
+                        <div className="absolute -left-12 -top-12 w-28 h-28 pointer-events-none select-none opacity-20 rotate-12 flex items-center justify-center border-4 border-blue-600 rounded-full">
+                           <div className="border-2 border-blue-600 rounded-full p-2 flex flex-col items-center justify-center">
+                                <img src="/dgmm-seal-official.png" className="w-10 h-10 grayscale" />
+                                <span className="text-[6px] font-black text-blue-800 leading-none">FIRMADO</span>
+                                <span className="text-[6px] font-black text-blue-800 leading-none">DIGITALMENTE</span>
+                           </div>
+                        </div>
+
                         <div className="w-full h-20 flex items-center justify-center border-b border-neutral-300 mb-2 relative">
                             {vessel.captainSignature ? (
                                 <img src={vessel.captainSignature.startsWith('/uploads/') ? `/api${vessel.captainSignature}` : vessel.captainSignature} alt="Firma Capitán" className="max-h-16" />

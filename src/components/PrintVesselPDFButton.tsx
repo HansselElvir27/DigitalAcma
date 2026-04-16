@@ -233,6 +233,48 @@ export function PrintVesselPDFButton({ vessel }: { vessel: VesselData }) {
             const instWidth = helv.widthOfTextAtSize(instText, 7);
             page.drawText(instText, { x: (width/2) - (instWidth/2), y: y - 27, size: 7, font: helv, color: textSecondary });
 
+            // 6. DIGITAL SEAL (STAMP) near signature
+            try {
+                const sealResp = await fetch('/dgmm-seal-official.png');
+                const sealBytes = await sealResp.arrayBuffer();
+                const sealImage = await pdfDoc.embedPng(sealBytes);
+                
+                const sealSize = 60;
+                const sealX = sigX - 40; // Positioned to the left of the signature line
+                const sealY = y - 10;
+                
+                // Draw a faint circular border for the "stamp" look
+                page.drawCircle({
+                    x: sealX + (sealSize / 2),
+                    y: sealY + (sealSize / 2),
+                    size: (sealSize / 2) + 5,
+                    borderWidth: 1.5,
+                    borderColor: rgb(0.1, 0.2, 0.5), // Navy blue stamp look
+                    opacity: 0.2
+                });
+
+                page.drawImage(sealImage, { 
+                    x: sealX, 
+                    y: sealY, 
+                    width: sealSize, 
+                    height: sealSize,
+                    opacity: 0.25 // Subtle stamp effect
+                });
+
+                const sealText = "FIRMADO DIGITALMENTE";
+                const sTextWidth = helvBold.widthOfTextAtSize(sealText, 5);
+                page.drawText(sealText, { 
+                    x: sealX + (sealSize / 2) - (sTextWidth / 2), 
+                    y: sealY - 8, 
+                    size: 5, 
+                    font: helvBold, 
+                    color: blueInstitutional,
+                    opacity: 0.4
+                });
+            } catch(e) {
+                console.warn("Digital seal could not be added to PDF", e);
+            }
+
             // FOOTER
             const footerText = `Documento oficial generado electrónicamente por el Sistema Digitalacma • Honduras • ${new Date().toLocaleString('es-HN')}`;
             const footerWidth = helv.widthOfTextAtSize(footerText, 7);
