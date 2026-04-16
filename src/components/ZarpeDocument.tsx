@@ -289,7 +289,9 @@ export function ZarpeDocument({ zarpe, showPrintButton = true, showDownloadButto
                     <div className="flex flex-col items-center w-64">
                         <div className="w-full h-16 flex items-center justify-center border-b border-neutral-300 mb-2 relative">
                             {zarpe.signature ? (
-                                <img src={zarpe.signature?.startsWith('/uploads/') ? `/api${zarpe.signature}` : zarpe.signature} alt="Firma Solicitante" className="max-h-14 opacity-90" />
+                                <div className="bg-slate-100 p-2 rounded">
+                                    <img src={zarpe.signature?.startsWith('/uploads/') ? `/api${zarpe.signature}` : zarpe.signature} alt="Firma Solicitante" className="max-h-14 opacity-95" />
+                                </div>
                             ) : (
                                 <div className="text-[8px] text-neutral-300 absolute">Pendiente de Firma</div>
                             )}

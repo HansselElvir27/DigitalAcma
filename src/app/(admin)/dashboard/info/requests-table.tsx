@@ -277,7 +277,7 @@ export function RequestsTable({ requests }: { requests: any[] }) {
                                 {selectedReq.signature && (
                                     <div>
                                         <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-3 flex items-center gap-1"><PenTool size={10} /> Firma Digital del Solicitante</p>
-                                        <div className="p-4 bg-white rounded-2xl border border-white/10 flex justify-center">
+                                        <div className="p-4 bg-slate-200 rounded-2xl border border-white/10 flex justify-center">
                                             <img src={selectedReq.signature?.startsWith('/uploads/') ? `/api${selectedReq.signature}` : selectedReq.signature} alt="Firma digital" className="max-h-24 object-contain" />
                                         </div>
                                     </div>

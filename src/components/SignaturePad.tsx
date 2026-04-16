@@ -25,8 +25,8 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
         canvas.height = canvas.offsetHeight * ratio;
         ctx.scale(ratio, ratio);
 
-        ctx.strokeStyle = "#ffffff";
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#1e293b"; // Slate-800 for visibility on light backgrounds
+        ctx.lineWidth = 3; // Slightly thicker for better legibility
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
     }, []);
@@ -95,7 +95,7 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
                     onPointerUp={stopDrawing}
                     onPointerLeave={stopDrawing}
                     className="w-full h-full cursor-crosshair touch-none"
-                    style={{ background: "rgba(255,255,255,0.03)" }}
+                    style={{ background: "#f8fafc" }} // Light background for dark ink
                 />
 
                 {isEmpty && (
@@ -108,7 +108,7 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
                 <button
                     type="button"
                     onClick={clear}
-                    className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
+                    className="absolute top-4 right-4 p-2 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-600 transition-colors"
                     title="Limpiar firma"
                 >
                     <RotateCcw size={16} />

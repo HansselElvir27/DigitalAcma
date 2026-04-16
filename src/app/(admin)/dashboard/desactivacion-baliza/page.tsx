@@ -234,7 +234,7 @@ function BalizaTable({ requests, userRole, onRefresh }: { requests: BalizaReques
                                         <PenTool size={16} className="text-brand-secondary" /> Firma del Solicitante
                                     </h4>
                                     {selectedReq.signature ? (
-                                        <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex justify-center">
+                                        <div className="bg-slate-200 rounded-2xl p-4 border border-white/10 flex justify-center">
                                             <img src={selectedReq.signature?.startsWith('/uploads/') ? `/api${selectedReq.signature}` : selectedReq.signature} alt="Firma Digital" className="max-h-32 opacity-90 object-contain" />
                                         </div>
                                     ) : (
