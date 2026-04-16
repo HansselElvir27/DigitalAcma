@@ -10,6 +10,9 @@ export default function ArribosPage() {
     const [loading, setLoading] = useState(true);
     const [selectedNotice, setSelectedNotice] = useState<any | null>(null);
     const [activeTab, setActiveTab] = useState<"commercial" | "recreational">("commercial");
+    const [showConfirm, setShowConfirm] = useState<{id: string, type: string} | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchNotices = async () => {
@@ -33,7 +36,8 @@ export default function ArribosPage() {
     }, []);
 
     const handleApprove = async (id: string, type: string) => {
-        if (!confirm("¿Está seguro de que desea aprobar este aviso de arribo?")) return;
+        setLoading(true);
+        setErrorMsg(null);
 
         try {
             const res = await fetch(`/api/requests/${id}/status`, {
@@ -49,13 +53,18 @@ export default function ArribosPage() {
                 } else {
                     setRecreationalNotices(prev => prev.map(n => n.id === id ? { ...n, status: "APPROVED" } : n));
                 }
+                setShowConfirm(null);
+                setShowSuccess(true);
+                setTimeout(() => setShowSuccess(false), 3000);
                 setSelectedNotice(null);
             } else {
                 const data = await res.json();
-                alert(data.error || "Error al aprobar el aviso");
+                setErrorMsg(data.error || "Error al aprobar el aviso");
             }
         } catch (error) {
-            alert("Error de conexión al intentar aprobar");
+            setErrorMsg("Error de conexión al intentar aprobar");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -137,6 +146,7 @@ export default function ArribosPage() {
                                     )}
                                     <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40">Puerto Arribo</th>
                                     <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40">ETA</th>
+                                    <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40 font-mono">Estado</th>
                                     <th className="px-6 py-4 text-[10px] font-bold uppercase tracking-widest opacity-40 text-right">Detalles</th>
                                 </tr>
                             </thead>
@@ -178,6 +188,15 @@ export default function ArribosPage() {
                                         <td className="px-6 py-4">
                                             <p className="font-bold text-sm text-brand-secondary">{new Date(notice.etaDate).toLocaleDateString()}</p>
                                             <p className="text-xs opacity-60">{new Date(notice.etaDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black tracking-widest border ${
+                                                notice.status === 'APPROVED' 
+                                                    ? 'bg-green-500/10 text-green-500 border-green-500/20' 
+                                                    : 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+                                            }`}>
+                                                {notice.status === 'APPROVED' ? 'APROBADO' : 'PENDIENTE'}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <button 
@@ -381,7 +400,7 @@ export default function ArribosPage() {
                                     </button>
                                     {selectedNotice.status !== 'APPROVED' && (
                                         <button 
-                                            onClick={() => handleApprove(selectedNotice.id, selectedNotice.type === "commercial" ? "AVISO_ARRIBO" : "AVISO_ARRIBO_RECREATIVO")}
+                                            onClick={() => setShowConfirm({ id: selectedNotice.id, type: selectedNotice.type === "commercial" ? "AVISO_ARRIBO" : "AVISO_ARRIBO_RECREATIVO" })}
                                             className="px-6 py-2 rounded-xl premium-gradient text-white font-bold text-sm hover:scale-105 transition-all shadow-lg flex items-center gap-2"
                                         >
                                             <CheckCircle size={18} />
@@ -391,6 +410,60 @@ export default function ArribosPage() {
                                 </div>
                             </div>
                         </div>
+                    </motion.div>
+                </div>
+            )}
+
+            {/* Custom Confirmation Modal */}
+            {showConfirm && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center px-4 bg-background/60 backdrop-blur-md">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        className="bg-brand-primary w-full max-w-sm rounded-3xl border border-white/10 shadow-2xl p-8 text-center"
+                    >
+                        <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 mx-auto mb-6">
+                            <Shield size={32} />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">¿Confirmar Aprobación?</h3>
+                        <p className="opacity-60 text-sm mb-8">Esta acción autorizará el arribo y será notificada al solicitante.</p>
+                        
+                        {errorMsg && (
+                            <div className="mb-6 p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-xs rounded-xl italic">
+                                {errorMsg}
+                            </div>
+                        )}
+
+                        <div className="flex gap-3">
+                            <button 
+                                onClick={() => setShowConfirm(null)}
+                                className="flex-1 py-3 rounded-xl bg-white/5 text-white font-bold text-sm hover:bg-white/10 transition-colors"
+                            >
+                                Cancelar
+                            </button>
+                            <button 
+                                onClick={() => handleApprove(showConfirm.id, showConfirm.type)}
+                                disabled={loading}
+                                className="flex-1 py-3 rounded-xl premium-gradient text-white font-bold text-sm hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                            >
+                                {loading ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Confirmar"}
+                            </button>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+
+            {/* Success Toast */}
+            {showSuccess && (
+                <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[70]">
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="bg-green-500 text-white px-6 py-3 rounded-2xl shadow-2xl shadow-green-500/20 flex items-center gap-3 font-bold"
+                    >
+                        <CheckCircle size={20} />
+                        Arribo Aprobado Exitosamente
                     </motion.div>
                 </div>
             )}
