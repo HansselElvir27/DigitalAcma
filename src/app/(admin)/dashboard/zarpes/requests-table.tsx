@@ -211,8 +211,16 @@ export function ZarpesTable({ requests, userRole }: { requests: any[], userRole:
                                                     <p className="font-bold">{selectedReq.owner || 'N/A'}</p>
                                                 </div>
                                                 <div>
-                                                    <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">Dimensión</p>
-                                                    <p className="font-bold">{selectedReq.dimension || 'N/A'}</p>
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">Eslora</p>
+                                                    <p className="font-bold">{selectedReq.eslora || 'N/A'}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">Manga</p>
+                                                    <p className="font-bold">{selectedReq.manga || 'N/A'}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">Puntal</p>
+                                                    <p className="font-bold">{selectedReq.puntal || 'N/A'}</p>
                                                 </div>
                                                 <div>
                                                     <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">TBR</p>
