@@ -291,13 +291,19 @@ export async function GET(request: Request) {
   const portId = searchParams.get("portId");
 
   try {
+    let where: any = {};
+    if (session.user.role === "CAPITAN") {
+      if (!session.user.portId) {
+        // If captain has no port assigned, they see nothing
+        return NextResponse.json([]);
+      }
+      where.portId = session.user.portId;
+    } else if (portId) {
+      where.portId = portId;
+    }
+
     const registrations = await prisma.vesselRegistration.findMany({
-      where: {
-        AND: [
-          portId ? { portId } : {},
-          (session.user as any).role === "CAPITAN" ? { portId: (session.user as any).portId } : {}
-        ]
-      },
+      where,
       include: {
         port: { select: { name: true } },
         captain: { select: { name: true } }

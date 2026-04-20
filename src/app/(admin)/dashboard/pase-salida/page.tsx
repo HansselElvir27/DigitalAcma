@@ -12,9 +12,19 @@ export default async function PaseSalidaAdminPage() {
     const session = await getServerSession(authOptions);
     const userRole = (session?.user as any)?.role || "PUBLIC";
     const userPortId = (session?.user as any)?.portId;
+    
+    // Filter by port if the user is a CAPITAN
+    let where: any = {};
+    if (userRole === "CAPITAN" && userPortId) {
+        const port = await prisma.port.findUnique({ where: { id: userPortId } });
+        if (port) {
+            where.departurePort = port.name;
+        }
+    }
 
     // Get all PaseSalida requests
     const requests = await prisma.paseSalida.findMany({
+        where,
         orderBy: { createdAt: 'desc' },
         include: { user: true }
     });

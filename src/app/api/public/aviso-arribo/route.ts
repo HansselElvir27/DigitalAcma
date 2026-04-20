@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient } from "@/lib/db";
 import { createNotification } from "@/lib/notifications";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { saveBase64ToFile } from "@/lib/storage";
 import crypto from "crypto";
 
@@ -84,8 +86,26 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    }
+
+    const userRole = session.user.role;
+    const userPortId = session.user.portId;
+
     try {
+        let where: any = {};
+        if (userRole === "CAPITAN" && userPortId) {
+            const port = await prisma.port.findUnique({ where: { id: userPortId } });
+            if (port) {
+                where.arrivalPort = port.name;
+            }
+        }
+
         const notices = await prisma.arrivalNotice.findMany({
+            where,
             orderBy: { createdAt: "desc" },
             include: { user: { select: { name: true, email: true } } }
         });

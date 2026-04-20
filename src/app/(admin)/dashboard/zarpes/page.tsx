@@ -15,7 +15,17 @@ export default async function ZarpesPage() {
 
     // Filter by port if the user is a CAPITAN
     const where: any = {};
-    if (userRole === "CAPITAN" && userPortId) {
+    if (userRole === "CAPITAN") {
+        if (!userPortId) {
+            // If captain has no port assigned, they see nothing
+            return (
+                <div className="glass-card rounded-2xl p-12 text-center">
+                    <Ship size={48} className="mx-auto mb-4 opacity-30 text-red-500" />
+                    <p className="text-lg font-bold">Error de Configuración</p>
+                    <p className="opacity-60 text-sm">Su usuario no tiene un puerto asignado. Contacte al administrador.</p>
+                </div>
+            );
+        }
         where.portId = userPortId;
     }
 
