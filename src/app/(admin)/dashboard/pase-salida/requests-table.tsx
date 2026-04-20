@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Clock, CheckCircle, AlertCircle, Eye, X, Check, Anchor, Ship, MapPin, PenTool, FileText, User, LifeBuoy } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { PrintPaseSalidaPDFButton } from "@/components/PrintPaseSalidaPDFButton";
+import { PaseSalidaDocument } from "@/components/PaseSalidaDocument";
 
 export function PaseSalidaTable({ requests, userRole }: { requests: any[], userRole: string }) {
     const [selectedReq, setSelectedReq] = useState<any | null>(null);
@@ -146,6 +148,13 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
                                     <X size={20} />
                                 </button>
                             </div>
+
+                            {/* View Document Button (Top) */}
+                            {selectedReq.status === 'APPROVED' && (
+                                <div className="p-4 bg-white/5 border-b border-white/10 flex justify-center">
+                                    <PrintPaseSalidaPDFButton pase={selectedReq} />
+                                </div>
+                            )}
 
                             {/* Body */}
                             <div className="space-y-6 overflow-y-auto p-6">
@@ -369,8 +378,13 @@ export function PaseSalidaTable({ requests, userRole }: { requests: any[], userR
                                         )}
 
                                         {selectedReq.status === "APPROVED" && (
-                                            <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg text-[10px] font-black tracking-widest uppercase border border-green-500/30">
-                                                Pase de Salida Autorizado
+                                            <div className="flex flex-col gap-3 w-full">
+                                                <div className="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg text-[10px] font-black tracking-widest uppercase border border-green-500/30 text-center">
+                                                    Pase de Salida Autorizado
+                                                </div>
+                                                <div className="flex justify-center w-full">
+                                                    <PrintPaseSalidaPDFButton pase={selectedReq} />
+                                                </div>
                                             </div>
                                         )}
                                     </div>
