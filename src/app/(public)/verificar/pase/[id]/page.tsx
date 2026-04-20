@@ -1,5 +1,6 @@
 import { getPrismaClient } from "@/lib/db";
-import { ShieldCheck, ShieldAlert, Ship, MapPin, Calendar, Clock, XCircle, CheckCircle, User, Activity } from "lucide-react";
+import { ShieldCheck, ShieldAlert, Ship, MapPin, Calendar, Clock, XCircle, CheckCircle, User, Activity, FileText } from "lucide-react";
+import { PrintPaseSalidaPDFButton } from "@/components/PrintPaseSalidaPDFButton";
 
 const prisma = getPrismaClient();
 
@@ -109,6 +110,10 @@ export default async function VerificarPaseSalidaPage({ params }: { params: Prom
                                 <p className="text-center text-white/60 text-sm">
                                     Este pase ha sido validado contra los registros oficiales del Sistema Digitalacma.
                                 </p>
+
+                                <div className="pt-4 border-t border-white/10 flex justify-center">
+                                    <PrintPaseSalidaPDFButton pase={pase as any} downloadOnly label="Descargar Pase Oficial (PDF)" />
+                                </div>
                             </div>
                         ) : (
                             <div className="space-y-6 text-center">

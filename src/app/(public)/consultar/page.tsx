@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, FileText, Clock, CheckCircle, AlertCircle, ArrowRight, MessageSquare, User, Paperclip, Download, Ship, Anchor, LifeBuoy } from "lucide-react";
 import { ZarpeDocument } from "@/components/ZarpeDocument";
+import { PaseSalidaDocument } from "@/components/PaseSalidaDocument";
+import { PrintPaseSalidaPDFButton } from "@/components/PrintPaseSalidaPDFButton";
 
 function ConsultarContent() {
     const searchParams = useSearchParams();
@@ -13,6 +15,7 @@ function ConsultarContent() {
     const [result, setResult] = useState<any>(null);
     const [error, setError] = useState("");
     const [showZarpe, setShowZarpe] = useState(false);
+    const [showPaseSalida, setShowPaseSalida] = useState(false);
 
     // Parse attachments JSON
     const parseAttachments = (raw: string | null) => {
@@ -270,14 +273,24 @@ function ConsultarContent() {
 
                                     {/* Estado Aprobado */}
                                     {result.status === 'APPROVED' && (
-                                        <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-2xl">
-                                            <div className="flex items-center gap-3">
-                                                <CheckCircle className="text-green-500" size={24} />
-                                                <div>
-                                                    <p className="font-bold text-green-400">Pase de Salida Autorizado</p>
-                                                    <p className="text-sm opacity-60">Su solicitud ha sido aprobada. Puede proceder con la salida de la embarcación.</p>
+                                        <div className="space-y-4">
+                                            <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-2xl">
+                                                <div className="flex items-center gap-3">
+                                                    <CheckCircle className="text-green-500" size={24} />
+                                                    <div>
+                                                        <p className="font-bold text-green-400">Pase de Salida Autorizado</p>
+                                                        <p className="text-sm opacity-60">Su solicitud ha sido aprobada. Puede proceder con la salida de la embarcación.</p>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            
+                                            <button
+                                                onClick={() => setShowPaseSalida(true)}
+                                                className="block w-full py-4 px-6 premium-gradient rounded-2xl text-white font-bold text-center shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                                            >
+                                                <LifeBuoy size={20} />
+                                                Ver Pase de Salida Oficial
+                                            </button>
                                         </div>
                                     )}
 
@@ -588,6 +601,33 @@ function ConsultarContent() {
 
                             <div className="flex-1 overflow-y-auto p-2 md:p-12 scrollbar-premium">
                                 <ZarpeDocument zarpe={result} />
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* PASE SALIDA DOCUMENT MODAL */}
+            <AnimatePresence>
+                {showPaseSalida && result && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4 overflow-hidden">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 40 }}
+                            className="bg-white w-full max-w-5xl h-[95vh] rounded-3xl shadow-2xl relative overflow-hidden flex flex-col"
+                        >
+                            <div className="absolute top-6 right-6 z-[110] print:hidden">
+                                <button 
+                                    onClick={() => setShowPaseSalida(false)}
+                                    className="w-12 h-12 rounded-full bg-slate-900/10 hover:bg-slate-900/20 flex items-center justify-center text-slate-900 transition-colors"
+                                >
+                                    <X size={24} />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto p-2 md:p-12 scrollbar-premium">
+                                <PaseSalidaDocument pase={result} />
                             </div>
                         </motion.div>
                     </div>
