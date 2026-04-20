@@ -1,5 +1,8 @@
 import { getPrismaClient } from "@/lib/db";
 import { RequestsTable } from "./requests-table";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +20,15 @@ async function fetchRequests() {
 }
 
 export default async function InfoRequestsPage() {
+  const session = await getServerSession(authOptions);
+  const user = session?.user as any;
+  const role = user?.role;
+
+  // Restriction: Only ADMIN and CIM can view info requests
+  if (role === "CAPITAN") {
+    redirect("/dashboard/capitan");
+  }
+
   const requests = await fetchRequests();
 
   return (

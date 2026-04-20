@@ -13,6 +13,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const isCIM = user?.role === "CIM";
     const isAdmin = user?.role === "ADMIN";
     const canManageUsers = isCIM || isAdmin;
+    const canViewInfo = isCIM || isAdmin;
     const pathname = usePathname();
 
     const initials = user?.name
@@ -36,7 +37,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <nav className="flex-1 space-y-2">
                     {[
                         { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: dashboardHref, active: pathname === dashboardHref },
-                        { icon: <FileText size={20} />, label: "Solicitudes de Info", href: "/dashboard/info" },
+                        ...(canViewInfo ? [{ icon: <FileText size={20} />, label: "Solicitudes de Info", href: "/dashboard/info", active: pathname === "/dashboard/info" }] : []),
                         { icon: <ClipboardList size={20} />, label: "Inspección Embarcaciones", href: "/dashboard/inscripcion-embarcaciones", active: pathname === "/dashboard/inscripcion-embarcaciones" },
                         { icon: <Anchor size={20} />, label: "Buques Registrados", href: "/dashboard/vessels", active: pathname === "/dashboard/vessels" },
                         { icon: <Ship size={20} />, label: "Zarpes Pendientes", href: "/dashboard/zarpes", active: pathname === "/dashboard/zarpes" },
