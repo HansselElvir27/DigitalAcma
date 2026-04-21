@@ -39,8 +39,16 @@ async function importVessels() {
 
   console.log(`Total de líneas leídas: ${lines.length}`);
 
-  // Skip preamble (lines 0, 1, 2)
-  const dataLines = lines.slice(3);
+  // Skip preamble dynamically
+  let startIndex = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i].toLowerCase();
+    if (l.includes('nombre') && (l.includes('embarcaci') || l.includes('nave') || l.includes('propietario'))) {
+      startIndex = i + 1;
+      break;
+    }
+  }
+  const dataLines = lines.slice(startIndex);
   
   let successCount = 0;
   let skippedCount = 0;
