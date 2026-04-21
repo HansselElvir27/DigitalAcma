@@ -15,25 +15,30 @@ const ACTIVITY_MAP: Record<string, string> = {
   "10": "Pesca Deportiva",
 };
 
-const ROATAN_PORT_ID = "port_2"; // Based on earlier research
+async function importVessels() {
+  const args = process.argv.slice(2);
+  if (args.length < 2) {
+    console.error('Uso: npx tsx scripts/import-vessels.ts <archivo.csv> <portId>');
+    process.exit(1);
+  }
 
-async function importRoatanVessels() {
-  console.log('--- Iniciando Importación de Roatán ---');
+  const [filename, targetPortId] = args;
+
+  console.log(`--- Iniciando Importación: ${filename} (Puerto: ${targetPortId}) ---`);
   
-  const csvPath = path.join(process.cwd(), 'ROATAN.csv');
+  const csvPath = path.join(process.cwd(), filename);
   if (!fs.existsSync(csvPath)) {
-    console.error('Error: No se encontró ROATAN.csv en la raíz del proyecto.');
+    console.error(`Error: No se encontró ${filename} en la raíz del proyecto.`);
     return;
   }
 
   // Read lines, split by semicolon
-  const content = fs.readFileSync(csvPath, 'latin1'); // Using latin1 to handle most common Windows encodings for Spanish
+  const content = fs.readFileSync(csvPath, 'latin1'); 
   const lines = content.split('\n');
 
   console.log(`Total de líneas leídas: ${lines.length}`);
 
   // Skip preamble (lines 0, 1, 2)
-  // Line 2 is headers (0-indexed)
   const dataLines = lines.slice(3);
   
   let successCount = 0;
@@ -46,17 +51,6 @@ async function importRoatanVessels() {
 
     const columns = line.split(';');
     
-    // Mapping based on research:
-    // 0: MATRICULA
-    // 1: NOMBRE DE LA EMBARCACION
-    // 2: NOMBRE DEL PROPIETARIO
-    // 3: IDENTIDAD / RTN
-    // 4: ESLORA
-    // 5: MANGA
-    // 6: PUNTAL
-    // 7: TONELAJE BRUTO
-    // 8: TONELAJE NETO
-
     const registrationNumber = columns[0]?.trim();
     const vesselName = columns[1]?.trim();
     const ownerName = columns[2]?.trim();
@@ -68,11 +62,11 @@ async function importRoatanVessels() {
     const netTonnage = columns[8]?.trim();
 
     if (!registrationNumber || !vesselName) {
-      console.log(`[Línea ${i + 4}] Saltando por falta de matrícula o nombre.`);
+      // console.log(`[Línea ${i + 4}] Saltando por falta de matrícula o nombre.`);
       continue;
     }
 
-    // Determine activity from matricula (e.g. RO-1-001 -> 1)
+    // Determine activity from matricula (e.g. GU-5-002 -> 5)
     const parts = registrationNumber.split('-');
     let activityCode = "0";
     if (parts.length >= 2) {
@@ -87,7 +81,6 @@ async function importRoatanVessels() {
       });
 
       if (existing) {
-        // console.log(`[Línea ${i + 4}] Registro duplicado: ${registrationNumber}. Saltando.`);
         skippedCount++;
         continue;
       }
@@ -107,8 +100,8 @@ async function importRoatanVessels() {
           netTonnage,
           activityType,
           activityCode: parseInt(activityCode) || 0,
-          vesselType: "Otro", // Default
-          portId: ROATAN_PORT_ID,
+          vesselType: "Otro", 
+          portId: targetPortId,
           status: "ACTIVE",
           qrCode: `DGMM-REG-LEGACY-${registrationNumber}`,
           issueDate: new Date(),
@@ -125,13 +118,13 @@ async function importRoatanVessels() {
     }
   }
 
-  console.log('\n--- Resumen de Importación ---');
+  console.log(`\n--- Resumen de Importación (${filename}) ---`);
   console.log(`Éxito: ${successCount}`);
   console.log(`Duplicados saltados: ${skippedCount}`);
   console.log(`Errores: ${errorCount}`);
-  console.log('------------------------------');
+  console.log('-------------------------------------------');
 }
 
-importRoatanVessels()
+importVessels()
   .catch(console.error)
   .finally(() => prisma.$disconnect());
