@@ -23,6 +23,7 @@ async function importVessels() {
   }
 
   const [filename, targetPortId] = args;
+  const isCortes = filename.toUpperCase().includes('CORTES');
 
   console.log(`--- Iniciando Importación: ${filename} (Puerto: ${targetPortId}) ---`);
   
@@ -55,21 +56,26 @@ async function importVessels() {
     const vesselName = columns[1]?.trim();
     const ownerName = columns[2]?.trim();
     const identityOrRtn = columns[3]?.trim();
-    const eslora = columns[4]?.trim();
-    const manga = columns[5]?.trim();
-    const punta = columns[6]?.trim();
-    const grossTonnage = columns[7]?.trim();
-    const netTonnage = columns[8]?.trim();
+
+    // Cortes uses different column indices for dimensions
+    const eslora = isCortes ? columns[11]?.trim() : columns[4]?.trim();
+    const manga  = isCortes ? columns[12]?.trim() : columns[5]?.trim();
+    const punta  = isCortes ? columns[13]?.trim() : columns[6]?.trim();
+    const grossTonnage = isCortes ? columns[14]?.trim() : columns[7]?.trim();
+    const netTonnage = isCortes ? columns[15]?.trim() : columns[8]?.trim();
 
     if (!registrationNumber || !vesselName) {
-      // console.log(`[Línea ${i + 4}] Saltando por falta de matrícula o nombre.`);
       continue;
     }
 
-    // Determine activity from matricula (e.g. GU-5-002 -> 5)
+    // Determine activity from matricula 
+    // Format 1 (3 parts): RO-1-001 -> activity is parts[1]
+    // Format 2 (4 parts): UT-03-001-7 -> activity is parts[3]
     const parts = registrationNumber.split('-');
     let activityCode = "0";
-    if (parts.length >= 2) {
+    if (parts.length === 4) {
+      activityCode = parts[3];
+    } else if (parts.length === 3) {
       activityCode = parts[1];
     }
     const activityType = ACTIVITY_MAP[activityCode] || "Otro";
