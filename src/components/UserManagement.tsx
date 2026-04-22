@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Users, Shield, MapPin, Eye, X, Check, Save, Trash2, Mail, Lock, User as UserIcon } from "lucide-react";
+import { Users, Shield, MapPin, Eye, X, Check, Save, Trash2, Mail, Lock, User as UserIcon, Anchor } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function UserManagement({ initialUsers, ports, currentUserRole }: { initialUsers: any[], ports: any[], currentUserRole: string }) {
+export function UserManagement({ initialUsers, ports: initialPorts, currentUserRole }: { initialUsers: any[], ports: any[], currentUserRole: string }) {
     const [users, setUsers] = useState(initialUsers);
+    const [ports, setPorts] = useState(initialPorts);
     const [showModal, setShowModal] = useState(false);
+    const [showPortModal, setShowPortModal] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [portLoading, setPortLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
+    const [portForm, setPortForm] = useState({ name: "", location: "" });
     const router = useRouter();
 
     const [formData, setFormData] = useState({
@@ -51,6 +55,33 @@ export function UserManagement({ initialUsers, ports, currentUserRole }: { initi
             alert(error.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleCreatePort = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setPortLoading(true);
+        try {
+            const res = await fetch("/api/admin/ports", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(portForm)
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || "Error al crear puerto");
+            }
+
+            const data = await res.json();
+            setPorts([...ports, data.port]);
+            setShowPortModal(false);
+            setPortForm({ name: "", location: "" });
+            router.refresh();
+        } catch (error: any) {
+            alert(error.message);
+        } finally {
+            setPortLoading(false);
         }
     };
 
@@ -183,13 +214,78 @@ export function UserManagement({ initialUsers, ports, currentUserRole }: { initi
                             ))
                         )}
                         {isAdmin && (
-                            <button className="w-full mt-4 py-3 rounded-xl border border-dashed border-white/20 text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white hover:border-white/50 transition-colors">
+                            <button
+                                onClick={() => setShowPortModal(true)}
+                                className="w-full mt-4 py-3 rounded-xl border border-dashed border-white/20 text-xs font-bold uppercase tracking-widest text-white/50 hover:text-white hover:border-white/50 transition-colors"
+                            >
                                 + Agregar Puerto
                             </button>
                         )}
                     </div>
                 </div>
             </div>
+
+            {/* Modal de Nuevo Puerto */}
+            <AnimatePresence>
+                {showPortModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="bg-brand-primary w-full max-w-md rounded-3xl border border-white/10 shadow-2xl overflow-hidden"
+                        >
+                            <div className="p-6 border-b border-white/10 flex items-center justify-between premium-gradient">
+                                <h3 className="font-bold text-lg flex items-center gap-2 text-white">
+                                    <Anchor size={20} /> Agregar Nuevo Puerto
+                                </h3>
+                                <button onClick={() => setShowPortModal(false)} className="p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors">
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <form onSubmit={handleCreatePort} className="p-6 space-y-4">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold uppercase tracking-widest opacity-60">Nombre del Puerto</label>
+                                    <div className="relative">
+                                        <Anchor className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30" size={16} />
+                                        <input
+                                            required
+                                            type="text"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-brand-secondary outline-none"
+                                            placeholder="Ej. PUERTO CORTÉS"
+                                            value={portForm.name}
+                                            onChange={(e) => setPortForm({ ...portForm, name: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold uppercase tracking-widest opacity-60">Ubicación <span className="opacity-40 normal-case font-normal">(opcional)</span></label>
+                                    <div className="relative">
+                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 opacity-30" size={16} />
+                                        <input
+                                            type="text"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-brand-secondary outline-none"
+                                            placeholder="Ej. Departamento de Cortés"
+                                            value={portForm.location}
+                                            onChange={(e) => setPortForm({ ...portForm, location: e.target.value })}
+                                        />
+                                    </div>
+                                </div>
+
+                                <button
+                                    disabled={portLoading}
+                                    type="submit"
+                                    className="w-full premium-gradient py-4 rounded-xl text-white font-bold shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 mt-4"
+                                >
+                                    {portLoading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : <><Save size={18} /> Guardar Puerto</>}
+                                </button>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
 
             {/* Modal de Nuevo Usuario */}
             <AnimatePresence>
