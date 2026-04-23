@@ -279,7 +279,7 @@ export async function POST(request: Request) {
   }
 }
 
-// GET /api/vessels - List registrations
+// GET /api/vessels - List registrations with server-side pagination and search
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);
 
@@ -288,30 +288,56 @@ export async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const portId = searchParams.get("portId");
+  const portId    = searchParams.get("portId");
+  const search    = searchParams.get("search")?.trim() || "";
+  const page      = Math.max(1, parseInt(searchParams.get("page")  || "1",  10));
+  const limit     = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") || "50", 10)));
+  const skip      = (page - 1) * limit;
 
   try {
     let where: any = {};
+
+    // Role-based port filter
     if (session.user.role === "CAPITAN") {
       if (!session.user.portId) {
-        // If captain has no port assigned, they see nothing
-        return NextResponse.json([]);
+        return NextResponse.json({ data: [], total: 0, page, limit, totalPages: 0 });
       }
       where.portId = session.user.portId;
     } else if (portId) {
       where.portId = portId;
     }
 
-    const registrations = await prisma.vesselRegistration.findMany({
-      where,
-      include: {
-        port: { select: { name: true } },
-        captain: { select: { name: true } }
-      },
-      orderBy: { createdAt: "desc" }
-    });
+    // Full-text search filter (DB-level)
+    if (search) {
+      where.OR = [
+        { vesselName:         { contains: search, mode: "insensitive" } },
+        { registrationNumber: { contains: search, mode: "insensitive" } },
+        { ownerName:          { contains: search, mode: "insensitive" } },
+      ];
+    }
 
-    return NextResponse.json(registrations);
+    // Run count + paginated fetch in parallel
+    const [total, data] = await Promise.all([
+      prisma.vesselRegistration.count({ where }),
+      prisma.vesselRegistration.findMany({
+        where,
+        include: {
+          port:    { select: { name: true } },
+          captain: { select: { name: true } },
+        },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+    ]);
+
+    return NextResponse.json({
+      data,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
