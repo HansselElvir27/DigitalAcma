@@ -4,12 +4,18 @@ import { Users } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { UserManagement } from "@/components/UserManagement";
+import { redirect } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
 export default async function UsuariosPage() {
     const session = await getServerSession(authOptions);
     const currentUserRole = (session?.user as any)?.role || "PUBLIC";
+
+    // Solo ADMIN puede acceder a esta página
+    if (currentUserRole !== "ADMIN") {
+        redirect("/dashboard");
+    }
 
     const users = await prisma.user.findMany({
         orderBy: { createdAt: 'desc' },

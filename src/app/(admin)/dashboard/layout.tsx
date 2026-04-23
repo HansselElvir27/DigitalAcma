@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const user = session?.user;
     const isCIM = user?.role === "CIM";
     const isAdmin = user?.role === "ADMIN";
-    const canManageUsers = isCIM || isAdmin;
+    const canManageUsers = isAdmin;
     const canViewInfo = isCIM || isAdmin;
     const pathname = usePathname();
 
