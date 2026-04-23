@@ -14,6 +14,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const isAdmin = user?.role === "ADMIN";
     const canManageUsers = isAdmin;
     const canViewInfo = isCIM || isAdmin;
+    const canInspect = isAdmin || user?.role === "CAPITAN";
     const pathname = usePathname();
 
     const initials = user?.name
@@ -38,7 +39,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     {[
                         { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: dashboardHref, active: pathname === dashboardHref },
                         ...(canViewInfo ? [{ icon: <FileText size={20} />, label: "Solicitudes de Info", href: "/dashboard/info", active: pathname === "/dashboard/info" }] : []),
-                        { icon: <ClipboardList size={20} />, label: "Inspección Embarcaciones", href: "/dashboard/inscripcion-embarcaciones", active: pathname === "/dashboard/inscripcion-embarcaciones" },
+                        ...(canInspect ? [{ icon: <ClipboardList size={20} />, label: "Inspección Embarcaciones", href: "/dashboard/inscripcion-embarcaciones", active: pathname === "/dashboard/inscripcion-embarcaciones" }] : []),
                         { icon: <Anchor size={20} />, label: "Buques Registrados", href: "/dashboard/vessels", active: pathname === "/dashboard/vessels" },
                         { icon: <Ship size={20} />, label: "Zarpes Pendientes", href: "/dashboard/zarpes", active: pathname === "/dashboard/zarpes" },
                         { icon: <LifeBuoy size={20} />, label: "Pases de Salida", href: "/dashboard/pase-salida", active: pathname === "/dashboard/pase-salida" },
