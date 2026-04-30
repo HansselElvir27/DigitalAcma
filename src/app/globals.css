@@ -7,20 +7,13 @@
 }
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --glass: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  color-scheme: dark;
+  --background: #020617;
+  --foreground: #f8fafc;
+  --glass: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020617;
-    --foreground: #f8fafc;
-    --glass: rgba(15, 23, 42, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.1);
-  }
-}
 
 body {
   background: var(--background);
