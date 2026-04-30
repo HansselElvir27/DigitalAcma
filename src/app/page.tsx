@@ -9,7 +9,7 @@ export default function Home() {
           Gestión Marítima <span className="text-brand-secondary">Inteligente</span>
         </h1>
         <p className="text-xl opacity-70 max-w-2xl mx-auto">
-          Simplificamos los trámites marítimos para ciudadanos e instituciones, garantizando seguridad y eficiencia en cada despacho / DGMM.
+          Simplificamos los trámites marítimos para ciudadanos e instituciones, garantizando seguridad y eficiencia en cada despacho.
         </p>
         <div className="flex justify-center gap-4 pt-8">
           <a href="/solicitud-informacion" className="premium-gradient px-8 py-4 rounded-xl text-white font-bold shadow-2xl hover:scale-105 transition-transform flex items-center gap-2">
