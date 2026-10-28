@@ -1,0 +1,44 @@
+# Configuración de Nginx para acma.dgmm.gob.hn
+# Guarda este bloque en tu archivo de configuración de Nginx (ej. /etc/nginx/sites-available/digital-acma)
+
+# Redireccionar todo el tráfico HTTP a HTTPS
+server {
+    listen 80;
+    server_name acma.dgmm.gob.hn;
+    return 301 https://$host$request_uri;
+}
+
+# Servidor HTTPS
+server {
+    listen 443 ssl;
+    server_name acma.dgmm.gob.hn;
+
+    # Rutas a tus certificados SSL (sustituye con tus rutas reales)
+    ssl_certificate /etc/letsencrypt/live/acma.dgmm.gob.hn/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/acma.dgmm.gob.hn/privkey.pem;
+
+    # Opciones recomendadas de seguridad SSL
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    # Ajuste de tamaño máximo de archivo subido (necesario para PDFs grandes de Zarpes)
+    client_max_body_size 50M;
+
+    # Proxy inverso para pasar las peticiones al puerto 3000 de Next.js
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        
+        # Habilitar WebSockets (necesario si usas WS o NextJS HMR/Habilitaciones especiales)
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        
+        # Headers originales de la petición
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

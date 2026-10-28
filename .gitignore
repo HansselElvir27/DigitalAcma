@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing & Logs
+coverage/
+*.log
+*-log.txt
+*log*.txt
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Environment and secrets
+.env
+.env*.local
+.env.development
+.env.test
+.env.production
+!.env.production.example
+
+# Diagnostic, temporary test files & DB dumps
+db_*.txt
+debug_*.txt
+test_*.txt
+test_output*.txt
+info.txt
+scratch/
+*.csv
+
+# Uploaded user files (keep directory, ignore uploaded contents)
+public/uploads/*
+!public/uploads/.gitkeep
+public/file_debug.txt
+public/test_visibility.txt
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.pem
+.vscode/
+.idea/

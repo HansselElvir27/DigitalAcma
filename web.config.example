@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  Configuración para IIS (Internet Information Services) en Windows Server.
+  Requiere:
+  1. Módulo "URL Rewrite" instalado en IIS.
+  2. Módulo "Application Request Routing (ARR)" instalado, y la opción "Enable proxy" activada en ARR Application Settings.
+-->
+<configuration>
+  <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="Reverse Proxy to NextJS (localhost:3000)" stopProcessing="true">
+          <match url="(.*)" />
+          <action type="Rewrite" url="http://localhost:3000/{R:1}" />
+        </rule>
+      </rules>
+    </rewrite>
+    
+    <security>
+      <requestFiltering>
+        <!-- Aumenta el límite de subida a 50MB (52428800 bytes) -->
+        <requestLimits maxAllowedContentLength="52428800" />
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>
