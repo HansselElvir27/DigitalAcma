@@ -4,6 +4,10 @@ import { getPrismaClient } from "@/lib/db";
 import { verifyPassword, needsRehash, hashPassword } from "@/lib/password";
 
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
+// Strip trailing slash from NEXTAUTH_URL if present (NextAuth is sensitive to this)
+if (process.env.NEXTAUTH_URL?.endsWith("/")) {
+    process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL.slice(0, -1);
+}
 
 export const authOptions: NextAuthOptions = {
     secret: NEXTAUTH_SECRET,
