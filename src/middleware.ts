@@ -2,45 +2,47 @@ import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import { JWT } from "next-auth/jwt";
 
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
+
 export default withAuth(
     function middleware(req: NextRequestWithAuth) {
         const token = req.nextauth.token;
         const pathname = req.nextUrl.pathname;
         const role = (token as any)?.role;
 
-        // Reject public unprivileged users from all dashboard routes
-        if (!role || role === "PUBLIC") {
+        // Reject unauthenticated or public unprivileged users from dashboard
+        if (!token || !role || role === "PUBLIC") {
             return NextResponse.redirect(new URL("/auth/signin", req.url));
         }
 
-        // Only ADMIN can manage users and system ports
-        if (pathname.startsWith("/dashboard/usuarios") && role !== "ADMIN") {
+        // Full access for ADMIN across the entire system
+        if (role === "ADMIN") {
+            return NextResponse.next();
+        }
+
+        // Only ADMIN can access user management
+        if (pathname.startsWith("/dashboard/usuarios")) {
             return NextResponse.redirect(new URL("/dashboard", req.url));
         }
 
-        // Restrict CIM-specific views
-        if (pathname.startsWith("/dashboard/cim") && role === "CAPITAN") {
-            return NextResponse.redirect(new URL("/dashboard/capitan", req.url));
+        // Role-specific restrictions for CAPITAN
+        if (role === "CAPITAN") {
+            if (pathname.startsWith("/dashboard/cim") || pathname.startsWith("/dashboard/info")) {
+                return NextResponse.redirect(new URL("/dashboard/capitan", req.url));
+            }
         }
 
-        // Restrict CAPITAN-specific dashboard
-        if (pathname.startsWith("/dashboard/capitan") && role === "CIM") {
-            return NextResponse.redirect(new URL("/dashboard/cim", req.url));
-        }
-
-        // Restrict Information Requests to CIM and ADMIN
-        if (pathname.startsWith("/dashboard/info") && role === "CAPITAN") {
-            return NextResponse.redirect(new URL("/dashboard/capitan", req.url));
-        }
-
-        // Restrict Vessel Inspection to CAPITAN and ADMIN
-        if (pathname.startsWith("/dashboard/inscripcion-embarcaciones") && role === "CIM") {
-            return NextResponse.redirect(new URL("/dashboard/cim", req.url));
+        // Role-specific restrictions for CIM
+        if (role === "CIM") {
+            if (pathname.startsWith("/dashboard/capitan") || pathname.startsWith("/dashboard/inscripcion-embarcaciones")) {
+                return NextResponse.redirect(new URL("/dashboard/cim", req.url));
+            }
         }
 
         return NextResponse.next();
     },
     {
+        secret: NEXTAUTH_SECRET,
         callbacks: {
             authorized: ({ token }: { token: JWT | null }) => !!token,
         },

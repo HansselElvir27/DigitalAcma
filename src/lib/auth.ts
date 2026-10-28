@@ -3,8 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { getPrismaClient } from "@/lib/db";
 import { verifyPassword, needsRehash, hashPassword } from "@/lib/password";
 
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
+
 export const authOptions: NextAuthOptions = {
-    secret: process.env.NEXTAUTH_SECRET || (process.env.NODE_ENV === "development" ? "dev-development-secret-only-change-in-env" : undefined),
+    secret: NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             name: "Credentials",
