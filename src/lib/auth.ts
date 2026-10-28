@@ -38,7 +38,9 @@ export const authOptions: NextAuthOptions = {
                     }
 
                     const isValid = verifyPassword(credentials.password, user.password);
+                    console.log(`[AUTH] Password verify result for ${user.email}: ${isValid}`);
                     if (!isValid) {
+                        console.log(`[AUTH] Invalid password. Stored prefix: ${user.password?.substring(0, 10)}`);
                         return null;
                     }
 

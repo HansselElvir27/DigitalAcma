@@ -27,16 +27,22 @@ function SignInForm() {
             });
 
             if (result?.error) {
-                setError("Credenciales inválidas o error de conexión al servidor.");
+                // Muestra el error específico en consola para debugging
+                console.error("[LOGIN] signIn error:", result.error);
+                setError("Credenciales inválidas. Verifique su correo y contraseña.");
                 setLoading(false);
             } else if (result?.ok) {
-                // Redirigir de forma completa para sincronizar cookies de sesión y Server Components
-                window.location.href = callbackUrl;
+                // Redirección completa para sincronizar cookies de sesión con Server Components
+                // Siempre redirige a /dashboard que luego decide el sub-dashboard por rol
+                window.location.replace("/dashboard");
             } else {
+                // result es null o undefined — error inesperado de red/configuración
+                console.error("[LOGIN] signIn returned unexpected result:", result);
+                setError("No se pudo establecer sesión. Intente recargar la página.");
                 setLoading(false);
             }
         } catch (err: any) {
-            console.error("Login error:", err);
+            console.error("[LOGIN] Exception:", err);
             setError("Error de red. Verifique su conexión e intente nuevamente.");
             setLoading(false);
         }
