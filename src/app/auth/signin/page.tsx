@@ -21,29 +21,27 @@ function SignInForm() {
 
         try {
             const result = await signIn("credentials", {
-                email,
+                email: email.trim().toLowerCase(),
                 password,
                 redirect: false,
             });
 
             if (result?.error) {
-                // Muestra el error específico en consola para debugging
                 console.error("[LOGIN] signIn error:", result.error);
-                setError("Credenciales inválidas. Verifique su correo y contraseña.");
+                setError("Credenciales inválidas o sin autorización.");
                 setLoading(false);
             } else if (result?.ok) {
-                // Redirección completa para sincronizar cookies de sesión con Server Components
-                // Siempre redirige a /dashboard que luego decide el sub-dashboard por rol
-                window.location.replace("/dashboard");
+                // Sincronizar navegación completa hacia el dashboard
+                const target = callbackUrl && !callbackUrl.includes("/auth/") ? callbackUrl : "/dashboard";
+                window.location.href = target;
             } else {
-                // result es null o undefined — error inesperado de red/configuración
                 console.error("[LOGIN] signIn returned unexpected result:", result);
-                setError("No se pudo establecer sesión. Intente recargar la página.");
+                setError("No se pudo iniciar sesión. Por favor recargue e intente nuevamente.");
                 setLoading(false);
             }
         } catch (err: any) {
             console.error("[LOGIN] Exception:", err);
-            setError("Error de red. Verifique su conexión e intente nuevamente.");
+            setError("Error de conexión con el servidor. Intente de nuevo.");
             setLoading(false);
         }
     };
@@ -100,7 +98,10 @@ function SignInForm() {
                     className="w-full premium-gradient py-4 rounded-xl text-white font-bold text-lg shadow-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                     {loading ? (
-                        <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <div className="flex items-center gap-2">
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <span>Accediendo...</span>
+                        </div>
                     ) : (
                         <><Lock size={20} /> Entrar</>
                     )}

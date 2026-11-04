@@ -3,10 +3,16 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { getPrismaClient } from "@/lib/db";
 import { verifyPassword, needsRehash, hashPassword } from "@/lib/password";
 
-const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
-// Strip trailing slash from NEXTAUTH_URL if present (NextAuth is sensitive to this)
-if (process.env.NEXTAUTH_URL?.endsWith("/")) {
-    process.env.NEXTAUTH_URL = process.env.NEXTAUTH_URL.slice(0, -1);
+const rawSecret = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
+const NEXTAUTH_SECRET = rawSecret.replace(/^["']|["']$/g, "").trim();
+
+// Strip trailing slash and quotes from NEXTAUTH_URL if present
+if (process.env.NEXTAUTH_URL) {
+    let cleanUrl = process.env.NEXTAUTH_URL.replace(/^["']|["']$/g, "").trim();
+    if (cleanUrl.endsWith("/")) {
+        cleanUrl = cleanUrl.slice(0, -1);
+    }
+    process.env.NEXTAUTH_URL = cleanUrl;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -38,13 +44,14 @@ export const authOptions: NextAuthOptions = {
                     });
 
                     if (!user || !user.password) {
+                        console.log(`[AUTH] User not found or has no password: ${normalizedEmail}`);
                         return null;
                     }
 
                     const isValid = verifyPassword(credentials.password, user.password);
-                    console.log(`[AUTH] Password verify result for ${user.email}: ${isValid}`);
+                    console.log(`[AUTH] Password verify result for ${user.email}: ${isValid} (Role: ${user.role})`);
                     if (!isValid) {
-                        console.log(`[AUTH] Invalid password. Stored prefix: ${user.password?.substring(0, 10)}`);
+                        console.log(`[AUTH] Invalid password for ${user.email}`);
                         return null;
                     }
 
@@ -82,6 +89,7 @@ export const authOptions: NextAuthOptions = {
                 token.id = user.id;
                 token.role = user.role;
                 token.portId = user.portId;
+                console.log(`[AUTH CALLBACK] JWT set for user ${user.email} with role: ${user.role}`);
             }
             return token;
         },

@@ -1,57 +1,73 @@
-import { withAuth, NextRequestWithAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import { JWT } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
+const rawSecret = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
+const NEXTAUTH_SECRET = rawSecret.replace(/^["']|["']$/g, "").trim();
 
-export default withAuth(
-    function middleware(req: NextRequestWithAuth) {
-        const token = req.nextauth.token;
-        const pathname = req.nextUrl.pathname;
-        const role = (token as any)?.role;
+export async function middleware(req: NextRequest) {
+    const pathname = req.nextUrl.pathname;
 
-        // Reject unauthenticated or public unprivileged users from dashboard
-        if (!token || !role || role === "PUBLIC") {
-            return NextResponse.redirect(new URL("/auth/signin", req.url));
-        }
-
-        // Full access for ADMIN across the entire system
-        if (role === "ADMIN") {
-            return NextResponse.next();
-        }
-
-        // Only ADMIN can access user management
-        if (pathname.startsWith("/dashboard/usuarios")) {
-            return NextResponse.redirect(new URL("/dashboard", req.url));
-        }
-
-        // Role-specific restrictions for CAPITAN
-        if (role === "CAPITAN") {
-            if (pathname.startsWith("/dashboard/cim") || pathname.startsWith("/dashboard/info")) {
-                return NextResponse.redirect(new URL("/dashboard/capitan", req.url));
-            }
-        }
-
-        // Role-specific restrictions for CIM
-        if (role === "CIM") {
-            if (pathname.startsWith("/dashboard/capitan") || pathname.startsWith("/dashboard/inscripcion-embarcaciones")) {
-                return NextResponse.redirect(new URL("/dashboard/cim", req.url));
-            }
-        }
-
+    // Only protect /dashboard routes
+    if (!pathname.startsWith("/dashboard")) {
         return NextResponse.next();
-    },
-    {
-        secret: NEXTAUTH_SECRET,
-        callbacks: {
-            authorized: ({ token }: { token: JWT | null }) => !!token,
-        },
-        pages: {
-            signIn: "/auth/signin",
-        },
     }
-);
+
+    // Try reading token with secureCookie: true (__Secure- prefix), then fallback to false
+    let token = await getToken({
+        req,
+        secret: NEXTAUTH_SECRET,
+        secureCookie: true,
+    });
+
+    if (!token) {
+        token = await getToken({
+            req,
+            secret: NEXTAUTH_SECRET,
+            secureCookie: false,
+        });
+    }
+
+    const role = (token as any)?.role;
+    console.log(`[MIDDLEWARE] ${pathname} | Token: ${!!token} | Role: ${role || "NONE"}`);
+
+    const baseUrl = process.env.NEXTAUTH_URL || req.nextUrl.origin;
+
+    // Reject unauthenticated or public unprivileged users from dashboard
+    if (!token || !role || role === "PUBLIC") {
+        console.log(`[MIDDLEWARE] Denied ${pathname} -> redirecting to /auth/signin`);
+        const signInUrl = new URL("/auth/signin", baseUrl);
+        signInUrl.searchParams.set("callbackUrl", pathname);
+        return NextResponse.redirect(signInUrl);
+    }
+
+    // Full access for ADMIN across the entire system
+    if (role === "ADMIN") {
+        return NextResponse.next();
+    }
+
+    // Only ADMIN can access user management
+    if (pathname.startsWith("/dashboard/usuarios")) {
+        return NextResponse.redirect(new URL("/dashboard", baseUrl));
+    }
+
+    // Role-specific restrictions for CAPITAN
+    if (role === "CAPITAN") {
+        if (pathname.startsWith("/dashboard/cim") || pathname.startsWith("/dashboard/info")) {
+            return NextResponse.redirect(new URL("/dashboard/capitan", baseUrl));
+        }
+    }
+
+    // Role-specific restrictions for CIM
+    if (role === "CIM") {
+        if (pathname.startsWith("/dashboard/capitan") || pathname.startsWith("/dashboard/inscripcion-embarcaciones")) {
+            return NextResponse.redirect(new URL("/dashboard/cim", baseUrl));
+        }
+    }
+
+    return NextResponse.next();
+}
 
 export const config = {
-    matcher: ["/dashboard/:path*"],
+    matcher: ["/dashboard", "/dashboard/:path*"],
 };

@@ -6,18 +6,18 @@ export const dynamic = "force-dynamic";
 
 export default async function DashboardRootPage() {
     const session = await getServerSession(authOptions);
+    const userRole = (session?.user as any)?.role;
+    console.log(`[DASHBOARD ROOT] User: ${session?.user?.email || "NONE"}, Role: ${userRole || "NONE"}`);
 
     if (!session?.user) {
+        console.log("[DASHBOARD ROOT] No session found, redirecting to /auth/signin");
         redirect("/auth/signin");
     }
 
-    const role = (session.user as any)?.role;
-
-    if (role === "CAPITAN") {
+    if (userRole === "CAPITAN") {
         redirect("/dashboard/capitan");
     }
 
     // Default for ADMIN and CIM
     redirect("/dashboard/cim");
 }
-
