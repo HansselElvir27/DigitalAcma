@@ -18,19 +18,35 @@ if (process.env.NEXTAUTH_URL) {
     process.env.NEXTAUTH_URL = cleanUrl;
 }
 
-const isProduction = process.env.NODE_ENV === "production";
-
 export const authOptions: NextAuthOptions = {
     secret: NEXTAUTH_SECRET,
-    useSecureCookies: isProduction,
+    // Desactivar prefijos __Secure- para máxima compatibilidad con proxies y certificados
+    useSecureCookies: false,
     cookies: {
         sessionToken: {
-            name: `${isProduction ? "__Secure-" : ""}next-auth.session-token`,
+            name: "next-auth.session-token",
             options: {
                 httpOnly: true,
                 sameSite: "lax",
                 path: "/",
-                secure: isProduction,
+                secure: false,
+            },
+        },
+        callbackUrl: {
+            name: "next-auth.callback-url",
+            options: {
+                sameSite: "lax",
+                path: "/",
+                secure: false,
+            },
+        },
+        csrfToken: {
+            name: "next-auth.csrf-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: false,
             },
         },
     },

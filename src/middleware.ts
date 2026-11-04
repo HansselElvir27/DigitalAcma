@@ -13,21 +13,25 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // Try reading token with secureCookie: true (__Secure- prefix), then fallback to false, then default
+    // 1. Try reading standard next-auth.session-token
     let token = await getToken({
         req,
         secret: NEXTAUTH_SECRET,
-        secureCookie: true,
+        cookieName: "next-auth.session-token",
+        secureCookie: false,
     });
 
+    // 2. Try __Secure- prefix fallback
     if (!token) {
         token = await getToken({
             req,
             secret: NEXTAUTH_SECRET,
-            secureCookie: false,
+            cookieName: "__Secure-next-auth.session-token",
+            secureCookie: true,
         });
     }
 
+    // 3. Try default
     if (!token) {
         token = await getToken({
             req,
