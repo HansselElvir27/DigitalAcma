@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Lock, Mail, Key } from "lucide-react";
-import { signIn, getSession } from "next-auth/react";
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -13,7 +12,8 @@ function SignInForm() {
     const [loading, setLoading] = useState(false);
     const searchParams = useSearchParams();
     const urlError = searchParams.get("error");
-    const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+    // callbackUrl after login (the dashboard page will route to the correct role page)
+    const callbackUrl = "/dashboard";
 
     const displayError = error || (urlError ? "Credenciales inválidas o sesión expirada." : "");
 
@@ -23,40 +23,36 @@ function SignInForm() {
         setLoading(true);
 
         try {
-            const result = await signIn("credentials", {
+            // 1. Obtener el token CSRF de NextAuth
+            const csrfResponse = await fetch("/api/auth/csrf");
+            if (!csrfResponse.ok) {
+                throw new Error("No se pudo obtener el token CSRF");
+            }
+            const { csrfToken } = await csrfResponse.json();
+
+            // 2. Enviar como form POST nativo para que el browser maneje
+            //    el Set-Cookie del redirect 302 de forma nativa (más confiable que fetch)
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/api/auth/callback/credentials";
+
+            const fields: Record<string, string> = {
+                csrfToken: csrfToken || "",
                 email: email.trim().toLowerCase(),
                 password,
-                redirect: false,
+                callbackUrl,
+            };
+
+            Object.entries(fields).forEach(([key, value]) => {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
             });
 
-            if (result?.error) {
-                console.error("[LOGIN] signIn error:", result.error);
-                setError("Credenciales inválidas o sin autorización.");
-                setLoading(false);
-                return;
-            }
-
-            // Esperar a que el navegador termine de persistir la cookie confirmando la sesión
-            let session = null;
-            for (let i = 0; i < 6; i++) {
-                session = await getSession();
-                if (session?.user) break;
-                await new Promise((resolve) => setTimeout(resolve, 200));
-            }
-
-            const userRole = (session?.user as any)?.role;
-            let target = "/dashboard/cim";
-
-            if (userRole === "CAPITAN") {
-                target = "/dashboard/capitan";
-            } else if (callbackUrl && !callbackUrl.includes("/auth/") && callbackUrl !== "/dashboard") {
-                target = callbackUrl;
-            }
-
-            console.log(`[LOGIN] Session confirmed for ${session?.user?.email || "user"} (${userRole || "unknown"}). Navigating to: ${target}`);
-
-            // Navegar directamente al dashboard correspondiente
-            window.location.href = target;
+            document.body.appendChild(form);
+            form.submit(); // El browser maneja el cookie del redirect 302 nativamente
         } catch (err: any) {
             console.error("[LOGIN] Exception:", err);
             setError("Error de conexión con el servidor. Intente de nuevo.");
