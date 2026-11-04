@@ -20,33 +20,33 @@ if (process.env.NEXTAUTH_URL) {
 
 export const authOptions: NextAuthOptions = {
     secret: NEXTAUTH_SECRET,
-    // Desactivar prefijos __Secure- para máxima compatibilidad con proxies y certificados
-    useSecureCookies: false,
+    // Usar prefijos __Secure- (HTTPS production con Nginx)
+    useSecureCookies: true,
     cookies: {
         sessionToken: {
-            name: "next-auth.session-token",
+            name: "__Secure-next-auth.session-token",
             options: {
                 httpOnly: true,
                 sameSite: "lax",
                 path: "/",
-                secure: false,
+                secure: true,
             },
         },
         callbackUrl: {
-            name: "next-auth.callback-url",
+            name: "__Secure-next-auth.callback-url",
             options: {
                 sameSite: "lax",
                 path: "/",
-                secure: false,
+                secure: true,
             },
         },
         csrfToken: {
-            name: "next-auth.csrf-token",
+            name: "__Host-next-auth.csrf-token",
             options: {
                 httpOnly: true,
                 sameSite: "lax",
                 path: "/",
-                secure: false,
+                secure: true,
             },
         },
     },

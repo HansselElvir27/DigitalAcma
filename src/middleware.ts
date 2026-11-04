@@ -13,29 +13,22 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // 1. Try reading standard next-auth.session-token
+    // Cookie name matches what NextAuth sets on HTTPS production with Nginx
+    // Confirmed via browser DevTools: server sends __Secure-next-auth.session-token
     let token = await getToken({
         req,
         secret: NEXTAUTH_SECRET,
-        cookieName: "next-auth.session-token",
-        secureCookie: false,
+        cookieName: "__Secure-next-auth.session-token",
+        secureCookie: true,
     });
 
-    // 2. Try __Secure- prefix fallback
+    // Fallback: plain name (HTTP or non-secure environments)
     if (!token) {
         token = await getToken({
             req,
             secret: NEXTAUTH_SECRET,
-            cookieName: "__Secure-next-auth.session-token",
-            secureCookie: true,
-        });
-    }
-
-    // 3. Try default
-    if (!token) {
-        token = await getToken({
-            req,
-            secret: NEXTAUTH_SECRET,
+            cookieName: "next-auth.session-token",
+            secureCookie: false,
         });
     }
 
