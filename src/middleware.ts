@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // Try reading token with secureCookie: true (__Secure- prefix), then fallback to false
+    // Try reading token with secureCookie: true (__Secure- prefix), then fallback to false, then default
     let token = await getToken({
         req,
         secret: NEXTAUTH_SECRET,
@@ -28,15 +28,21 @@ export async function middleware(req: NextRequest) {
         });
     }
 
-    const role = (token as any)?.role;
-    console.log(`[MIDDLEWARE] ${pathname} | Token: ${!!token} | Role: ${role || "NONE"}`);
+    if (!token) {
+        token = await getToken({
+            req,
+            secret: NEXTAUTH_SECRET,
+        });
+    }
 
-    const baseUrl = process.env.NEXTAUTH_URL || req.nextUrl.origin;
+    const role = (token as any)?.role;
+    const cookieNames = req.cookies.getAll().map(c => c.name).join(", ");
+    console.log(`[MIDDLEWARE] ${pathname} | Cookies: [${cookieNames || "NONE"}] | Token: ${!!token} | Role: ${role || "NONE"}`);
 
     // Reject unauthenticated or public unprivileged users from dashboard
     if (!token || !role || role === "PUBLIC") {
         console.log(`[MIDDLEWARE] Denied ${pathname} -> redirecting to /auth/signin`);
-        const signInUrl = new URL("/auth/signin", baseUrl);
+        const signInUrl = new URL("/auth/signin", req.nextUrl);
         signInUrl.searchParams.set("callbackUrl", pathname);
         return NextResponse.redirect(signInUrl);
     }
@@ -48,20 +54,20 @@ export async function middleware(req: NextRequest) {
 
     // Only ADMIN can access user management
     if (pathname.startsWith("/dashboard/usuarios")) {
-        return NextResponse.redirect(new URL("/dashboard", baseUrl));
+        return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
     }
 
     // Role-specific restrictions for CAPITAN
     if (role === "CAPITAN") {
         if (pathname.startsWith("/dashboard/cim") || pathname.startsWith("/dashboard/info")) {
-            return NextResponse.redirect(new URL("/dashboard/capitan", baseUrl));
+            return NextResponse.redirect(new URL("/dashboard/capitan", req.nextUrl));
         }
     }
 
     // Role-specific restrictions for CIM
     if (role === "CIM") {
         if (pathname.startsWith("/dashboard/capitan") || pathname.startsWith("/dashboard/inscripcion-embarcaciones")) {
-            return NextResponse.redirect(new URL("/dashboard/cim", baseUrl));
+            return NextResponse.redirect(new URL("/dashboard/cim", req.nextUrl));
         }
     }
 

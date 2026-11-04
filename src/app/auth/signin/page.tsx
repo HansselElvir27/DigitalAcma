@@ -26,13 +26,15 @@ function SignInForm() {
                 redirect: false,
             });
 
+            console.log("[LOGIN] signIn result:", result);
+
             if (result?.error) {
                 console.error("[LOGIN] signIn error:", result.error);
                 setError("Credenciales inválidas o sin autorización.");
                 setLoading(false);
             } else if (result?.ok) {
-                // Sincronizar navegación completa hacia el dashboard
                 const target = callbackUrl && !callbackUrl.includes("/auth/") ? callbackUrl : "/dashboard";
+                console.log("[LOGIN] Success! Navigating to:", target);
                 window.location.href = target;
             } else {
                 console.error("[LOGIN] signIn returned unexpected result:", result);
