@@ -3,6 +3,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { getPrismaClient } from "@/lib/db";
 import { verifyPassword, needsRehash, hashPassword } from "@/lib/password";
 
+// Trust proxy headers (X-Forwarded-Host, X-Forwarded-Proto) in NextAuth v4
+process.env.AUTH_TRUST_HOST = "true";
+
 const rawSecret = process.env.NEXTAUTH_SECRET || "your-nextauth-secret-here-change-in-production";
 const NEXTAUTH_SECRET = rawSecret.replace(/^["']|["']$/g, "").trim();
 
