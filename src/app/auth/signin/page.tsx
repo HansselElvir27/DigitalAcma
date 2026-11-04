@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Lock, Mail, Key } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -23,14 +23,40 @@ function SignInForm() {
         setLoading(true);
 
         try {
-            const target = callbackUrl && !callbackUrl.includes("/auth/") ? callbackUrl : "/dashboard";
-            // Usar redirección nativa de NextAuth para garantizar persistencia de cookies
-            await signIn("credentials", {
+            const result = await signIn("credentials", {
                 email: email.trim().toLowerCase(),
                 password,
-                callbackUrl: target,
-                redirect: true,
+                redirect: false,
             });
+
+            if (result?.error) {
+                console.error("[LOGIN] signIn error:", result.error);
+                setError("Credenciales inválidas o sin autorización.");
+                setLoading(false);
+                return;
+            }
+
+            // Esperar a que el navegador termine de persistir la cookie confirmando la sesión
+            let session = null;
+            for (let i = 0; i < 6; i++) {
+                session = await getSession();
+                if (session?.user) break;
+                await new Promise((resolve) => setTimeout(resolve, 200));
+            }
+
+            const userRole = (session?.user as any)?.role;
+            let target = "/dashboard/cim";
+
+            if (userRole === "CAPITAN") {
+                target = "/dashboard/capitan";
+            } else if (callbackUrl && !callbackUrl.includes("/auth/") && callbackUrl !== "/dashboard") {
+                target = callbackUrl;
+            }
+
+            console.log(`[LOGIN] Session confirmed for ${session?.user?.email || "user"} (${userRole || "unknown"}). Navigating to: ${target}`);
+
+            // Navegar directamente al dashboard correspondiente
+            window.location.href = target;
         } catch (err: any) {
             console.error("[LOGIN] Exception:", err);
             setError("Error de conexión con el servidor. Intente de nuevo.");
