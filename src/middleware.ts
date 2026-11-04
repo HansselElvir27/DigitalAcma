@@ -13,16 +13,26 @@ export async function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // Cookie name matches what NextAuth sets on HTTPS production with Nginx
-    // Confirmed via browser DevTools: server sends __Secure-next-auth.session-token
-    let token = await getToken({
-        req,
-        secret: NEXTAUTH_SECRET,
-        cookieName: "__Secure-next-auth.session-token",
-        secureCookie: true,
-    });
+    // Log ALL cookie headers for deep debugging
+    const rawCookieHeader = req.headers.get("cookie") || "";
+    const cookieNames = req.cookies.getAll().map(c => c.name).join(", ");
+    console.log(`[MIDDLEWARE] ${pathname} | Raw-Cookie-Header: ${rawCookieHeader.substring(0, 300)} | Parsed: [${cookieNames || "NONE"}]`);
 
-    // Fallback: plain name (HTTP or non-secure environments)
+    // Try all possible cookie names
+    let token = null;
+
+    // 1. __Secure- prefix (HTTPS with proxy)
+    if (!token) {
+        token = await getToken({
+            req,
+            secret: NEXTAUTH_SECRET,
+            cookieName: "__Secure-next-auth.session-token",
+            secureCookie: true,
+        });
+        if (token) console.log(`[MIDDLEWARE] Token found via __Secure-next-auth.session-token`);
+    }
+
+    // 2. Plain name (no prefix)
     if (!token) {
         token = await getToken({
             req,
@@ -30,11 +40,17 @@ export async function middleware(req: NextRequest) {
             cookieName: "next-auth.session-token",
             secureCookie: false,
         });
+        if (token) console.log(`[MIDDLEWARE] Token found via next-auth.session-token`);
+    }
+
+    // 3. NextAuth default auto-detect
+    if (!token) {
+        token = await getToken({ req, secret: NEXTAUTH_SECRET });
+        if (token) console.log(`[MIDDLEWARE] Token found via getToken() default`);
     }
 
     const role = (token as any)?.role;
-    const cookieNames = req.cookies.getAll().map(c => c.name).join(", ");
-    console.log(`[MIDDLEWARE] ${pathname} | Cookies: [${cookieNames || "NONE"}] | Token: ${!!token} | Role: ${role || "NONE"}`);
+    console.log(`[MIDDLEWARE] ${pathname} | Token: ${!!token} | Role: ${role || "NONE"}`);
 
     // Reject unauthenticated or public unprivileged users from dashboard
     if (!token || !role || role === "PUBLIC") {
