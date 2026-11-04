@@ -12,7 +12,10 @@ function SignInForm() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const searchParams = useSearchParams();
+    const urlError = searchParams.get("error");
     const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+
+    const displayError = error || (urlError ? "Credenciales inválidas o sesión expirada." : "");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,27 +23,14 @@ function SignInForm() {
         setLoading(true);
 
         try {
-            const result = await signIn("credentials", {
+            const target = callbackUrl && !callbackUrl.includes("/auth/") ? callbackUrl : "/dashboard";
+            // Usar redirección nativa de NextAuth para garantizar persistencia de cookies
+            await signIn("credentials", {
                 email: email.trim().toLowerCase(),
                 password,
-                redirect: false,
+                callbackUrl: target,
+                redirect: true,
             });
-
-            console.log("[LOGIN] signIn result:", result);
-
-            if (result?.error) {
-                console.error("[LOGIN] signIn error:", result.error);
-                setError("Credenciales inválidas o sin autorización.");
-                setLoading(false);
-            } else if (result?.ok) {
-                const target = callbackUrl && !callbackUrl.includes("/auth/") ? callbackUrl : "/dashboard";
-                console.log("[LOGIN] Success! Navigating to:", target);
-                window.location.href = target;
-            } else {
-                console.error("[LOGIN] signIn returned unexpected result:", result);
-                setError("No se pudo iniciar sesión. Por favor recargue e intente nuevamente.");
-                setLoading(false);
-            }
         } catch (err: any) {
             console.error("[LOGIN] Exception:", err);
             setError("Error de conexión con el servidor. Intente de nuevo.");
@@ -60,9 +50,9 @@ function SignInForm() {
                 <p className="opacity-60">Acceso exclusivo para personal institucional</p>
             </div>
 
-            {error && (
+            {displayError && (
                 <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-2 rounded-lg text-sm text-center font-medium">
-                    {error}
+                    {displayError}
                 </div>
             )}
 
