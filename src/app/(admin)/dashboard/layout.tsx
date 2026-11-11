@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LayoutDashboard, FileText, Ship, Users, Settings, LogOut, Bell, Search, LifeBuoy, Anchor, AlertTriangle, Satellite, ClipboardList } from "lucide-react";
+import { LayoutDashboard, FileText, Ship, Users, Settings, LogOut, Bell, Search, LifeBuoy, Anchor, AlertTriangle, Satellite, ClipboardList, Award } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -40,6 +40,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         { icon: <LayoutDashboard size={20} />, label: "Dashboard", href: dashboardHref, active: pathname === dashboardHref },
                         ...(canViewInfo ? [{ icon: <FileText size={20} />, label: "Solicitudes de Info", href: "/dashboard/info", active: pathname === "/dashboard/info" }] : []),
                         ...(canInspect ? [{ icon: <ClipboardList size={20} />, label: "Inspección Embarcaciones", href: "/dashboard/inscripcion-embarcaciones", active: pathname === "/dashboard/inscripcion-embarcaciones" }] : []),
+                        { icon: <Award size={20} />, label: "Patrón de Lancha", href: "/dashboard/patron-lancha", active: pathname === "/dashboard/patron-lancha" },
                         { icon: <Anchor size={20} />, label: "Buques Registrados", href: "/dashboard/vessels", active: pathname === "/dashboard/vessels" },
                         { icon: <Ship size={20} />, label: "Zarpes Pendientes", href: "/dashboard/zarpes", active: pathname === "/dashboard/zarpes" },
                         { icon: <LifeBuoy size={20} />, label: "Pases de Salida", href: "/dashboard/pase-salida", active: pathname === "/dashboard/pase-salida" },

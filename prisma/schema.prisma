@@ -27,6 +27,8 @@ model User {
   port                       Port?                           @relation(fields: [portId], references: [id])
   vesselRegistrations        VesselRegistration[]
   zarpeRequests              ZarpeRequest[]
+  patronRequests             PatronLanchaRequest[]
+  patronIssued               PatronLanchaCarnet[]
 }
 
 model Port {
@@ -37,6 +39,8 @@ model Port {
   users               User[]
   vesselRegistrations VesselRegistration[]
   zarpes              ZarpeRequest[]
+  patronRequests      PatronLanchaRequest[]
+  patronCarnets       PatronLanchaCarnet[]
 }
 
 model InformationRequest {
@@ -342,4 +346,51 @@ enum RequestStatus {
   PRE_APPROVED
   APPROVED
   REJECTED
+}
+
+model PatronLanchaRequest {
+  id             String               @id @default(cuid())
+  tituloNumero   String               // TÍTULO NÚMERO (ej. 0202-1989-00662)
+  nombres        String               // NOMBRES
+  apellidos      String               // APELLIDOS
+  nacionalidad   String               @default("HONDUREÑA") // NACIONALIDAD
+  identidad      String               // NÚMERO DE IDENTIDAD
+  reciboPago     String?              // foto del recibo de pago
+  fotografia     String?              // foto del solicitante tamaño carnet
+  status         RequestStatus        @default(PENDING)
+  observation    String?
+  portId         String
+  userId         String?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  port           Port                 @relation(fields: [portId], references: [id])
+  user           User?                @relation(fields: [userId], references: [id])
+  carnet         PatronLanchaCarnet?
+}
+
+model PatronLanchaCarnet {
+  id               String               @id @default(cuid())
+  carnetNumber     String               @unique // Número de carnet / título
+  tituloNumero     String
+  nombres          String
+  apellidos        String
+  nacionalidad     String               @default("HONDUREÑA")
+  identidad        String
+  fotografia       String?              // Fotografía tamaño carnet
+  capacidadRestan  String               @default("5 TONELADAS") // CAPACIDAD RESTAN/HASTA
+  puertoRegistro   String               // PUERTO DE REGISTRO
+  emision          DateTime             @default(now()) // FECHA DE EMISIÓN
+  expiracion       DateTime             // DOS AÑOS DESPUÉS
+  leyenda          String               @default("El portador de éste carnet está autorizado por la Dirección General de la Marina Mercante a gobernar embarcaciones a motor y/o vela con una Capacida no mayor de la especificada en la parte posterior del mismo, en las zonas comprendidas entre la costa nacional y una línea paralela a la misma trazada a 12 millas náuticas así como la navegación Interinsular. Esto en virtud de lo dispuesto en el acuerdo de DGMM 002 del año 2000.")
+  status           String               @default("VIGENTE") // VIGENTE, EXPIRADO, CANCELADO
+  captainSignature String?
+  qrCode           String?
+  portId           String
+  captainId        String?
+  requestId        String?              @unique
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  port             Port                 @relation(fields: [portId], references: [id])
+  captain          User?                @relation(fields: [captainId], references: [id])
+  request          PatronLanchaRequest? @relation(fields: [requestId], references: [id])
 }

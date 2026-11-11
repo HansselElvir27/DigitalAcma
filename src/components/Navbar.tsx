@@ -29,6 +29,9 @@ export function Navbar() {
           <a href="/inscripcion-embarcaciones" className="hover:text-brand-secondary transition-colors font-medium flex items-center gap-1">
             Nueva Inscripción Embarcación Nacional
           </a>
+          <a href="/patron-lancha" className="hover:text-brand-secondary transition-colors font-medium flex items-center gap-1">
+            Patrón de Lancha
+          </a>
           <a href="/auth/signin" className="premium-gradient px-4 py-2 rounded-full text-white text-sm font-medium shadow-lg hover:opacity-90 transition-all">
             Acceso Institucional
           </a>

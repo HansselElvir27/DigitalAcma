@@ -26,6 +26,7 @@ export default function Home() {
           { icon: <Search />, title: "Solicitud de Información", desc: "Intercambio ágil de datos marítimos.", href: "/solicitud-informacion" },
           { icon: <Ship />, title: "Zarpes Nacionales", desc: "Autorización de salida para embarcaciones.", href: "/zarpes-nacionales" },
           { icon: <ShieldCheck />, title: "Pase de Salida", desc: "Embarcaciones náuticas deportivas.", href: "/pase-salida" },
+          { icon: <ShieldCheck />, title: "Patrón de Lancha Costeras", desc: "Emisión y solicitud de carnet de patrón.", href: "/patron-lancha" },
           { icon: <Bell />, title: "Aviso de Arribo", desc: "Notificación oficial de ingreso a puerto.", href: "/aviso-arribo" },
           { icon: <FileText />, title: "Reporte Marítimo", desc: "Envío de informes institucionales.", href: "/reporte-maritimo" },
           { icon: <ShieldCheck />, title: "Baliza Satelital", desc: "Desactivación de dispositivos segura.", href: "/desactivacion-baliza" },
