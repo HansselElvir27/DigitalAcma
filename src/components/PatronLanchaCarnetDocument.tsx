@@ -231,3 +231,4 @@ export function PatronLanchaCarnetDocument({ carnet, showPrintButton = true }: P
         </div>
     );
 }
+

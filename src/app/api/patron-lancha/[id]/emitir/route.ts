@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPrismaClient } from "@/lib/db";
+import { getPrismaClient, getDbPool } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import crypto from "crypto";
@@ -27,11 +27,27 @@ export async function POST(
             captainSignature,
         } = body;
 
-        // Buscar la solicitud
-        const patronReq = await (prisma as any).patronLanchaRequest.findUnique({
-            where: { id },
-            include: { port: true, carnet: true }
-        });
+        const pool = getDbPool();
+        const pClient = prisma as any;
+
+        let patronReq: any = null;
+
+        if (pClient.patronLanchaRequest?.findUnique) {
+            patronReq = await pClient.patronLanchaRequest.findUnique({
+                where: { id },
+                include: { port: true, carnet: true }
+            });
+        } else {
+            const res = await pool.query(`
+                SELECT r.*, 
+                       json_build_object('id', p.id, 'name', p.name) as port,
+                       (SELECT row_to_json(c) FROM "PatronLanchaCarnet" c WHERE c."requestId" = r.id) as carnet
+                FROM "PatronLanchaRequest" r
+                LEFT JOIN "Port" p ON p.id = r."portId"
+                WHERE r.id = $1
+            `, [id]);
+            patronReq = res.rows[0];
+        }
 
         if (!patronReq) {
             return NextResponse.json({ error: "Solicitud no encontrada" }, { status: 404 });
@@ -51,37 +67,76 @@ export async function POST(
         const carnetId = crypto.randomUUID();
         const finalPuertoRegistro = (puertoRegistro || patronReq.port?.name || "TELA").trim().toUpperCase();
 
-        const carnet = await (prisma as any).patronLanchaCarnet.create({
-            data: {
-                id: carnetId,
-                carnetNumber: patronReq.tituloNumero,
-                tituloNumero: patronReq.tituloNumero,
-                nombres: patronReq.nombres,
-                apellidos: patronReq.apellidos,
-                nacionalidad: patronReq.nacionalidad || "HONDUREÑA",
-                identidad: patronReq.identidad,
-                fotografia: patronReq.fotografia,
-                capacidadRestan: capacidadRestan || "5 TONELADAS",
-                puertoRegistro: finalPuertoRegistro,
+        let carnet: any = null;
+
+        if (pClient.patronLanchaCarnet?.create) {
+            carnet = await pClient.patronLanchaCarnet.create({
+                data: {
+                    id: carnetId,
+                    carnetNumber: patronReq.tituloNumero,
+                    tituloNumero: patronReq.tituloNumero,
+                    nombres: patronReq.nombres,
+                    apellidos: patronReq.apellidos,
+                    nacionalidad: patronReq.nacionalidad || "HONDUREÑA",
+                    identidad: patronReq.identidad,
+                    fotografia: patronReq.fotografia,
+                    capacidadRestan: capacidadRestan || "5 TONELADAS",
+                    puertoRegistro: finalPuertoRegistro,
+                    emision,
+                    expiracion,
+                    status: "VIGENTE",
+                    portId: patronReq.portId,
+                    captainId: user.id || null,
+                    requestId: patronReq.id,
+                    captainSignature: captainSignature || null,
+                },
+                include: {
+                    port: true,
+                    captain: true,
+                }
+            });
+
+            await pClient.patronLanchaRequest.update({
+                where: { id: patronReq.id },
+                data: { status: "APPROVED" }
+            });
+        } else {
+            const insertCarnetSql = `
+                INSERT INTO "PatronLanchaCarnet" (
+                    "id", "carnetNumber", "tituloNumero", "nombres", "apellidos", "nacionalidad",
+                    "identidad", "fotografia", "capacidadRestan", "puertoRegistro", "emision",
+                    "expiracion", "status", "portId", "captainId", "requestId", "captainSignature",
+                    "createdAt", "updatedAt"
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'VIGENTE', $13, $14, $15, $16, $11, $11)
+                RETURNING *;
+            `;
+            const carnetRes = await pool.query(insertCarnetSql, [
+                carnetId,
+                patronReq.tituloNumero,
+                patronReq.tituloNumero,
+                patronReq.nombres,
+                patronReq.apellidos,
+                patronReq.nacionalidad || "HONDUREÑA",
+                patronReq.identidad,
+                patronReq.fotografia,
+                capacidadRestan || "5 TONELADAS",
+                finalPuertoRegistro,
                 emision,
                 expiracion,
-                status: "VIGENTE",
-                portId: patronReq.portId,
-                captainId: user.id || null,
-                requestId: patronReq.id,
-                captainSignature: captainSignature || null,
-            },
-            include: {
-                port: true,
-                captain: true,
-            }
-        });
+                patronReq.portId,
+                user.id || null,
+                patronReq.id,
+                captainSignature || null,
+            ]);
 
-        // Actualizar estado de la solicitud a APPROVED
-        await (prisma as any).patronLanchaRequest.update({
-            where: { id: patronReq.id },
-            data: { status: "APPROVED" }
-        });
+            await pool.query(`UPDATE "PatronLanchaRequest" SET "status" = 'APPROVED' WHERE id = $1`, [patronReq.id]);
+
+            carnet = {
+                ...carnetRes.rows[0],
+                port: patronReq.port,
+                captain: { name: user.name || "Capitán Autorizado" },
+            };
+        }
 
         return NextResponse.json({
             success: true,
@@ -94,3 +149,5 @@ export async function POST(
         return NextResponse.json({ error: error.message || "Error al emitir carnet" }, { status: 500 });
     }
 }
+
+

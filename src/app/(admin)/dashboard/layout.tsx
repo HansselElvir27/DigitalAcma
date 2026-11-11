@@ -88,7 +88,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
 
                         {/* Top Logout Button */}
-                        <button 
+                        <button
                             onClick={() => signOut({ redirect: true, callbackUrl: "/auth/signin" })}
                             className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-red-500 hover:bg-red-500/10 transition-all flex items-center gap-2"
                             title="Cerrar Sesión"

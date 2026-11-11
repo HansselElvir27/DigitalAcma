@@ -44,3 +44,7 @@ if (process.env.NODE_ENV !== 'production') {
 export function getPrismaClient() {
   return prisma
 }
+
+export function getDbPool(): Pool {
+  return (globalForPrisma.pool as Pool) || (prisma as any)._adapter?.pool
+}
