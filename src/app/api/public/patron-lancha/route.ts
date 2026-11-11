@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getPrismaClient, getDbPool } from "@/lib/db";
 import { saveBase64ToFile } from "@/lib/storage";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import crypto from "crypto";
 
 const prisma = getPrismaClient();
@@ -168,9 +170,25 @@ export async function GET(request: Request) {
     try {
         await ensurePatronTables();
 
+        const session = await getServerSession(authOptions);
+        const user = session?.user as any;
+        const userRole = user?.role || "PUBLIC";
+        const userPortId = user?.portId;
+
         const { searchParams } = new URL(request.url);
-        const portId = searchParams.get("portId");
+        let portId = searchParams.get("portId");
         const status = searchParams.get("status");
+
+        // Regla de permisos:
+        // - ADMIN y CIM: Pueden ver todas las capitanías (o filtrar por una si lo desean).
+        // - CAPITAN: Solo puede ver los patrones de lancha de su propia capitanía (portId).
+        if (userRole === "CAPITAN") {
+            if (!userPortId) {
+                // Capitán sin puerto asignado no debe ver datos de otras capitanías
+                return NextResponse.json([]);
+            }
+            portId = userPortId;
+        }
 
         const pClient = prisma as any;
         if (pClient.patronLanchaRequest?.findMany) {

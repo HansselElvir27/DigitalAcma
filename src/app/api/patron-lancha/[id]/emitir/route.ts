@@ -53,6 +53,13 @@ export async function POST(
             return NextResponse.json({ error: "Solicitud no encontrada" }, { status: 404 });
         }
 
+        // Si es CAPITAN, solo puede emitir solicitudes correspondientes a su capitanía
+        if (user.role === "CAPITAN" && user.portId && patronReq.portId !== user.portId) {
+            return NextResponse.json({
+                error: "No tiene permisos para emitir patrones de una capitanía diferente a la suya."
+            }, { status: 403 });
+        }
+
         if (patronReq.carnet) {
             return NextResponse.json({
                 error: "Esta solicitud ya tiene un Patrón de Lancha emitido",

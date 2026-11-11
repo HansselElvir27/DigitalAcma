@@ -2,13 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Award, User, MapPin, CheckCircle2, Clock, Eye, Printer, ShieldCheck, X, FileText, Camera } from "lucide-react";
+import { Award, User, MapPin, CheckCircle2, Clock, Eye, Printer, ShieldCheck, X, FileText, Camera, Filter } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { PatronLanchaCarnetDocument } from "@/components/PatronLanchaCarnetDocument";
 
 export default function PatronLanchaAdminPage() {
+    const { data: session } = useSession();
+    const userRole = (session?.user as any)?.role;
+    const isGlobalViewer = userRole === "ADMIN" || userRole === "CIM";
+
     const [requests, setRequests] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<"PENDING" | "APPROVED">("PENDING");
+    const [selectedPortFilter, setSelectedPortFilter] = useState<string>("ALL");
 
     // Modal de emisión
     const [selectedReq, setSelectedReq] = useState<any | null>(null);
@@ -77,9 +83,15 @@ export default function PatronLanchaAdminPage() {
         }
     };
 
+    // Obtener puertos únicos presentes en las solicitudes (para filtro de ADMIN y CIM)
+    const availablePorts = Array.from(
+        new Set(requests.map((r) => r.port?.name).filter(Boolean))
+    );
+
     const filteredRequests = requests.filter((r) => {
-        if (activeTab === "PENDING") return r.status === "PENDING";
-        return r.status === "APPROVED";
+        const matchesTab = activeTab === "PENDING" ? r.status === "PENDING" : r.status === "APPROVED";
+        const matchesPort = selectedPortFilter === "ALL" || r.port?.name === selectedPortFilter;
+        return matchesTab && matchesPort;
     });
 
     return (
@@ -91,33 +103,56 @@ export default function PatronLanchaAdminPage() {
                         <Award className="text-brand-secondary" size={32} />
                         Gestión de Patrón de Lancha Costeras
                     </h1>
-                    <p className="opacity-60 text-sm">
-                        Revisión de solicitudes y emisión de carnets oficiales para operadores de embarcaciones menores
+                    <p className="opacity-60 text-sm mt-1">
+                        {isGlobalViewer
+                            ? "Visualización global institucional (Acceso Nacional - Todas las Capitanías)"
+                            : `Gestión exclusiva de la Capitanía: ${(session?.user as any)?.portId ? "Local" : "Asignada"}`}
                     </p>
                 </div>
 
-                {/* Tabs */}
-                <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
-                    <button
-                        onClick={() => setActiveTab("PENDING")}
-                        className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
-                            activeTab === "PENDING"
-                                ? "premium-gradient text-white shadow-lg"
-                                : "opacity-60 hover:opacity-100"
-                        }`}
-                    >
-                        Pendientes ({requests.filter((r) => r.status === "PENDING").length})
-                    </button>
-                    <button
-                        onClick={() => setActiveTab("APPROVED")}
-                        className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
-                            activeTab === "APPROVED"
-                                ? "premium-gradient text-white shadow-lg"
-                                : "opacity-60 hover:opacity-100"
-                        }`}
-                    >
-                        Emitidos / Aprobados ({requests.filter((r) => r.status === "APPROVED").length})
-                    </button>
+                <div className="flex flex-wrap items-center gap-3">
+                    {/* Filtro por capitanía solo si es ADMIN o CIM */}
+                    {isGlobalViewer && availablePorts.length > 0 && (
+                        <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10 text-xs">
+                            <Filter size={14} className="text-brand-secondary" />
+                            <select
+                                value={selectedPortFilter}
+                                onChange={(e) => setSelectedPortFilter(e.target.value)}
+                                className="bg-transparent text-white outline-none cursor-pointer text-xs uppercase font-bold"
+                            >
+                                <option value="ALL" className="bg-slate-900 text-white">Todas las Capitanías</option>
+                                {availablePorts.map((pName: any) => (
+                                    <option key={pName} value={pName} className="bg-slate-900 text-white">
+                                        {pName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+
+                    {/* Tabs */}
+                    <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10">
+                        <button
+                            onClick={() => setActiveTab("PENDING")}
+                            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                                activeTab === "PENDING"
+                                    ? "premium-gradient text-white shadow-lg"
+                                    : "opacity-60 hover:opacity-100"
+                            }`}
+                        >
+                            Pendientes ({requests.filter((r) => r.status === "PENDING").length})
+                        </button>
+                        <button
+                            onClick={() => setActiveTab("APPROVED")}
+                            className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                                activeTab === "APPROVED"
+                                    ? "premium-gradient text-white shadow-lg"
+                                    : "opacity-60 hover:opacity-100"
+                            }`}
+                        >
+                            Emitidos ({requests.filter((r) => r.status === "APPROVED").length})
+                        </button>
+                    </div>
                 </div>
             </div>
 
